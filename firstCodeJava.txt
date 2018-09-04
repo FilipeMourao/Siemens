@@ -1,0 +1,40 @@
+
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class ShapeDrawing extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.BLACK);
+			int x,y,width,height;
+			width = 1500;
+			height = 2200;
+			double scalerX,scalerY,scalerOval;
+			scalerX = scalerY = 1;
+			if( width > 2000) scalerX = 2000*0.9/width;
+			if(height > 1000) scalerY = 1000*0.9/height;
+			x =  (int) ((2000 - width*scalerX)/2);
+			y =  (int) ((1000 - height*scalerY)/2);
+			System.out.println(y);
+			System.out.println(scalerY);
+			g.drawRect(x ,y , (int) (width*scalerX), (int)(height*scalerY));
+			
+			g.setColor(Color.gray);
+			scalerOval = scalerY;
+			if(scalerX < scalerY) scalerOval = scalerX;
+			g.fillRect(x + 300,y + 200, (int)(100*scalerX), (int)(100*scalerY));
+			g.fillOval(x + 200, y + 300, (int)(200*scalerOval), (int)(200*scalerOval));
+			
+		}
+       public static void main(String[] args) {
+    	   ShapeDrawing dR = new ShapeDrawing();
+    	   JFrame jf = new JFrame();
+    	   jf.setTitle("Optimal room");
+    	   jf.setSize(2000,1000);
+    	   jf.setVisible(true);
+    	   jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	   jf.add(dR);
+       }
+}

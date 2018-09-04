@@ -1,0 +1,23 @@
+We defined a class "Room" with the following attributes:
+a width and a length 
+a number of rectangles and circles 
+
+We defined a class rectangle with  
+coordinate vector (x,y)
+width and  length
+
+We defined a class circles with
+coordinate vector (x,y)
+radius
+
+First generation:
+Random generates the coordinates for each shape;
+
+Evaluation:
+Calculate the distance between every 2 shapes
+
+Crossing over:
+Swipe coordinates between 2 shapes 
+
+
+
