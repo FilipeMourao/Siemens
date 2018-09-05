@@ -1,0 +1,10 @@
+#MySQL Dockerfile
+
+FROM mysql/mysql-server:5.7
+
+ENV MYSQL_ROOT_PASSWORD=mypassword
+ENV MYSQL_DATABASE=ios18siemensmobile
+ENV MYSQL_USER=iosUser
+ENV MYSQL_PASSWORD=1234
+
+ADD ["./src/main/resources/dockerInit.sql", "/docker-entrypoint-initdb.d/"]

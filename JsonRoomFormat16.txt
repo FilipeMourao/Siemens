@@ -1,184 +1,262 @@
 {  
    "width":1500,
    "height":800,
-   "rectangleTableList":[  
+   "tables":[  
       {  
-         "coordinateX":787,
-         "coordinateY":471,
+         "coordinateX":512,
+         "coordinateY":575,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":1343,
-         "coordinateY":778,
+         "coordinateX":107,
+         "coordinateY":427,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":424,
+         "coordinateY":189,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":505,
-         "coordinateY":777,
+         "coordinateX":1113,
+         "coordinateY":645,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":266,
+         "coordinateY":342,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":11,
-         "coordinateY":311,
+         "coordinateX":516,
+         "coordinateY":44,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":728,
+         "coordinateY":12,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":816,
-         "coordinateY":434,
+         "coordinateX":124,
+         "coordinateY":600,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":137,
+         "coordinateY":493,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":1157,
-         "coordinateY":93,
+         "coordinateX":534,
+         "coordinateY":223,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":604,
+         "coordinateY":705,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":959,
-         "coordinateY":708,
+         "coordinateX":80,
+         "coordinateY":631,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1215,
+         "coordinateY":540,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":1242,
-         "coordinateY":277,
+         "coordinateX":806,
+         "coordinateY":505,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":264,
+         "coordinateY":404,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":128,
-         "coordinateY":356,
+         "coordinateX":690,
+         "coordinateY":577,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1196,
+         "coordinateY":461,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":549,
-         "coordinateY":255,
+         "coordinateX":867,
+         "coordinateY":402,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1011,
+         "coordinateY":656,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":89,
-         "coordinateY":538,
+         "coordinateX":759,
+         "coordinateY":694,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":356,
+         "coordinateY":666,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":599,
-         "coordinateY":123,
+         "coordinateX":820,
+         "coordinateY":611,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1186,
+         "coordinateY":80,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":111,
-         "coordinateY":728,
+         "coordinateX":1082,
+         "coordinateY":185,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":571,
+         "coordinateY":593,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":537,
-         "coordinateY":391,
+         "coordinateX":660,
+         "coordinateY":200,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1153,
+         "coordinateY":196,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":511,
-         "coordinateY":69,
+         "coordinateX":673,
+         "coordinateY":303,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":30,
+         "coordinateY":143,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":725,
-         "coordinateY":277,
+         "coordinateX":582,
+         "coordinateY":415,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1055,
+         "coordinateY":265,
          "width":50,
-         "height":26
-      }
-   ],
-   "circleTableList":[  
-      {  
-         "coordinateX":1357,
-         "coordinateY":708,
-         "radius":50
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":485,
-         "coordinateY":615,
-         "radius":50
-      },
-      {  
-         "coordinateX":544,
-         "coordinateY":678,
-         "radius":50
-      },
-      {  
-         "coordinateX":1328,
-         "coordinateY":618,
-         "radius":50
-      },
-      {  
-         "coordinateX":824,
-         "coordinateY":488,
-         "radius":50
-      },
-      {  
-         "coordinateX":547,
-         "coordinateY":460,
-         "radius":50
-      },
-      {  
-         "coordinateX":290,
-         "coordinateY":714,
-         "radius":50
-      },
-      {  
-         "coordinateX":0,
-         "coordinateY":508,
-         "radius":50
-      },
-      {  
-         "coordinateX":537,
-         "coordinateY":750,
-         "radius":50
-      },
-      {  
-         "coordinateX":761,
-         "coordinateY":317,
-         "radius":50
-      },
-      {  
-         "coordinateX":810,
-         "coordinateY":361,
-         "radius":50
-      },
-      {  
-         "coordinateX":1275,
-         "coordinateY":262,
-         "radius":50
-      },
-      {  
-         "coordinateX":798,
-         "coordinateY":393,
-         "radius":50
-      },
-      {  
-         "coordinateX":1415,
-         "coordinateY":409,
-         "radius":50
-      },
-      {  
-         "coordinateX":96,
-         "coordinateY":515,
-         "radius":50
-      },
-      {  
-         "coordinateX":1114,
-         "coordinateY":158,
-         "radius":50
+         "coordinateX":1334,
+         "coordinateY":510,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
       }
    ]
 }

@@ -19,5 +19,4 @@ Calculate the distance between every 2 shapes
 Crossing over:
 Swipe coordinates between 2 shapes 
 
-
-
+Distance between tables should be a minimum of 60cm and 90cm for 

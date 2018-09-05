@@ -1,0 +1,23 @@
+version: "3"
+services:
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/<username>/.docker/config.json:/config.json
+    command: --interval 30
+  wildfly:
+    image: dockerhub.ase.in.tum.de:5043/ios18siemob/ios18siemobserver:wildfly-latest
+    ports:
+      - 8081:8080
+  database:
+    image: dockerhub.ase.in.tum.de:5043/ios18siemob/ios18siemobserver:mysql-latest
+    restart: always
+    ports:
+      - 13306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mypassword
+      - MYSQL_DATABASE=ios18siemensmobile
+      - MYSQL_USER=iosUser
+      - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_HOST=%

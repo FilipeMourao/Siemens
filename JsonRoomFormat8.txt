@@ -1,96 +1,134 @@
 {  
    "width":1500,
    "height":800,
-   "rectangleTableList":[  
+   "tables":[  
       {  
-         "coordinateX":560,
-         "coordinateY":761,
+         "coordinateX":293,
+         "coordinateY":685,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":221,
-         "coordinateY":63,
+         "coordinateX":114,
+         "coordinateY":98,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":198,
+         "coordinateY":294,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":112,
-         "coordinateY":45,
+         "coordinateX":467,
+         "coordinateY":210,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":693,
+         "coordinateY":632,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":978,
-         "coordinateY":56,
+         "coordinateX":970,
+         "coordinateY":385,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1038,
+         "coordinateY":343,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":358,
-         "coordinateY":363,
+         "coordinateX":1109,
+         "coordinateY":473,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1217,
+         "coordinateY":388,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":1458,
-         "coordinateY":576,
+         "coordinateX":573,
+         "coordinateY":43,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":1084,
+         "coordinateY":616,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":900,
-         "coordinateY":572,
+         "coordinateX":67,
+         "coordinateY":591,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":406,
+         "coordinateY":412,
          "width":50,
-         "height":26
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":1209,
-         "coordinateY":667,
+         "coordinateX":730,
+         "coordinateY":169,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
+      },
+      {  
+         "coordinateX":49,
+         "coordinateY":37,
          "width":50,
-         "height":26
-      }
-   ],
-   "circleTableList":[  
-      {  
-         "coordinateX":1546,
-         "coordinateY":135,
-         "radius":50
+         "height":26,
+         "radius":0,
+         "type":0
       },
       {  
-         "coordinateX":256,
-         "coordinateY":478,
-         "radius":50
-      },
-      {  
-         "coordinateX":1301,
-         "coordinateY":731,
-         "radius":50
-      },
-      {  
-         "coordinateX":572,
-         "coordinateY":71,
-         "radius":50
-      },
-      {  
-         "coordinateX":371,
-         "coordinateY":378,
-         "radius":50
-      },
-      {  
-         "coordinateX":771,
-         "coordinateY":822,
-         "radius":50
-      },
-      {  
-         "coordinateX":1086,
-         "coordinateY":229,
-         "radius":50
-      },
-      {  
-         "coordinateX":669,
-         "coordinateY":299,
-         "radius":50
+         "coordinateX":713,
+         "coordinateY":294,
+         "width":0,
+         "height":0,
+         "radius":50,
+         "type":1
       }
    ]
 }

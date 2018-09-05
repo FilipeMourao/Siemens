@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.username">iosUser</property>
+        <property name="hibernate.connection.password">1234</property>
+        <!-- "database" is the docker compose container name-->
+        <property name="hibernate.connection.url">jdbc:mysql://database:3306/ios18siemensmobile?useSSL=false&amp;&amp;useUnicode=true&amp;&amp;useJDBCCompliantTimezoneShift=true&amp;&amp;useLegacyDatetimeCode=false&amp;&amp;serverTimezone=UTC</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="show_sql">false</property>
+
+        <property name="hibernate.c3p0.min_size">7</property>
+        <property name="hibernate.c3p0.max_size">53</property>
+        <property name="hibernate.c3p0.timeout">100</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">1000</property>
+        <property name="hibernate.c3p0.validate">true</property>
+
+        <mapping resource="Component.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
