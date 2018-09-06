@@ -11,7 +11,7 @@ import com.google.gson.*;
 
 public class ShapeDrawing extends JPanel {
 		public void paintComponent(Graphics g) {
-/*		super.paintComponent(g);
+/**/		super.paintComponent(g);
 	    	Room newRoom = new Room(1500, 800);
 	        GsonBuilder builder = new GsonBuilder();
 	        Gson gson = builder.create();
@@ -34,15 +34,16 @@ public class ShapeDrawing extends JPanel {
 			if(scalerX < scalerY) scalerOval = scalerX;
 			for (Table t: newRoom.getTables()) {
 				if (t.type == 0)
-					g.fillRect(t.getCoordinateX() + x ,t.getCoordinateY() + y, (int)(t.getWidth()*scalerX), (int)(t.getHeight()*scalerY));
+					g.fillRect(t.getCoordinateX() + x ,t.getCoordinateY() + y, (int)(50*scalerX), (int)(50*scalerY));
 				else 
 					g.fillOval(t.getCoordinateX() + x, t.getCoordinateY()+ y, (int)(t.getRadius()*scalerOval), (int)(t.getRadius()*scalerOval));
 			} 
 
-*/			
-/**/			super.paintComponent(g);
+/**/			
+/*			super.paintComponent(g);
 //           String path = "D:\\FilipeSiemens\\Siemens\\JsonRoomFormat16.txt";
-           String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedJsonRoomFormat16.txt";
+           String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedJsonRoomFormat64Tables.txt";
+//           String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
 	       BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new FileReader(path));
@@ -76,31 +77,30 @@ public class ShapeDrawing extends JPanel {
 			} 
 
 			
-/**/		
+*/		
 			
 		}
       public static void main(String[] args) throws FileNotFoundException {
-//    	  ShapeDrawing dR = new ShapeDrawing();
-//       	   JFrame jf = new JFrame();
-//    	  for (int i = 0; i < 20; i++) {
-//         	   dR = new ShapeDrawing();
-//    	   jf = new JFrame();
-//       	   jf.setTitle("Optimal room "+ Integer.toString(i));
-//       	   jf.setSize(2000,1000);
-//       	   jf.setVisible(true);
-//       	   jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//       	   jf.add(dR);
-//    		  
-//    	  }
-//      }
-      	   ShapeDrawing dR = new ShapeDrawing();      	
-      	   JFrame jf = new JFrame();
-      	   jf.setTitle("Optimal room ");
-      	   jf.setSize(2000,1000);
-      	   jf.setVisible(true);
-      	   jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      	   jf.add(dR);
+    	  ShapeDrawing dR = new ShapeDrawing();
+       	   JFrame jf = new JFrame();
+    	  for (int i = 0; i < 100; i++) {
+         	   dR = new ShapeDrawing();
+    	   jf = new JFrame();
+       	   jf.setTitle("Optimal room "+ Integer.toString(i));
+       	   jf.setSize(2000,1000);
+       	   jf.setVisible(true);
+       	   jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       	   jf.add(dR);
+    		  
+    	  }
+      }
+//      	   ShapeDrawing dR = new ShapeDrawing();      	
+//      	   JFrame jf = new JFrame();
+//      	   jf.setTitle("Optimal room ");
+//      	   jf.setSize(2000,1000);
+//      	   jf.setVisible(true);
+//      	   jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//      	   jf.add(dR);
    		  
-           
-       }
+       
 }

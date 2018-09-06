@@ -65,7 +65,7 @@ public class CustomCrossover extends MultiPointCrossover<Table, Double> {
         Random rand = new Random();
         Table currentTable1,curentTable2;
         
-        int numberOfGenesChanged = rand.nextInt(that.size()/2) + 1;
+        int numberOfGenesChanged = 2;//rand.nextInt(that.size()/2) + 1;
         List<Table> tableList1 = that.asList();
         List<Table> tableList2 = (List<Table>) other.asList();
         tableList1 = new ArrayList<Table>(tableList1);

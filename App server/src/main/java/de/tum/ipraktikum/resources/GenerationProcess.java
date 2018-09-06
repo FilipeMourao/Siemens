@@ -128,14 +128,13 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
 	        Gson gson = builder.create();
 	        
 
-	        double totalDistance = 0;
-          for (int i = 0; i < getBestResults().length; i++) {
-              Room room = (Room) getBestResults()[i].getGenotype().getChromosome();
-              System.out.println(gson.toJson(room));
-              //totalDistance += room.getSumOfTablesDistances();
-          }
-//          System.out.printf("%.2f", totalDistance/getBestResults().length );
-//          System.out.println();
+
+
+          Room room = (Room) getBestResults()[0].getGenotype().getChromosome();
+	      double totalDistance = room.getSumOfTablesDistances();
+          System.out.println(gson.toJson(room));
+          System.out.printf("%.2f", totalDistance/getBestResults().length );
+          System.out.println();
 
         }
     }

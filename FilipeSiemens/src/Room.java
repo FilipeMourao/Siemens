@@ -11,7 +11,7 @@ public class Room {
 		this.width = width;
 		this.height = height;
 		int constantDivisor = 30;
-		int numberOfTables = 4;
+		int numberOfTables = 16;
 		Random rand = new Random();
 		for(int i = 0 ; i < numberOfTables; i++) {
 			Table ts = new Table(rand.nextInt(width), rand.nextInt(height), width/constantDivisor, height/constantDivisor);

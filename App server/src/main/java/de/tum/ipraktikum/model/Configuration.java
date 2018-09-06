@@ -13,8 +13,14 @@ public abstract class Configuration {
     public static int totalPopulation = 20000;
     public static int totalGeneration = 10000;
     public static String host = "18.197.115.38:8081/gen2_testserver/";
-    public static int numberOfTables = 64;
+    public static int numberOfTables = 4;
     public static Room defaultRoom = new Room(1500, 800);
     // Penalties
-    public static double penaltyForProximity = Double.MAX_VALUE ;
+    // small number of tables
+    //public static double penaltyForProximity = Double.MAX_VALUE ;
+    //Big number of tables
+    public static double penaltyForProximity = 1000000;
+    // Based Room
+    public static String filePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
+    
 }

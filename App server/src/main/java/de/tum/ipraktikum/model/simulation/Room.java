@@ -1,9 +1,12 @@
 package de.tum.ipraktikum.model.simulation;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import de.tum.ipraktikum.model.Configuration;
@@ -76,7 +79,7 @@ public class Room implements Chromosome<Table> {
 						, definedWidth);
 		tables.add(t);
 		}
-		t = null;
+		this.tables = tables;
 
 	}
 
@@ -103,6 +106,7 @@ public class Room implements Chromosome<Table> {
 // changed here
     public static Room createRandomRoomFromInitialRoom(Room initialRoom) {
 		Room newRoom = new Room(initialRoom.getWidth(), initialRoom.getHeight(),initialRoom.getTables());
+//		Room newRoom = new Room(initialRoom.getWidth(), initialRoom.getHeight());
     	return newRoom;
     }
 
@@ -118,7 +122,20 @@ public class Room implements Chromosome<Table> {
     //Mutation
     @Override
     public Chromosome<Table> newInstance() {
-        Room newRoom = createRandomRoomFromInitialRoom(Configuration.defaultRoom);
+       
+        String path = Configuration.filePath;
+	       BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(path));
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		}
+	       Gson gson = new Gson();
+	        Room room = gson.fromJson(bufferedReader, Room.class);
+	        Room newRoom = createRandomRoomFromInitialRoom(room);
+	        newRoom = createRandomRoomFromInitialRoom(Configuration.defaultRoom);
+
         return newRoom;
     }
 
@@ -162,7 +179,7 @@ public class Room implements Chromosome<Table> {
       		  distance = calculateEuclidianDistance(tables.get(i).getCoordinateX()
       				  , tables.get(i).getCoordinateY(), tables.get(j).getCoordinateX(),
       				  tables.get(j).getCoordinateY());
-      		  if(distance < 100)  sumOfDistances += Configuration.penaltyForProximity;
+      		  if(distance < 100)  sumOfDistances -= Configuration.penaltyForProximity;
       		  else sumOfDistances += distance;
  
       		switch (tables.get(i).getType()) {// subtract the inside part of the table i
