@@ -1,6 +1,6 @@
 package de.tum.ipraktikum.resources;
 
-import de.tum.ipraktikum.model.simulation.Table;
+import de.tum.ipraktikum.model.simulation.Furniture;
 import de.tum.ipraktikum.model.simulation.EvolutionConfiguration;
 import de.tum.ipraktikum.model.simulation.Room;
 import de.tum.ipraktikum.utils.ResettableTimer;
@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadFactory;
 @Singleton
 public class GenerationProcessManager implements IGenerationProcessManager {
 
-    private Map<String, Triple<GenerationProcess, Future<Phenotype<Table, Double>>, ResettableTimer>> processMap = new HashMap<>();
+    private Map<String, Triple<GenerationProcess, Future<Phenotype<Furniture, Double>>, ResettableTimer>> processMap = new HashMap<>();
     //Millisec
     private static final long timerDelay = 180000;
 
@@ -50,7 +50,7 @@ public class GenerationProcessManager implements IGenerationProcessManager {
                 };
             }
         });
-        Future<Phenotype<Table, Double>> future = threadPool.submit(newProcess);
+        Future<Phenotype<Furniture, Double>> future = threadPool.submit(newProcess);
         processMap.put(processId, new Triple<>(newProcess, future, resettableTimer));
     }
 
@@ -58,7 +58,7 @@ public class GenerationProcessManager implements IGenerationProcessManager {
     public void stopProcess(String processId) {
         System.out.println("Attempt to stop process" +
                 "");
-        Triple<GenerationProcess, Future<Phenotype<Table, Double>>, ResettableTimer> processPair = processMap.remove(processId);
+        Triple<GenerationProcess, Future<Phenotype<Furniture, Double>>, ResettableTimer> processPair = processMap.remove(processId);
         if (processPair != null) {
             processPair.getFirst().cancel();
             processPair.getSecond().cancel(false);
@@ -77,7 +77,7 @@ public class GenerationProcessManager implements IGenerationProcessManager {
     }
 
     public Tuple<Long, Room[]> getBestResultsOfProcess(String processId) {
-        Triple<GenerationProcess, Future<Phenotype<Table, Double>>, ResettableTimer> processPair = processMap.get(processId);
+        Triple<GenerationProcess, Future<Phenotype<Furniture, Double>>, ResettableTimer> processPair = processMap.get(processId);
         if (processPair != null) {
             Long generation = processPair.getFirst().getGeneration();
             Room[] switchingCabinet = null;

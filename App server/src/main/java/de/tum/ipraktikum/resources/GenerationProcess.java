@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
+public class GenerationProcess implements Callable<Phenotype<Furniture, Double>> {
 
     private final String processId;
     private Genotype[] initialPopulation;
@@ -35,8 +35,8 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
     private Phenotype[] bestResults;
 
     //jenetics objects
-    private CustomizedEngine<Table, Double> customizedEngine;
-    private EvolutionStream<Table, Double> evoStream;
+    private CustomizedEngine<Furniture, Double> customizedEngine;
+    private EvolutionStream<Furniture, Double> evoStream;
 
     Factory<Room> roomFactory = new Factory<Room>() {
         @Override
@@ -47,9 +47,9 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
         }
     };
 
-    Factory<Genotype<Table>> gtf = new Factory<Genotype<Table>>() {
+    Factory<Genotype<Furniture>> gtf = new Factory<Genotype<Furniture>>() {
         @Override
-        public Genotype<Table> newInstance() {
+        public Genotype<Furniture> newInstance() {
             return Genotype.of(roomFactory, 1);
         }
     };
@@ -72,14 +72,14 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
         this.customizedEngine = CustomizedEngine
                 .builder(genotype -> customizedEngine.fitness(genotype), gtf)
                 .populationSize(Configuration.totalPopulation)
-                .optimize(Optimize.MAXIMUM)
+                .optimize(Optimize.MINIMUM)
                 .offspringSelector(new RouletteWheelSelector<>())
                 .alterers(new CustomCrossover(0.7, 2), new Mutator<>(0.0))
                 .process(this)
                 .build();
     }
 
-    private void findBestCandidatesOfGeneration(EvolutionResult<Table, Double> unsortedResult) {
+    private void findBestCandidatesOfGeneration(EvolutionResult<Furniture, Double> unsortedResult) {
         if (unsortedResult != null) {
             //int maxAmountPhenotypes = 5;
         	int maxAmountPhenotypes = 1;
@@ -96,8 +96,11 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
                         return 0;
                     })
                     .toArray(Phenotype[]::new);
+            // MAX OR MINIMUM CHANGE HERE
             List<Phenotype> bestPhenotypes = new ArrayList<>();
-            for (int i = sortedPhenotypes.length - 1 ; i < sortedPhenotypes.length && bestPhenotypes.size() < maxAmountPhenotypes; i--) {
+//            for (int i = sortedPhenotypes.length - 1 ; i < sortedPhenotypes.length && bestPhenotypes.size() < maxAmountPhenotypes; i--) {
+            for (int i = 0 ; i < sortedPhenotypes.length && bestPhenotypes.size() < maxAmountPhenotypes; i++) {
+            	 
                 Phenotype bestCandiate = sortedPhenotypes[i];
                 Room room = (Room) bestCandiate.getGenotype().getChromosome();
                 List<Room> bestRooms = bestPhenotypes.stream()
@@ -131,9 +134,11 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
 
 
           Room room = (Room) getBestResults()[0].getGenotype().getChromosome();
-	      double totalDistance = room.getSumOfTablesDistances();
+//	      double totalDistance = room.getSumOfTablesDistances();
           System.out.println(gson.toJson(room));
-          System.out.printf("%.2f", totalDistance/getBestResults().length );
+          System.out.printf("%.2f", room.getDistancePerLampMeanAndVariance().a);
+
+//          System.out.printf("%.2f", totalDistance/getBestResults().length );
           System.out.println();
 
         }
@@ -146,14 +151,14 @@ public class GenerationProcess implements Callable<Phenotype<Table, Double>> {
      * @throws Exception
      */
     @Override
-    public Phenotype<Table, Double> call() throws Exception {
-        Phenotype<Table, Double> bestPhenotype = null;
+    public Phenotype<Furniture, Double> call() throws Exception {
+        Phenotype<Furniture, Double> bestPhenotype = null;
         try {
             if (initialPopulation != null) {
-                ObjectStore<Genotype<Table>> store = ObjectStore.of(initialPopulation);
-                Array<Genotype<Table>> array = Array.of(store);
-                ArrayISeq<Genotype<Table>> population = new ArrayISeq<Genotype<Table>>(array);
-                EvolutionInit<Table> evolutionInit = EvolutionInit.of(population, 1);
+                ObjectStore<Genotype<Furniture>> store = ObjectStore.of(initialPopulation);
+                Array<Genotype<Furniture>> array = Array.of(store);
+                ArrayISeq<Genotype<Furniture>> population = new ArrayISeq<Genotype<Furniture>>(array);
+                EvolutionInit<Furniture> evolutionInit = EvolutionInit.of(population, 1);
                 evoStream = customizedEngine
                         .stream(evolutionInit);
             } else {

@@ -1,9 +1,11 @@
 package de.tum.ipraktikum.customized.jenetics;
 
 import de.tum.ipraktikum.model.Configuration;
-import de.tum.ipraktikum.model.simulation.Table;
+import de.tum.ipraktikum.model.simulation.FixedFurniture;
+import de.tum.ipraktikum.model.simulation.Furniture;
 import de.tum.ipraktikum.model.simulation.Room;
 import de.tum.ipraktikum.resources.GenerationProcess;
+import de.tum.ipraktikum.utils.Tuple;
 import io.jenetics.*;
 import io.jenetics.engine.*;
 import io.jenetics.internal.util.Concurrency;
@@ -19,6 +21,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.jenetics.internal.util.require.probability;
@@ -162,11 +166,42 @@ public final class CustomizedEngine<
     public ISeq<Phenotype<G, C>> currentPopulation;
     private final GenerationProcess process;
 
-    public double fitness(final Genotype<Table> genotype) {
-        Room evalObject = (Room) genotype.getChromosome();
-        double fitValue = evalObject.getSumOfTablesDistances();
-        double finalValue = fitValue/evalObject.getTables().size();
-        return finalValue;
+    public double fitness(final Genotype<Furniture> genotype) {
+        Room room = (Room) genotype.getChromosome();
+        
+        List<Double> listOfLampsDistanceMean = new ArrayList();
+        List<Double> listOfWidnowsDistanceMean = new ArrayList();
+        Tuple<Double,Double> lampsMeanAndVariance;// a = mean, b = variance 
+        Tuple<Double,Double> windowsMeanAndVariance;// a = mean, b = variance
+     
+        for (int i = 0; i < currentPopulation.size(); i++) {// evaluate the design of every creature
+            Room r = (Room) currentPopulation.get(i).getGenotype().getChromosome();
+            lampsMeanAndVariance = r.getDistancePerLampMeanAndVariance();// a = mean, b = variance 
+            listOfLampsDistanceMean.add(lampsMeanAndVariance.a);
+            windowsMeanAndVariance = r.getDistancePerWindowsMeanAndVariance();// a = mean, b = variance
+            listOfWidnowsDistanceMean.add(windowsMeanAndVariance.a);            
+            
+        }
+        double normalizeLampMean = 0;
+        double normalizeWindowMean = 0;
+        
+        double minLampMean = Collections.min(listOfLampsDistanceMean);
+        double maxLampMean = Collections.max(listOfLampsDistanceMean);
+        if(maxLampMean == minLampMean) normalizeLampMean = 0;
+        else normalizeLampMean = (room.getDistancePerLampMeanAndVariance().a - minLampMean)/(maxLampMean - minLampMean);
+        
+        double minWindowMean = Collections.min(listOfWidnowsDistanceMean);
+        double maxWindowMean = Collections.max(listOfWidnowsDistanceMean);
+        if(maxWindowMean == minWindowMean) normalizeWindowMean = 0;
+        else normalizeLampMean = (room.getDistancePerWindowsMeanAndVariance().a - minWindowMean)/(maxWindowMean - minWindowMean);
+        
+        
+        return normalizeLampMean*Configuration.lampProximityWeight 
+        	   +normalizeWindowMean*Configuration.windowsProximityWeight 
+        	   +(normalizeWindowMean*Configuration.windowsProximityWeight 
+        	   +normalizeLampMean*Configuration.lampProximityWeight
+        	   *Configuration.differenceFromNaturalAndArtificialLight )
+        	   *Configuration.equalLightDistributionWeight;
 
 
     }

@@ -5,7 +5,8 @@ import java.util.Random;
 public class Room {
 	int width = 1500;
 	int height = 800;
-	List<Table> tables = new ArrayList<Table>();
+	List<Furniture> furniture = new ArrayList<Furniture>();
+	List<FixedFurniture> fixedFurniture = new ArrayList<FixedFurniture>();
 	public Room(int width, int height) {
 		super();
 		this.width = width;
@@ -14,22 +15,40 @@ public class Room {
 		int numberOfTables = 16;
 		Random rand = new Random();
 		for(int i = 0 ; i < numberOfTables; i++) {
-			Table ts = new Table(rand.nextInt(width), rand.nextInt(height), width/constantDivisor, height/constantDivisor);
-			Table tc = new Table(rand.nextInt(width),  rand.nextInt(height), width/constantDivisor);
-			tables.add(ts);
-			tables.add(tc);
+			Furniture ts = new Furniture(rand.nextInt(width), rand.nextInt(height), width/constantDivisor, height/constantDivisor);
+			Furniture tc = new Furniture(rand.nextInt(width),  rand.nextInt(height), width/constantDivisor);
+			furniture.add(ts);
+			furniture.add(tc);
 		}
 
 
 	}
 
-	public List<Table> getTables() {
-		return tables;
+
+
+	public List<Furniture> getFurniture() {
+		return furniture;
 	}
 
-	public void setTables(List<Table> tables) {
-		this.tables = tables;
+
+
+	public void setFurniture(List<Furniture> furniture) {
+		this.furniture = furniture;
 	}
+
+
+
+	public List<FixedFurniture> getFixedFurniture() {
+		return fixedFurniture;
+	}
+
+
+
+	public void setFixedFurniture(List<FixedFurniture> fixedFurniture) {
+		this.fixedFurniture = fixedFurniture;
+	}
+
+
 
 	public int getWidth() {
 		return width;

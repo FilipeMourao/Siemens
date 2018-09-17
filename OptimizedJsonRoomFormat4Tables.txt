@@ -1,1 +1,0 @@
-{"width":1500,"height":800,"tables":[{"coordinateX":119,"coordinateY":67,"width":50,"height":50,"radius":0,"type":0},{"coordinateX":1351,"coordinateY":721,"width":50,"height":50,"radius":0,"type":0},{"coordinateX":1418,"coordinateY":36,"width":50,"height":50,"radius":0,"type":0},{"coordinateX":36,"coordinateY":680,"width":0,"height":0,"radius":50,"type":1}]}

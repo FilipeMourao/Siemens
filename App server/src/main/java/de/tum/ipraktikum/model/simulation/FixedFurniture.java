@@ -1,28 +1,39 @@
+package de.tum.ipraktikum.model.simulation;
 
-public class Table {
+import java.util.Collections;
+import java.util.List;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import io.jenetics.Gene;
+import java.util.Random;
+public class FixedFurniture  {
+
 	int coordinateX;
 	int coordinateY;
 	int width;
 	int height;
 	int radius;
-	int type; // 0  is a rectangle table, 1 is a oval table
+	int type; // 0  walls, 1 lamps, 2 windows, 3 door
 	
 
-	public Table(int coordinateX, int coordinateY, int width, int height) {
+	public FixedFurniture(int coordinateX, int coordinateY, int width, int height, int type) {// initiate the walls,windows and door
 		super();
-		this.type = 0;
+		this.type = type;
 		this.coordinateX = coordinateX;
 		this.coordinateY = coordinateY;
 		this.width = width;
 		this.height = height;
 	}
-	public Table(int coordinateX, int coordinateY, int radius) {
+	public FixedFurniture(int coordinateX, int coordinateY, int radius) {// initiate the lamps
 		super();
 		this.type = 1;
 		this.coordinateX = coordinateX;
 		this.coordinateY = coordinateY;
 		this.radius = radius;
 	}
+
 	public int getCoordinateX() {
 		return coordinateX;
 	}
@@ -53,12 +64,14 @@ public class Table {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
-	public int isType() {
+	public int getType() {
 		return type;
 	}
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
+
+
 
 }
