@@ -12,7 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.google.gson.*;
 
-public class ShapeDrawing extends JPanel {
+//public class ShapeDrawing extends JPanel {
+public class PrintFakeRoom extends JPanel {
 		public void paintComponent(Graphics g) {
 /**/		super.paintComponent(g);
 			int boldness = 5;

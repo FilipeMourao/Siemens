@@ -12,7 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.google.gson.*;
 
-public class ShapeDrawing extends JPanel {
+//public class ShapeDrawing extends JPanel {
+public class PrintSolutions extends JPanel {
 		public void paintComponent(Graphics g) {
 //	       String path = "D:\\FilipeSiemens\\Siemens\\JsonRoomFormat16.txt";
 		       String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedForArtificialLight.txt";

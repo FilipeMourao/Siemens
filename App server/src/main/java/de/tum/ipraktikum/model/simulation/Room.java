@@ -69,6 +69,7 @@ public class Room implements Chromosome<Furniture> {
 	}
 	// changed here
 	public Room(int width, int height, List<Furniture> furniture, List<FixedFurniture> fixedFurnitures) {
+		///TO DO ADAPT TO GET WIDTH AND HEIGHT FROM EACH TABLE 
 		super();
 		this.width = width;
 		this.height = height;

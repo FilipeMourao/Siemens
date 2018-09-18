@@ -1,28 +1,37 @@
+import java.util.Collections;
+import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Random;
+import java.util.stream.Collectors;
 public class Furniture {
+
 	int coordinateX;
 	int coordinateY;
 	int width;
 	int height;
 	int radius;
-	int type; // 0  is a rectangle table, 1 rectangle chair
+	int type; // 0  is a rectangle table, 1 is a rectangular chair
 	
 
-	public Furniture(int coordinateX, int coordinateY, int width, int height) {
+	public Furniture(int coordinateX, int coordinateY, int width, int height, int type) {
 		super();
-		this.type = 0;
+		this.type = type;
 		this.coordinateX = coordinateX;
 		this.coordinateY = coordinateY;
 		this.width = width;
 		this.height = height;
 	}
-	public Furniture(int coordinateX, int coordinateY, int radius) {
-		super();
-		this.type = 1;
-		this.coordinateX = coordinateX;
-		this.coordinateY = coordinateY;
-		this.radius = radius;
-	}
+//	public Furniture(int coordinateX, int coordinateY, int radius) {
+//		super();
+//		this.type = 1;
+//		this.coordinateX = coordinateX;
+//		this.coordinateY = coordinateY;
+//		this.radius = radius;
+//	}
+
 	public int getCoordinateX() {
 		return coordinateX;
 	}
@@ -59,6 +68,10 @@ public class Furniture {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
+
+
+
+
 
 }
