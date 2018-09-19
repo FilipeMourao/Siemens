@@ -171,6 +171,8 @@ public final class CustomizedEngine<
         
         List<Double> listOfLampsDistanceMean = new ArrayList();
         List<Double> listOfWidnowsDistanceMean = new ArrayList();
+        List<Double> listOfEqualLightDistanceMean = new ArrayList();
+        Tuple<Double,Double> equalLightMeanAndVariance;// a = mean, b = variance 
         Tuple<Double,Double> lampsMeanAndVariance;// a = mean, b = variance 
         Tuple<Double,Double> windowsMeanAndVariance;// a = mean, b = variance
      
@@ -179,11 +181,14 @@ public final class CustomizedEngine<
             lampsMeanAndVariance = r.getDistancePerLampMeanAndVariance();// a = mean, b = variance 
             listOfLampsDistanceMean.add(lampsMeanAndVariance.a);
             windowsMeanAndVariance = r.getDistancePerWindowsMeanAndVariance();// a = mean, b = variance
-            listOfWidnowsDistanceMean.add(windowsMeanAndVariance.a);            
+            listOfWidnowsDistanceMean.add(windowsMeanAndVariance.a); 
+            equalLightMeanAndVariance = r.getEqualLightMeanAndVariance();
+            listOfEqualLightDistanceMean.add(equalLightMeanAndVariance.a);
             
         }
         double normalizeLampMean = 0;
         double normalizeWindowMean = 0;
+        double normalizeEqualLight = 0;
         
         double minLampMean = Collections.min(listOfLampsDistanceMean);
         double maxLampMean = Collections.max(listOfLampsDistanceMean);
@@ -195,13 +200,13 @@ public final class CustomizedEngine<
         if(maxWindowMean == minWindowMean) normalizeWindowMean = 0;
         else normalizeLampMean = (room.getDistancePerWindowsMeanAndVariance().a - minWindowMean)/(maxWindowMean - minWindowMean);
         
+        double minEqualLightMean = Collections.min(listOfEqualLightDistanceMean);
+        double maxEqualLightMean = Collections.max(listOfEqualLightDistanceMean);
+        if(maxEqualLightMean == minEqualLightMean) normalizeWindowMean = 0;
+        else normalizeEqualLight = (room.getEqualLightMeanAndVariance().a - minWindowMean)/(maxWindowMean - minWindowMean);
         
-        return normalizeLampMean*Configuration.lampProximityWeight 
-        	   +normalizeWindowMean*Configuration.windowsProximityWeight 
-        	   +(normalizeWindowMean*Configuration.windowsProximityWeight 
-        	   +normalizeLampMean*Configuration.lampProximityWeight
-        	   *Configuration.differenceFromNaturalAndArtificialLight )
-        	   *Configuration.equalLightDistributionWeight;
+        
+        return normalizeLampMean*Configuration.lampProximityWeight      +    normalizeWindowMean*Configuration.windowsProximityWeight  +	   normalizeEqualLight*Configuration.equalLightDistributionWeight;
 
 
     }

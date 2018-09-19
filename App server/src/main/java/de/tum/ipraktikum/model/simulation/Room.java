@@ -32,25 +32,6 @@ public class Room implements Chromosome<Furniture> {
 		int definedWidth = 50;
 		int defindHeight = 50;
 		for(int i = 0 ; i < Configuration.numberOfFurnitures; i++) {
-//			switch (rand.nextInt(2)) {
-//			case 0:
-//				f = new Furniture(rand.nextInt(1000), rand.nextInt(1000), 50, 50, 0 );// rectangle table
-//				
-//				break;
-//			case 1:
-//				f = new Furniture(rand.nextInt(1000), rand.nextInt(1000), 50, 50, 1 );// rectangle chair
-//				
-//				break;
-//
-//			case 2:
-//				//f = new Furniture(rand.nextInt(1000), rand.nextInt(1000), width);// oval table
-//				break;
-//			default:
-//				//f =  new Furniture(rand.nextInt(1000), rand.nextInt(1000), width);// oval table
-//					break;
-//					
-//			}
-//			furniture.add(f);
 				f = new Furniture(rand.nextInt(1000), rand.nextInt(1000), 50, 50, 0 );// rectangle table
 				furniture.add(f);
 				f = new Furniture(rand.nextInt(1000), rand.nextInt(1000), 50, 50, 1 );// rectangle chair		
@@ -75,15 +56,15 @@ public class Room implements Chromosome<Furniture> {
 		this.height = height;
 		this.fixedFurniture = fixedFurnitures;
 		List<FixedFurniture> walls =  fixedFurniture.stream().filter(c -> c.getType() == 0).collect(Collectors.toList());
-		int numberOfRectangleTables = Math.toIntExact(furniture.stream().filter(c -> c.getType() == 0).count());
+		List<Furniture> rectangleTables = furniture.stream().filter(c -> c.getType() == 0).collect(Collectors.toList());
 		//int numberOfCircleTables = Math.toIntExact(furniture.stream().filter(c -> c.getType() == 2).count());
 		int numberOfRectangleChairs = Math.toIntExact(furniture.stream().filter(c -> c.getType() == 1).count());
 		Furniture f1 = null;
 		Furniture f2 = null;
 		int constantDivisor = 30;
 		Random rand = new Random();
-		int definedWidth = 30;
-		int defindHeight = 30;
+		int definedChairWidth = 15;
+		int defindChairHeight = 15;
 		int xTable = 0; 
 		int xChair = 0;
 		int yTable = 0;
@@ -91,30 +72,30 @@ public class Room implements Chromosome<Furniture> {
 		furniture = new ArrayList<>();
 		while(!this.isValid()) {
 			furniture = new ArrayList<>();
-			for(int i = 0 ; i < numberOfRectangleTables; i++) {
-				xTable = rand.nextInt(width - definedWidth ) + definedWidth;
-				yTable = rand.nextInt(height - defindHeight ) + defindHeight;
+			for(Furniture table : rectangleTables) {
+				xTable = rand.nextInt(width - table.getWidth() ) + table.getWidth();
+				yTable = rand.nextInt(height - table.getHeight() ) + table.getHeight();
 				switch (rand.nextInt(4)) {
 				case 0://chair in the right 
-					xChair = xTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + definedWidth ;
+					xChair = xTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) +  table.getWidth() ;
 					yChair = yTable;
 					break;
 
 				case 1:// chair in the left
-					xChair = xTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - definedWidth ;
+					xChair = xTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) -  table.getWidth() ;
 					yChair = yTable;
 					
 					break;
 
 				case 2: //chair down 
 					xChair = xTable;
-					yChair = yTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - definedWidth;
+					yChair = yTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - table.getHeight();
 					
 					break;
 
 				case 3:// chair in the top 
 					xChair = xTable;
-					yChair = yTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + definedWidth;
+					yChair = yTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + table.getHeight();
 					
 					break;
 
@@ -122,34 +103,32 @@ public class Room implements Chromosome<Furniture> {
 				default:
 					break;
 				}
-				f1 = new Furniture(xTable,yTable,definedWidth,	defindHeight,0);
-				f2 = new Furniture(xChair,yChair,definedWidth/2,	defindHeight/2,1);
+				f1 = new Furniture(xTable,yTable,table.getWidth(),	table.getHeight(),0);
+				f2 = new Furniture(xChair,yChair,definedChairWidth,	defindChairHeight,1);
 				while (f1.touchedAWall(this) || f2.touchedAWall(this)) {
-					//problema do numero negativo nos casos de terceiro quadrante
-					// problema de cadeira encostando na mesa 
-					xTable = rand.nextInt(width - definedWidth ) + definedWidth;
-					yTable = rand.nextInt(height - defindHeight ) + defindHeight;
+					xTable = rand.nextInt(width - table.getWidth() ) + table.getWidth();
+					yTable = rand.nextInt(height - table.getHeight() ) + table.getHeight();
 					switch (rand.nextInt(4)) {
 					case 0://chair in the right 
-						xChair = xTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + definedWidth ;
+						xChair = xTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) +  table.getWidth() ;
 						yChair = yTable;
 						break;
 
 					case 1:// chair in the left
-						xChair = xTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - definedWidth ;
+						xChair = xTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) -  table.getWidth() ;
 						yChair = yTable;
 						
 						break;
 
 					case 2: //chair down 
 						xChair = xTable;
-						yChair = yTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - definedWidth;
+						yChair = yTable - rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) - table.getHeight();
 						
 						break;
 
 					case 3:// chair in the top 
 						xChair = xTable;
-						yChair = yTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + definedWidth;
+						yChair = yTable + rand.nextInt(Configuration.maximumDistanceBetweenChairAndTable  ) + table.getHeight();
 						
 						break;
 
@@ -157,8 +136,8 @@ public class Room implements Chromosome<Furniture> {
 					default:
 						break;
 					}
-					f1 = new Furniture(xTable,yTable,definedWidth,	defindHeight,0);
-					f2 = new Furniture(xChair,yChair,definedWidth/2,	defindHeight/2,1);
+					f1 = new Furniture(xTable,yTable,table.getWidth(),	table.getHeight(),0);
+					f2 = new Furniture(xChair,yChair,definedChairWidth,	defindChairHeight,1);
 				}
 				furniture.add(f1);
 				furniture.add(f2);
@@ -193,8 +172,7 @@ public class Room implements Chromosome<Furniture> {
 // changed here
     public static Room createRandomRoomFromInitialRoom(Room initialRoom) {
 		Room newRoom = new Room(initialRoom.getWidth(), initialRoom.getHeight(),initialRoom.getFurnitures(), initialRoom.getFixedFurniture());
-//		Room newRoom = new Room(initialRoom.getWidth(), initialRoom.getHeight());
-    	return newRoom;
+   	    return newRoom;
     }
 
     //Crossover
@@ -292,23 +270,34 @@ public class Room implements Chromosome<Furniture> {
       }
         
       // check if there is free space in the door  
-        FixedFurniture door = ( fixedFurniture.stream().filter(c -> c.getType() == 3).collect(Collectors.toList())).get(0);
-        for (int i = 0; i < listOfTables.size(); i++) {
-        	if(calculateEuclidianDistance(
-        			listOfTables.get(i).getCoordinateX(),
-        			listOfTables.get(i).getCoordinateY(), 
-        			door.getCoordinateX(), 
-        			door.getCoordinateY()) < Configuration.minimumDistanceFromTheDoor ||
-        			calculateEuclidianDistance(
-                			listOfChairs.get(i).getCoordinateX(),
-                			listOfChairs.get(i).getCoordinateY(), 
-                			door.getCoordinateX(), 
-                			door.getCoordinateY()) < Configuration.minimumDistanceFromTheDoor
-        			) {
-        		return false;
-        	}
-			
-		} 		  
+        List<FixedFurniture> doors = ( fixedFurniture.stream().filter(c -> c.getType() == 3).collect(Collectors.toList())); 
+        for(FixedFurniture door: doors) {
+            for (int i = 0; i < listOfTables.size(); i++) {
+            	if(calculateEuclidianDistance(
+            			listOfTables.get(i).getCoordinateX(),
+            			listOfTables.get(i).getCoordinateY(), 
+            			door.getCoordinateX(), 
+            			door.getCoordinateY()) < Configuration.minimumDistanceFromTheDoor ||
+            			calculateEuclidianDistance(
+                    			listOfChairs.get(i).getCoordinateX(),
+                    			listOfChairs.get(i).getCoordinateY(), 
+                    			door.getCoordinateX(), 
+                    			door.getCoordinateY()) < Configuration.minimumDistanceFromTheDoor
+            			) 	return false;
+            	//Horizontal door
+            	if(door.getWidth() > door.getHeight()) {
+            		if(listOfTables.get(i).getCoordinateX() < door.getCoordinateX() + door.getWidth() && 
+            				listOfTables.get(i).getCoordinateX() > door.getCoordinateX() - door.getWidth()) return false;
+            	} 
+            	// vertical door 
+            	else {
+            		if(listOfTables.get(i).getCoordinateY() < door.getCoordinateY() + door.getHeight() && 
+            				listOfTables.get(i).getCoordinateY() > door.getCoordinateY() - door.getHeight()) return false;
+            	}
+            }
+        }
+    
+		  
       		  
       //check if every table has a chair  
       Furniture table;
@@ -340,6 +329,7 @@ public class Room implements Chromosome<Furniture> {
     public static double calculateEuclidianDistance(double x1, double y1, double x2, double y2) {
         return (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
     }
+
     public double getSumOfTablesDistances() {
     	double sumOfDistances = 0;
     	double distance = 0;
@@ -377,133 +367,142 @@ public class Room implements Chromosome<Furniture> {
       	}
      return sumOfDistances; 
     }
-
-    
-
-    public  Tuple<Double, Double> getDistancePerLampMeanAndVariance() {
+ 
+   public  Tuple<Double, Double> getDistancePerLampMeanAndVariance() {
     	double variance = 0;
         double mean = 0;
-        double minDistance = Double.MAX_VALUE;
         double distance = 0;
-        List<Double> minLampDistance = new ArrayList<Double>();
-        List<FixedFurniture> lamps = getFixedFurniture().stream().filter(c -> c.getType() == 1).collect(Collectors.toList());
+        List<Double> minEqualDistance = new ArrayList<Double>();
+        List<FixedFurniture> lamps;
+        List<FixedFurniture> walls = getFixedFurniture().stream().filter(c -> c.getType() == 0).collect(Collectors.toList());
         
-        //calculating the variance from the windows distance
-        for(Furniture furniture: getFurnitures()) {
-        	minDistance = Double.MAX_VALUE;
+        
+        for (Furniture furniture: getFurnitures()) {
+            final FixedFurniture wallToTheRigt = getFixedFurniture().stream().filter(c -> c.getCoordinateX() > furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheLeft = getFixedFurniture().stream().filter(c -> c.getCoordinateX() < furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheTop = getFixedFurniture().stream().filter(c -> c.getCoordinateY() > furniture.getCoordinateY()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheBottom = getFixedFurniture().stream().filter(c -> c.getCoordinateY() < furniture.getCoordinateY()).collect(Collectors.toList()).get(0);getClass();
+        	lamps = getFixedFurniture().stream()
+        			.filter(c -> c.getType() == 1)
+        			.filter(c -> c.getCoordinateX() < wallToTheRigt.getCoordinateX())
+        			.filter(c -> c.getCoordinateX() > wallToTheLeft.getCoordinateX())
+        			.filter(c -> c.getCoordinateY() < wallToTheTop.getCoordinateY())
+        			.filter(c -> c.getCoordinateY() > wallToTheBottom.getCoordinateY())
+        			.collect(Collectors.toList());
         	for(FixedFurniture lamp: lamps) {
-        		distance = Room.calculateEuclidianDistance(lamp.getCoordinateX(),
-        				lamp.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY());
-        		if(distance < minDistance) minDistance = distance;
+        		minEqualDistance.add( Room.calculateEuclidianDistance(lamp.getCoordinateX(),
+        				lamp.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY()));
         		
         	}
-        	minLampDistance.add(minDistance);
         }
-        
-        mean =  minLampDistance.stream().reduce(0d, (x,y) -> x+y)/minLampDistance.size();
-        for (int i = 0; i < minLampDistance.size(); i++) {
-        	variance = (minLampDistance.get(i) - mean ) * (minLampDistance.get(i) - mean ); 	
-		}
-        variance = variance/minLampDistance.size();
-
+        	
+        mean =  minEqualDistance.stream().reduce(0d, (x,y) -> x+y)/minEqualDistance.size();		
+        for (int i = 0; i < minEqualDistance.size(); i++) {
+            	variance = (minEqualDistance.get(i) - mean ) * (minEqualDistance.get(i) - mean ); 	
+    	}
+        variance = variance/minEqualDistance.size(); 
         return new Tuple<>(mean,variance);
-        
-    	
+
     }
-    public  Tuple<Double, Double> getDistancePerWindowsMeanAndVariance() {
+ 
+   public  Tuple<Double, Double> getDistancePerWindowsMeanAndVariance() {
     	double variance = 0;
         double mean = 0;
-        double minDistance = Double.MAX_VALUE;
         double distance = 0;
-        List<Double> minWindowDistance = new ArrayList<Double>();
-        List<FixedFurniture> windows = getFixedFurniture().stream().filter(c -> c.getType() == 2).collect(Collectors.toList());
+        List<Double> minEqualDistance = new ArrayList<Double>();
+        List<FixedFurniture> windows;
+        List<FixedFurniture> walls = getFixedFurniture().stream().filter(c -> c.getType() == 0).collect(Collectors.toList());
         
-        //calculating the variance from the windows distance
-        for(Furniture furniture: getFurnitures()) {
-        	minDistance = Double.MAX_VALUE;
+        
+        for (Furniture furniture: getFurnitures()) {
+            final FixedFurniture wallToTheRigt = getFixedFurniture().stream().filter(c -> c.getCoordinateX() > furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheLeft = getFixedFurniture().stream().filter(c -> c.getCoordinateX() < furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheTop = getFixedFurniture().stream().filter(c -> c.getCoordinateY() > furniture.getCoordinateY()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheBottom = getFixedFurniture().stream().filter(c -> c.getCoordinateY() < furniture.getCoordinateY()).collect(Collectors.toList()).get(0);getClass();
+        	windows = getFixedFurniture().stream()
+        			.filter(c -> c.getType() == 2)
+        			.filter(c -> c.getCoordinateX() < wallToTheRigt.getCoordinateX())
+        			.filter(c -> c.getCoordinateX() > wallToTheLeft.getCoordinateX())
+        			.filter(c -> c.getCoordinateY() < wallToTheTop.getCoordinateY())
+        			.filter(c -> c.getCoordinateY() > wallToTheBottom.getCoordinateY())
+        			.collect(Collectors.toList());
+        	
         	for(FixedFurniture window: windows) {
-        		distance = Room.calculateEuclidianDistance(window.getCoordinateX(),
-        				window.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY());
-        		if(distance < minDistance) minDistance = distance;
-        		
-        	}
-        	minWindowDistance.add(minDistance);
-        }
-        
-        mean =  minWindowDistance.stream().reduce(0d, (x,y) -> x+y)/minWindowDistance.size();
-        for (int i = 0; i < minWindowDistance.size(); i++) {
-        	variance = (minWindowDistance.get(i) - mean ) * (minWindowDistance.get(i) - mean ); 	
-		}
-        variance = variance/minWindowDistance.size();
+        		minEqualDistance.add( Room.calculateEuclidianDistance(window.getCoordinateX(),
+        				window.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY()));
 
-        return new Tuple<>(mean,variance);
-        
+        	}
+        }
+        	mean =  minEqualDistance.stream().reduce(0d, (x,y) -> x+y)/minEqualDistance.size();		
+            for (int i = 0; i < minEqualDistance.size(); i++) {
+            	variance = (minEqualDistance.get(i) - mean ) * (minEqualDistance.get(i) - mean ); 	
+    		}
+            variance = variance/minEqualDistance.size();
+	
+        return new Tuple<>(mean,variance); 
     	
     }
-//    public double getSumOfTablesDistances() {
-//    	double sumOfDistances = 0;
-//    	double distance = 0;
-//    	double atan;
-//    	double angle;
-//        for(int i = 0; i < furniture.size(); i++) {
-//      	  for(int j = i + 1; j < furniture.size(); j++) {
-//      		  distance = calculateEuclidianDistance(furniture.get(i).getCoordinateX()
-//      				  , furniture.get(i).getCoordinateY(), furniture.get(j).getCoordinateX(),
-//      				  furniture.get(j).getCoordinateY());
-//      		  if(distance < 100)  sumOfDistances -= Configuration.penaltyForProximity;
-//      		  else sumOfDistances += distance;
-// 
-//      		switch (furniture.get(i).getType()) {// subtract the inside part of the table i
-//  			case 0:
-//  				if(furniture.get(i).getCoordinateX() == furniture.get(j).getCoordinateX()) sumOfDistances -= furniture.get(i).getHeight();
-//  				else {
-//  					atan = ((double)(furniture.get(i).getCoordinateY() - furniture.get(j).getCoordinateY()))/(furniture.get(i).getCoordinateX()-furniture.get(j).getCoordinateX());
-//  	  				angle = Math.atan(atan);
-//  	  				angle = Math.abs(angle);
-//  	  				if(angle >= Math.PI/4) sumOfDistances -= furniture.get(i).getHeight()/Math.sin(angle);
-//  	  				else sumOfDistances -= furniture.get(i).getWidth()/Math.cos(angle);
-//  					
-//  				}
-//			break;
-//
-//      		  case 1:
-//				sumOfDistances -= furniture.get(i).getRadius();
-//				break;
-//
-//			default:
-//				break;
-//			}
-//      		switch (furniture.get(j).getType()) { // subtract the inside part of the table j
-//  			case 0:
-//  				if(furniture.get(i).getCoordinateX() == furniture.get(j).getCoordinateX()) sumOfDistances -= furniture.get(j).getHeight();
-//  				else {
-//  	  				angle = Math.atan((double)((furniture.get(i).getCoordinateY() - furniture.get(j).getCoordinateY())
-//  	  		  				/(furniture.get(i).getCoordinateX()-furniture.get(j).getCoordinateX())));
-//  	  				angle = Math.abs(angle);
-//  	  				if(angle >= Math.PI/4) sumOfDistances -= furniture.get(j).getHeight()/Math.sin(angle);
-//  	  				else sumOfDistances -= furniture.get(j).getWidth()/Math.cos(angle);
-//  				}
-//			break;
-//
-//      		  case 1:
-//				sumOfDistances -= furniture.get(j).getRadius();
-//				break;
-//
-//			default:
-//				break;
-//			}
-//      	  }
-//      	  
-//      	  
-//      	}
-//     return sumOfDistances; 
-//    }
-	@Override
+  
+  public  Tuple<Double, Double> getEqualLightMeanAndVariance() {
+    	double variance = 0;
+        double mean = 0;
+        double distance = 0;
+        List<Double> minEqualDistance = new ArrayList<Double>();
+        List<FixedFurniture> windows;
+        List<FixedFurniture> lamps;
+        List<FixedFurniture> walls = getFixedFurniture().stream().filter(c -> c.getType() == 0).collect(Collectors.toList());
+        
+        
+        for (Furniture furniture: getFurnitures()) {
+            final FixedFurniture wallToTheRigt = getFixedFurniture().stream().filter(c -> c.getCoordinateX() > furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheLeft = getFixedFurniture().stream().filter(c -> c.getCoordinateX() < furniture.getCoordinateX()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheTop = getFixedFurniture().stream().filter(c -> c.getCoordinateY() > furniture.getCoordinateY()).collect(Collectors.toList()).get(0);
+            final FixedFurniture wallToTheBottom = getFixedFurniture().stream().filter(c -> c.getCoordinateY() < furniture.getCoordinateY()).collect(Collectors.toList()).get(0);getClass();
+        	windows = getFixedFurniture().stream()
+        			.filter(c -> c.getType() == 2)
+        			.filter(c -> c.getCoordinateX() < wallToTheRigt.getCoordinateX())
+        			.filter(c -> c.getCoordinateX() > wallToTheLeft.getCoordinateX())
+        			.filter(c -> c.getCoordinateY() < wallToTheTop.getCoordinateY())
+        			.filter(c -> c.getCoordinateY() > wallToTheBottom.getCoordinateY())
+        			.collect(Collectors.toList());
+        			
+        	lamps = getFixedFurniture().stream()
+        			.filter(c -> c.getType() == 1)
+        			.filter(c -> c.getCoordinateX() < wallToTheRigt.getCoordinateX())
+        			.filter(c -> c.getCoordinateX() > wallToTheLeft.getCoordinateX())
+        			.filter(c -> c.getCoordinateY() < wallToTheTop.getCoordinateY())
+        			.filter(c -> c.getCoordinateY() > wallToTheBottom.getCoordinateY())
+        			.collect(Collectors.toList());
+        	
+        	
+        	for(FixedFurniture window: windows) {
+        		minEqualDistance.add( Room.calculateEuclidianDistance(window.getCoordinateX(),
+        				window.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY()));
+        	}
+        	for(FixedFurniture lamp: lamps) {
+        		minEqualDistance.add( Configuration.differenceFromNaturalAndArtificialLight*Room.calculateEuclidianDistance(lamp.getCoordinateX(),
+        				lamp.getCoordinateY(), furniture.getCoordinateX(), furniture.getCoordinateY()));
+        		
+        	}
+        }
+        	
+        mean =  minEqualDistance.stream().reduce(0d, (x,y) -> x+y)/minEqualDistance.size();		
+        for (int i = 0; i < minEqualDistance.size(); i++) {
+            	variance = (minEqualDistance.get(i) - mean ) * (minEqualDistance.get(i) - mean ); 	
+    	}
+        variance = variance/minEqualDistance.size(); 
+        return new Tuple<>(mean,variance);
+
+    	
+    }
+
+  @Override
 	public Iterator<Furniture> iterator() {
 		// TODO Auto-generated method stub
 		return furniture.iterator();
 	}
-	@Override
+
+  @Override
 	public int length() {
 		// TODO Auto-generated method stub
 		return furniture.size();

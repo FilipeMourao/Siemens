@@ -12,8 +12,8 @@ import de.tum.ipraktikum.model.simulation.Room;
 public abstract class Configuration {
 
     //Genetic Algorithm configuration
-    public static int totalPopulation = 100;
-    public static int totalGeneration = 1000;
+    public static int totalPopulation = 10;
+    public static int totalGeneration = 10000;
     
     //Parameters of the room
     public static int numberOfFurnitures = 8;
@@ -27,8 +27,8 @@ public abstract class Configuration {
 
     //Weights
     public static double windowsProximityWeight = 0;
-    public static double lampProximityWeight = 0;
-    public static double equalLightDistributionWeight = 1;
+    public static double lampProximityWeight = 1;
+    public static double equalLightDistributionWeight = 0;
     
     // Penalties
     public static double penaltyForChairProximity = 10000;
@@ -36,8 +36,12 @@ public abstract class Configuration {
     public static double penaltyForIncorrectProximity = 100000;
     public static double penaltyForDoorProximity = 10000000;
     // Based Room
-    public static String filePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
+//    public static String filePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
+//    public static String fixedFurnitureFilePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\CoordinatesOfTheFixedFurnitures.txt";
+//    public static String filePath = "D:\\FilipeSiemens\\Siemens\\JsonRoomFormat16Tables.txt";
+    public static String filePath = "D:\\FilipeSiemens\\Siemens\\RealRoomJson.txt";
+
     public static String fixedFurnitureFilePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\CoordinatesOfTheFixedFurnitures.txt";
-    
+      
     
 }

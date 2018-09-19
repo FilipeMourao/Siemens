@@ -15,8 +15,8 @@ public class Room {
 		int numberOfTables = 16;
 		Random rand = new Random();
 		for(int i = 0 ; i < numberOfTables; i++) {
-			Furniture ts = new Furniture(rand.nextInt(width), rand.nextInt(height), width/constantDivisor, height/constantDivisor);
-			Furniture tc = new Furniture(rand.nextInt(width),  rand.nextInt(height), width/constantDivisor);
+			Furniture ts = new Furniture(rand.nextInt(width), rand.nextInt(height), width/constantDivisor, height/constantDivisor, 0);
+			Furniture tc = new Furniture(rand.nextInt(width),  rand.nextInt(height), width/constantDivisor, 1, 2);
 			furniture.add(ts);
 			furniture.add(tc);
 		}
