@@ -179,11 +179,11 @@ public final class CustomizedEngine<
         for (int i = 0; i < currentPopulation.size(); i++) {// evaluate the design of every creature
             Room r = (Room) currentPopulation.get(i).getGenotype().getChromosome();
             lampsMeanAndVariance = r.getDistancePerLampMeanAndVariance();// a = mean, b = variance 
-            listOfLampsDistanceMean.add(lampsMeanAndVariance.a);
+            listOfLampsDistanceMean.add(lampsMeanAndVariance.b);
             windowsMeanAndVariance = r.getDistancePerWindowsMeanAndVariance();// a = mean, b = variance
-            listOfWidnowsDistanceMean.add(windowsMeanAndVariance.a); 
+            listOfWidnowsDistanceMean.add(windowsMeanAndVariance.b); 
             equalLightMeanAndVariance = r.getEqualLightMeanAndVariance();
-            listOfEqualLightDistanceMean.add(equalLightMeanAndVariance.a);
+            listOfEqualLightDistanceMean.add(equalLightMeanAndVariance.b);
             
         }
         double normalizeLampMean = 0;
@@ -193,17 +193,17 @@ public final class CustomizedEngine<
         double minLampMean = Collections.min(listOfLampsDistanceMean);
         double maxLampMean = Collections.max(listOfLampsDistanceMean);
         if(maxLampMean == minLampMean) normalizeLampMean = 0;
-        else normalizeLampMean = (room.getDistancePerLampMeanAndVariance().a - minLampMean)/(maxLampMean - minLampMean);
+        else normalizeLampMean = (room.getDistancePerLampMeanAndVariance().b - minLampMean)/(maxLampMean - minLampMean);
         
         double minWindowMean = Collections.min(listOfWidnowsDistanceMean);
         double maxWindowMean = Collections.max(listOfWidnowsDistanceMean);
         if(maxWindowMean == minWindowMean) normalizeWindowMean = 0;
-        else normalizeLampMean = (room.getDistancePerWindowsMeanAndVariance().a - minWindowMean)/(maxWindowMean - minWindowMean);
+        else normalizeLampMean = (room.getDistancePerWindowsMeanAndVariance().b - minWindowMean)/(maxWindowMean - minWindowMean);
         
         double minEqualLightMean = Collections.min(listOfEqualLightDistanceMean);
         double maxEqualLightMean = Collections.max(listOfEqualLightDistanceMean);
         if(maxEqualLightMean == minEqualLightMean) normalizeWindowMean = 0;
-        else normalizeEqualLight = (room.getEqualLightMeanAndVariance().a - minWindowMean)/(maxWindowMean - minWindowMean);
+        else normalizeEqualLight = (room.getEqualLightMeanAndVariance().b - minWindowMean)/(maxWindowMean - minWindowMean);
         
         
         return normalizeLampMean*Configuration.lampProximityWeight      +    normalizeWindowMean*Configuration.windowsProximityWeight  +	   normalizeEqualLight*Configuration.equalLightDistributionWeight;

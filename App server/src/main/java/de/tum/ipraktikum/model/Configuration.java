@@ -26,9 +26,9 @@ public abstract class Configuration {
 
 
     //Weights
-    public static double windowsProximityWeight = 1;
-    public static double lampProximityWeight = 0;
-    public static double equalLightDistributionWeight = 0;
+    public static double windowsProximityWeight = 0.5f;//natural light 
+    public static double lampProximityWeight = 0.2F;// artificial light
+    public static double equalLightDistributionWeight = 0.3f; // equal light
     
     // Based Room
 //    public static String filePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
