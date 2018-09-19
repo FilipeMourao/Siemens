@@ -330,43 +330,7 @@ public class Room implements Chromosome<Furniture> {
         return (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
     }
 
-    public double getSumOfTablesDistances() {
-    	double sumOfDistances = 0;
-    	double distance = 0;
-    	double atan;
-    	double angle;
-        for(int i = 0; i < furniture.size(); i++) {
-      	  for(int j = i + 1; j < furniture.size(); j++) {
-      		  distance = calculateEuclidianDistance(furniture.get(i).getCoordinateX()
-      				  , furniture.get(i).getCoordinateY(), furniture.get(j).getCoordinateX(),
-      				  furniture.get(j).getCoordinateY());
-      		  if(distance < 100)  sumOfDistances -= Configuration.penaltyForIncorrectProximity;
-      		  else sumOfDistances += distance;
- 
-  				if(furniture.get(i).getCoordinateX() == furniture.get(j).getCoordinateX()) sumOfDistances -= furniture.get(i).getHeight();
-  				else {
-  					atan = ((double)(furniture.get(i).getCoordinateY() - furniture.get(j).getCoordinateY()))/(furniture.get(i).getCoordinateX()-furniture.get(j).getCoordinateX());
-  	  				angle = Math.atan(atan);
-  	  				angle = Math.abs(angle);
-  	  				if(angle >= Math.PI/4) sumOfDistances -= furniture.get(i).getHeight()/Math.sin(angle);
-  	  				else sumOfDistances -= furniture.get(i).getWidth()/Math.cos(angle);
-  					
-  				}
-  				if(furniture.get(i).getCoordinateX() == furniture.get(j).getCoordinateX()) sumOfDistances -= furniture.get(j).getHeight();
-  				else {
-  	  				angle = Math.atan((double)((furniture.get(i).getCoordinateY() - furniture.get(j).getCoordinateY())
-  	  		  				/(furniture.get(i).getCoordinateX()-furniture.get(j).getCoordinateX())));
-  	  				angle = Math.abs(angle);
-  	  				if(angle >= Math.PI/4) sumOfDistances -= furniture.get(j).getHeight()/Math.sin(angle);
-  	  				else sumOfDistances -= furniture.get(j).getWidth()/Math.cos(angle);
-  				}
 
-      	  }
-      	  
-      	  
-      	}
-     return sumOfDistances; 
-    }
  
    public  Tuple<Double, Double> getDistancePerLampMeanAndVariance() {
     	double variance = 0;

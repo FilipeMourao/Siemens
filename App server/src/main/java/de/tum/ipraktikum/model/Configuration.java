@@ -30,11 +30,6 @@ public abstract class Configuration {
     public static double lampProximityWeight = 1;
     public static double equalLightDistributionWeight = 0;
     
-    // Penalties
-    public static double penaltyForChairProximity = 10000;
-    public static double penaltyForTableWithoutChair = 10000;
-    public static double penaltyForIncorrectProximity = 100000;
-    public static double penaltyForDoorProximity = 10000000;
     // Based Room
 //    public static String filePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
 //    public static String fixedFurnitureFilePath = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\CoordinatesOfTheFixedFurnitures.txt";
