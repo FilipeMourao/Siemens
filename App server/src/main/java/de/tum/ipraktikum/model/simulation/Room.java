@@ -299,24 +299,24 @@ public class Room implements Chromosome<Furniture> {
     
 		  
       		  
-      //check if every table has a chair  
-      Furniture table;
-      Furniture chair;
-      listOfChairs = furniture.stream().filter(c -> c.getType() == 1).collect(Collectors.toList());
-      for (int i = 0; i < listOfTables.size(); i++) {
-    	   table = listOfTables.get(i);
-    	   chair = null;
-    	  for (Furniture c:listOfChairs) {
-    		  euclidianDistance = calculateEuclidianDistance(table.getCoordinateX(), table.getCoordinateY()
-    				  , c.getCoordinateX(), c.getCoordinateY() );
-    		  minimumEuclidianDistance = calculateEuclidianDistance(0, 0,
-    				  c.width/2 + table.width/2, c.height/2 + table.height/2);
-    		  if(euclidianDistance > minimumEuclidianDistance) chair = c;
-    		  
-		 }
-    	 if(chair != null) listOfChairs.remove(chair); 
-	}
-      if(!listOfChairs.isEmpty() ) return false;		  
+//      //check if every table has a chair  
+//      Furniture table;
+//      Furniture chair;
+//      listOfChairs = furniture.stream().filter(c -> c.getType() == 1).collect(Collectors.toList());
+//      for (int i = 0; i < listOfTables.size(); i++) {
+//    	   table = listOfTables.get(i);
+//    	   chair = null;
+//    	  for (Furniture c:listOfChairs) {
+//    		  euclidianDistance = calculateEuclidianDistance(table.getCoordinateX(), table.getCoordinateY()
+//    				  , c.getCoordinateX(), c.getCoordinateY() );
+//    		  minimumEuclidianDistance = calculateEuclidianDistance(0, 0,
+//    				  c.width/2 + table.width/2, c.height/2 + table.height/2);
+//    		  if(euclidianDistance > minimumEuclidianDistance) chair = c;
+//    		  
+//		 }
+//    	 if(chair != null) listOfChairs.remove(chair); 
+//	}
+//      if(!listOfChairs.isEmpty() ) return false;		  
        return true;
       
     }

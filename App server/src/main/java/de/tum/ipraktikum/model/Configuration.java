@@ -12,7 +12,7 @@ import de.tum.ipraktikum.model.simulation.Room;
 public abstract class Configuration {
 
     //Genetic Algorithm configuration
-    public static int totalPopulation = 10;
+    public static int totalPopulation = 50;
     public static int totalGeneration = 10000;
     
     //Parameters of the room
@@ -20,8 +20,8 @@ public abstract class Configuration {
     public static List<FixedFurniture> fixedFurnitures = null; 
     public static Room defaultRoom = new Room(1500, 800,fixedFurnitures);
     public static int differenceFromNaturalAndArtificialLight = 3;
-    public static int minimumDistanceBetweenChairs = 100;
-    public static int minimumDistanceFromTheDoor = 300;
+    public static int minimumDistanceBetweenChairs = 50;
+    public static int minimumDistanceFromTheDoor = 0;
     public static int maximumDistanceBetweenChairAndTable = 5;
 
 
