@@ -14,11 +14,7 @@ import com.google.gson.*;
 
 public class ShapeDrawing extends JPanel {
 		public void paintComponent(Graphics g) {
-//		    String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedForArtificialLight.txt";
-//		    String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedForNaturalLight.txt";
-//		    String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\OptimizedForEqualLight.txt";
-//		    String path = "D:\\filipe\\Meu computador\\TUM\\Siemens estagio\\GitHub\\Siemens\\JsonRoomFormat16Tables.txt";
-		    String path = "D:\\FilipeSiemens\\Siemens\\RealRoomJson.txt";
+			   String path = "/Users/sunshine/Documents/Filipe/Siemens/OptimizedForNaturalLightGen10_becca.txt";
 		    BufferedReader bufferedReader = null;
 			try {
 				bufferedReader = new BufferedReader(new FileReader(path));

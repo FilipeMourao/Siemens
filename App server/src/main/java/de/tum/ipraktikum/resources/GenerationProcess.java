@@ -134,12 +134,8 @@ public class GenerationProcess implements Callable<Phenotype<Furniture, Double>>
 
 
           Room room = (Room) getBestResults()[0].getGenotype().getChromosome();
-//	      double totalDistance = room.getSumOfTablesDistances();
           System.out.println(gson.toJson(room));
-       //   System.out.printf("%.2f", room.getDistancePerLampMeanAndVariance().a);
           System.out.println(currentGerneration);
-          System.out.printf("%.2f", room.getDistancePerLampMeanAndVariance().a);
-          System.out.println();
 
         }
     }

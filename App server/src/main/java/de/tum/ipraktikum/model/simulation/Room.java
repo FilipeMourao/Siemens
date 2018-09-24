@@ -265,7 +265,19 @@ public class Room implements Chromosome<Furniture> {
     				  listOfChairs.get(i).getCoordinateY(),
     				  listOfChairs.get(j).getCoordinateX(),
     				  listOfChairs.get(j).getCoordinateY());
-    		  if(euclidianDistance < Configuration.minimumDistanceBetweenChairs)  return false;
+    		  if(euclidianDistance < Configuration.minimumDistanceBetweenChairsAndTables)  return false;
+    	  }
+      }
+        
+       //Check if the tables follow the minimum distance 
+        for(int i = 0; i < listOfTables.size(); i++) {
+    	  for(int j = i + 1; j < listOfTables.size(); j++) {
+    		   
+    		  euclidianDistance = calculateEuclidianDistance(listOfTables.get(i).getCoordinateX(),
+    				  listOfTables.get(i).getCoordinateY(),
+    				  listOfTables.get(j).getCoordinateX(),
+    				  listOfTables.get(j).getCoordinateY());
+    		  if(euclidianDistance < Configuration.minimumDistanceBetweenChairsAndTables)  return false;
     	  }
       }
         
