@@ -10,54 +10,67 @@
         android:id="@+id/rainbomButton"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="108dp"
-        android:text="Rainbow"
+        android:layout_marginTop="64dp"
         android:onClick="rainbowButtonClicked"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Rainbow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addNewIP" />
 
     <TextView
         android:id="@+id/IPText"
         android:layout_width="94dp"
-        android:layout_height="22dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="92dp"
         android:text="Add new IP :"
-        app:layout_constraintBottom_toTopOf="@+id/rainbomButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.276" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addNewIP"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
-        android:text="Add IP"
+        android:layout_marginTop="112dp"
         android:onClick="addIP"
-        app:layout_constraintBottom_toTopOf="@+id/rainbomButton"
+        android:text="Add IP"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IPText" />
 
     <EditText
         android:id="@+id/IP"
         android:layout_width="226dp"
-        android:layout_height="wrap_content"
+        android:layout_height="21dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="92dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/addNewIP"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/IPText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.092" />
+        app:layout_constraintVertical_bias="0.045" />
+
+    <Button
+        android:id="@+id/GoToAlarm"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="72dp"
+        android:onClick="toAlarmButtonPressed"
+        android:text="Go to Alarm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rainbomButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

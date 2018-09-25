@@ -1,6 +1,6 @@
 package com.example.power.ledcode;
 
-public class CollorSetting {
+public class ColorSetting {
 	String state;
 	int brightness;
 	Color color;
@@ -29,7 +29,7 @@ public class CollorSetting {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
-	public CollorSetting(String state, int brightness, Color color, String mode) {
+	public ColorSetting(String state, int brightness, Color color, String mode) {
 		super();
 		this.state = state;
 		this.brightness = brightness;

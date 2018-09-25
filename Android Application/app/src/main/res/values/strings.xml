@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">LedCode</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_alarm">AlarmActivity</string>
+    <string-array name="colors">
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Yellow</item>
+    </string-array>
 </resources>
