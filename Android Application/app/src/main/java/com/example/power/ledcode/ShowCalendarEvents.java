@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ShowCalendarEvents extends Activity {
@@ -39,6 +44,11 @@ public class ShowCalendarEvents extends Activity {
         String descriptionEventStarted;
         AlarmActivity alarmActivity = new AlarmActivity();
         TextView syncMessage = findViewById(R.id.Description);
+        ListView listView = findViewById(R.id.EventsList);
+        String eventString;
+        String date;
+        //String[] events = new String[];
+        ArrayList<String> events = new ArrayList<String>();
         boolean thereWereSomeSiemensEvent = false;
         if (cursor == null){
             syncMessage.setText("The were no events to sync!");
@@ -83,6 +93,20 @@ public class ShowCalendarEvents extends Activity {
                         calendar.setTimeInMillis(startTimeValue);
                         //  alarmActivity.createAlarm(calendar,colorSetting,getIntent().getStringExtra("IpAdress"),descriptionEventStarted);
                         syncMessage.setText("The sync was completed!");
+                        String mYear = Integer.toString(calendar.get(Calendar.YEAR));
+                        String mMonth = Integer.toString(calendar.get(Calendar.MONTH) + 1);
+                        if (mMonth.length() == 1) mMonth = "0" + mMonth;
+                        String mDay = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+                        if (mDay.length() == 1) mDay = "0" + mDay;
+                        String mHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY));
+                        if (mHour.length() == 1) mHour = "0" + mHour;
+                        String mMin = Integer.toString(calendar.get(Calendar.MINUTE));
+                        if (mMin.length() == 1) mMin = "0" + mMin;
+                        date = mHour + ":" + mMin + "  " + mDay + "/" + mMonth + "/" + mYear ;
+
+                        eventString = titleValue + "  " + date;
+                        events.add(eventString);
+
 
                     }
 
@@ -91,8 +115,8 @@ public class ShowCalendarEvents extends Activity {
 
                 }
             }
-
-
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,events);
+            listView.setAdapter(adapter);
         }
         if (!thereWereSomeSiemensEvent)syncMessage.setText("The were no events to sync!");
     }
