@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -21,13 +20,17 @@
         <activity
             android:name=".AlarmActivity"
             android:label="@string/title_activity_alarm">
+        </activity>
+
+        <receiver android:name=".Alarm" />
+
+        <activity android:name=".IdLogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".Alarm"/>
     </application>
 
 </manifest>

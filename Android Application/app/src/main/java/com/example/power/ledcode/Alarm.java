@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        ColorSetting colorsetting = getPendingIntent().getStringArrayListExtra("Color Configuration");
+        //ColorSetting colorsetting = getPendingIntent().getStringArrayListExtra("Color Configuration");
         Toast.makeText(context,"Wake up",Toast.LENGTH_LONG).show();
         Vibrator v = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         v.vibrate(10000);

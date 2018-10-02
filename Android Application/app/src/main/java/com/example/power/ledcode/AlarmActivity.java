@@ -22,7 +22,7 @@ public class AlarmActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
-        ArrayList<String> ipAdresses = getIntent().getStringArrayListExtra("validIpAdresses");
+       // ArrayList<String> ipAdresses = getIntent().getStringArrayListExtra("validIpAdresses");
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,R.array.colors,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -82,7 +82,7 @@ public class AlarmActivity extends Activity {
         c.set(year,month,day,hour,minutes);
         Long time = c.getTimeInMillis();
         Intent intent = new Intent(this, Alarm.class);
-        intent.putExtra("Color Configuration", ColorSetting colorsetting);
+        intent.putExtra("Color Configuration", (ColorSetting) colorsetting);
         PendingIntent p1=PendingIntent.getBroadcast(getApplicationContext(),0, intent,0);
         AlarmManager a=(AlarmManager)getSystemService(ALARM_SERVICE);
         a.set(AlarmManager.RTC,time - System.currentTimeMillis()  ,p1);
@@ -94,6 +94,10 @@ public class AlarmActivity extends Activity {
     }
     public void cancelButtonPressed(View v){
         Intent intent = new Intent(this, MainActivity.class);
+        String companyLogIn = getIntent().getStringExtra("CompanyLogIn");
+        String basicIpAdress = getIntent().getStringExtra("IpAdress");
+        intent.putExtra("IpAdress",basicIpAdress);
+        intent.putExtra("CompanyLogIn",companyLogIn);
         startActivity(intent);
     }
 }

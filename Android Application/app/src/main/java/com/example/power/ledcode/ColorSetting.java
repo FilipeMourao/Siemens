@@ -1,6 +1,8 @@
 package com.example.power.ledcode;
 
-public class ColorSetting {
+import java.io.Serializable;
+
+public class ColorSetting implements Serializable{
 	String state;
 	int brightness;
 	Color color;
