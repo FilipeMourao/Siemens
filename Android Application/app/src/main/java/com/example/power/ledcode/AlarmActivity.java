@@ -11,9 +11,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class AlarmActivity extends Activity {
 
@@ -29,11 +33,13 @@ public class AlarmActivity extends Activity {
         spinner.setAdapter(adapter);
 
         // Get Current Date
-        final Calendar c = Calendar.getInstance();
+       final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"));
+       // final Calendar c = Calendar.getInstance();
+
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        int mHour = c.get(Calendar.HOUR);
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
         int mMin = c.get(Calendar.MINUTE);
         DatePicker datePicker = (DatePicker) findViewById(R.id.AlarmDate);
         datePicker.init(mYear,mMonth,mDay,null);
@@ -47,23 +53,23 @@ public class AlarmActivity extends Activity {
     public void confirmButtonPressed(View v){
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         String spinnerText = spinner.getSelectedItem().toString();
-        ColorSetting colorsetting = new ColorSetting("ON", 75, null, "SOLID");
+        ColorSetting colorSetting = new ColorSetting("ON", 75, null, "SOLID");
         switch (spinnerText){
             case "Red":
                 Color red  = new Color("rgb", 255, 0, 0);
-                colorsetting.setColor(red);
+                colorSetting.setColor(red);
                 break;
             case "Blue" :
                 Color blue  = new Color("rgb", 0, 0, 255);
-                colorsetting.setColor(blue);
+                colorSetting.setColor(blue);
                 break;
             case "Green" :
                 Color green  = new Color("rgb", 0, 255, 0);
-                colorsetting.setColor(green);
+                colorSetting.setColor(green);
                 break;
             case "Yellow" :
                 Color yellow  = new Color("rgb", 255, 255, 0);
-                colorsetting.setColor(yellow);
+                colorSetting.setColor(yellow);
                 break;
             default:
                 break;
@@ -71,8 +77,6 @@ public class AlarmActivity extends Activity {
         DatePicker datePicker = (DatePicker) findViewById(R.id.AlarmDate);
         TimePicker timePicker = (TimePicker) findViewById(R.id.AlarmTime);
         EditText description = (EditText) findViewById(R.id.Description);
-
-
         int year = datePicker.getYear();
         int month = datePicker.getMonth();
         int day = datePicker.getDayOfMonth();
@@ -80,17 +84,11 @@ public class AlarmActivity extends Activity {
         int minutes = timePicker.getCurrentMinute();
         Calendar c = Calendar.getInstance();
         c.set(year,month,day,hour,minutes);
-        Long time = c.getTimeInMillis();
-        Intent intent = new Intent(this, Alarm.class);
-        intent.putExtra("Color Configuration", (ColorSetting) colorsetting);
-        PendingIntent p1=PendingIntent.getBroadcast(getApplicationContext(),0, intent,0);
-        AlarmManager a=(AlarmManager)getSystemService(ALARM_SERVICE);
-        a.set(AlarmManager.RTC,time - System.currentTimeMillis()  ,p1);
-        //Toast.makeText(getApplicationContext(),"Alarm set in "+time+"seconds",Toast.LENGTH_LONG).show();
-        //http://luboganev.github.io/post/alarms-pending-intent/
-        //https://www.youtube.com/watch?v=QcF4M2yUpY4
-
-
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
+        String descriptionString = description.getText().toString() ;
+        String basicIpAdress = getIntent().getStringExtra("IpAdress");
+        createAlarm( c, colorSetting,  basicIpAdress,  descriptionString );
     }
     public void cancelButtonPressed(View v){
         Intent intent = new Intent(this, MainActivity.class);
@@ -99,5 +97,22 @@ public class AlarmActivity extends Activity {
         intent.putExtra("IpAdress",basicIpAdress);
         intent.putExtra("CompanyLogIn",companyLogIn);
         startActivity(intent);
+    }
+    public void createAlarm(Calendar calendar, ColorSetting colorSetting, String basicIpAdress, String description ){
+        Long time = calendar.getTimeInMillis();
+        Intent intent = new Intent(this, Alarm.class);
+        Gson gson = new Gson();
+        intent.putExtra("Color Configuration",gson.toJson(colorSetting).toString());
+        intent.putExtra("Description",description );
+        intent.putExtra("IpAdress",basicIpAdress);
+        final int _id = (int) System.currentTimeMillis();
+        PendingIntent p1=PendingIntent.getBroadcast(getApplicationContext(),_id , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager a=(AlarmManager)getSystemService(ALARM_SERVICE);
+        Long correctingTime = time - Math.abs( Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY) )*3600*1000;
+        a.set(AlarmManager.RTC,correctingTime ,p1);
+        Toast.makeText(getApplicationContext(),"Alarm created!",Toast.LENGTH_LONG).show();
+        //http://luboganev.github.io/post/alarms-pending-intent/
+        //https://www.youtube.com/watch?v=QcF4M2yUpY4
+
     }
 }

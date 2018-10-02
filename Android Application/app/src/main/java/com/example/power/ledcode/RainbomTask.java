@@ -25,7 +25,7 @@ public class RainbomTask extends AsyncTask< List<String> , Void, Void> {
         boolean incorrectIP = false;
        List<String>  newIpAdresses = new ArrayList<String>();
        int initialIpAdressSize = ipAdresses.size();
-        while(i < 2*initialIpAdressSize || i < 50)  {
+        while(i < 2*initialIpAdressSize || i < 10)  {
             for (int j = 0 ; j < ipAdresses.size() ; j++){
                 colorsetting.setColor(colors.get(i%colors.size()));
                 try {
@@ -48,6 +48,15 @@ public class RainbomTask extends AsyncTask< List<String> , Void, Void> {
                    break;
                 }
                 i++;
+            }
+        }
+        colorsetting = new ColorSetting("ON", 0, violet, "SOLID");
+        configureLed =  new ConfigureLed(ipAdresses, colorsetting, null);
+        for (int j = 0; j< ipAdresses.size(); j++){
+            try {
+                configureLed.configureColors(ipAdresses.get(j), colorsetting);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 

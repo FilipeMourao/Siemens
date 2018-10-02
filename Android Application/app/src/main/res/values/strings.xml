@@ -8,4 +8,5 @@
         <item>Green</item>
         <item>Yellow</item>
     </string-array>
+    <string name="title_activity_show_calendar_events">ShowCalendarEvents</string>
 </resources>

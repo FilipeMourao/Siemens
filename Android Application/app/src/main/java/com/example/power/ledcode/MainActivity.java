@@ -40,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         myTask.execute(ipAdresses);
         ipAdresses  = new ArrayList<String>();
     }
+    public void syncButtonClicked(View v) throws IOException, InterruptedException {
+        Intent intent = new Intent(this, ShowCalendarEvents.class);
+        String companyLogIn = getIntent().getStringExtra("CompanyLogIn");
+        String basicIpAdress = getIntent().getStringExtra("IpAdress");
+        intent.putExtra("IpAdress",basicIpAdress);
+        intent.putExtra("CompanyLogIn",companyLogIn);
+        startActivity(intent);
+    }
+
+
     public void toAlarmButtonPressed (View v) throws IOException, InterruptedException {
         //ipAdresses.add(getIntent().getStringExtra("IpAdress"));
          //new IpCheckerTask(this).execute(ipAdresses);// not necessary right now
@@ -49,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("IpAdress",basicIpAdress);
         intent.putExtra("CompanyLogIn",companyLogIn);
         startActivity(intent);
-
-
 
     }
 

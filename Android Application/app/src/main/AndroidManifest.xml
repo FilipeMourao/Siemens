@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -15,22 +16,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity
-            android:name=".AlarmActivity"
-            android:label="@string/title_activity_alarm">
-        </activity>
-
-        <receiver android:name=".Alarm" />
-
-        <activity android:name=".IdLogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AlarmActivity"
+            android:label="@string/title_activity_alarm">
+
+        </activity>
+
+        <receiver android:name=".Alarm" />
+
+        <activity android:name=".IdLogIn"></activity>
+        <activity
+            android:name=".ShowCalendarEvents"
+            android:label="@string/title_activity_show_calendar_events"></activity>
     </application>
 
 </manifest>

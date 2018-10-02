@@ -2,14 +2,14 @@ package com.example.power.ledcode;
 
 import java.io.Serializable;
 
-public class ColorSetting implements Serializable{
+public class ColorSetting {
 	String state;
 	int brightness;
 	Color color;
 	String mode;
 	public String getState() {
 		return state;
-	}
+}
 	public void setState(String state) {
 		this.state = state;
 	}
@@ -25,10 +25,12 @@ public class ColorSetting implements Serializable{
 	public void setColor(Color color) {
 		this.color = color;
 	}
+
 	public String getMode() {
 		return mode;
 	}
-	public void setMode(String mode) {
+	public void setMode
+			(String mode) {
 		this.mode = mode;
 	}
 	public ColorSetting(String state, int brightness, Color color, String mode) {
@@ -37,6 +39,13 @@ public class ColorSetting implements Serializable{
 		this.brightness = brightness;
 		this.color = color;
 		this.mode = mode;
+	}
+	public ColorSetting( Color color) {
+		super();
+		this.state = "ON";
+		this.brightness = 75;
+		this.color = color;
+		this.mode = "SOLID";
 	}
 
 }
