@@ -2,6 +2,7 @@ package com.example.power.ledcode;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -88,7 +89,7 @@ public class AlarmActivity extends Activity {
         c.set(Calendar.SECOND, 0);
         String descriptionString = description.getText().toString() ;
         String basicIpAdress = getIntent().getStringExtra("IpAdress");
-        createAlarm( c, colorSetting,  basicIpAdress,  descriptionString );
+        createAlarm( c, colorSetting,  basicIpAdress,  descriptionString,this );
     }
     public void cancelButtonPressed(View v){
         Intent intent = new Intent(this, MainActivity.class);
@@ -98,21 +99,20 @@ public class AlarmActivity extends Activity {
         intent.putExtra("CompanyLogIn",companyLogIn);
         startActivity(intent);
     }
-    public void createAlarm(Calendar calendar, ColorSetting colorSetting, String basicIpAdress, String description ){
+    public void createAlarm(Calendar calendar, ColorSetting colorSetting, String basicIpAdress, String description, Context context){
         Long time = calendar.getTimeInMillis();
-        Intent intent = new Intent(this, Alarm.class);
+        Intent intent = new Intent(context, Alarm.class);
         Gson gson = new Gson();
         intent.putExtra("Color Configuration",gson.toJson(colorSetting).toString());
         intent.putExtra("Description",description );
         intent.putExtra("IpAdress",basicIpAdress);
         final int _id = (int) System.currentTimeMillis();
-        PendingIntent p1=PendingIntent.getBroadcast(getApplicationContext(),_id , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager a=(AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent p1=PendingIntent.getBroadcast(context,_id , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
         Long correctingTime = time - Math.abs( Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY) )*3600*1000;
+        AlarmManager a = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         a.set(AlarmManager.RTC,correctingTime ,p1);
-        Toast.makeText(getApplicationContext(),"Alarm created!",Toast.LENGTH_LONG).show();
-        //http://luboganev.github.io/post/alarms-pending-intent/
-        //https://www.youtube.com/watch?v=QcF4M2yUpY4
+        Toast.makeText(context,"Alarm created!",Toast.LENGTH_LONG).show();
+
 
     }
 }

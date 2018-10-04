@@ -1,22 +1,46 @@
 package com.example.power.ledcode;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.provider.CalendarContract;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class ShowCalendarEvents extends Activity {
+    int titleId ;
+    String titleValue;
+    int locationId ;
+    String locationValue;
+    int startTimeId;
+    Long startTimeValue;
+    String eventString;
+    int position;
+    ArrayList<String> eventsListView = new ArrayList<String>();
+    ArrayList<Event> listOfEvents = new ArrayList<Event>();
+    List<String> coloredTitles = new  ArrayList<String>();
+
+    Event event;
+    String color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,81 +57,31 @@ public class ShowCalendarEvents extends Activity {
             return;
         }
         Cursor cursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, null, null, null, null);
-        int titleId ;
-        String titleValue;
-        int locationId ;
-        String locationValue;
-        int startTimeId;
-        Long startTimeValue;
-        int test;
-        String descriptionEventAlmostBeginning;
-        String descriptionEventStarted;
-        AlarmActivity alarmActivity = new AlarmActivity();
         TextView syncMessage = findViewById(R.id.Description);
-        ListView listView = findViewById(R.id.EventsList);
-        String eventString;
-        String date;
-        //String[] events = new String[];
-        ArrayList<String> events = new ArrayList<String>();
+        final ListView listView = findViewById(R.id.EventsList);
         boolean thereWereSomeSiemensEvent = false;
+        if(getIntent().getStringArrayListExtra("Colored Titles") != null) coloredTitles = getIntent().getStringArrayListExtra("Colored Titles");
         if (cursor == null){
             syncMessage.setText("The were no events to sync!");
         }
         else {
             while (cursor.moveToNext()){
                 if (cursor !=null){
+                    startTimeId = cursor.getColumnIndex(CalendarContract.Events.DTSTART);
+                    startTimeValue = Long.parseLong(cursor.getString(startTimeId));
+                    Long correctingTime = startTimeValue - Math.abs( Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY) )*3600*1000;
                     titleId = cursor.getColumnIndex(CalendarContract.Events.TITLE);
                     titleValue = cursor.getString(titleId);
-                    if(titleValue.contains("Siemens")){
+                    long time =  correctingTime  - System.currentTimeMillis();
+                    if(correctingTime > System.currentTimeMillis() && titleValue.contains("Siemens")){
                         thereWereSomeSiemensEvent = true;
                         locationId  = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
                         locationValue = cursor.getString(locationId);
-                        ColorSetting colorSetting = new ColorSetting("ON", 75, null, "SOLID");
-                        String color = locationValue.split("\\s")[0].toLowerCase();
-                        switch (color){
-                            case "red":
-                                Color red  = new Color("rgb", 255, 0, 0);
-                                colorSetting.setColor(red);
-                                break;
-                            case "blue":
-                                Color blue  = new Color("rgb", 0, 0, 255);
-                                colorSetting.setColor(blue);
-                                break;
-                            case "green":
-                                Color green  = new Color("rgb", 0, 255, 0);
-                                colorSetting.setColor(green);
-                                break;
-                            case "yellow":
-                                Color yellow  = new Color("rgb", 255, 255, 0);
-                                colorSetting.setColor(yellow);
-                                break;
-
-                        }
-                        descriptionEventAlmostBeginning = "Attention! The event:" + titleValue + "will start in 2 minutes";
-                        descriptionEventStarted = "Attention! The event:" + titleValue + "is starting";
-                        startTimeId = cursor.getColumnIndex(CalendarContract.Events.DTSTART);
-                        startTimeValue = Long.parseLong(cursor.getString(startTimeId));
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(startTimeValue - 2*60*1000);
-                        //  alarmActivity.createAlarm(calendar,colorSetting,getIntent().getStringExtra("IpAdress"),descriptionEventAlmostBeginning);
-                        calendar.setTimeInMillis(startTimeValue);
-                        //  alarmActivity.createAlarm(calendar,colorSetting,getIntent().getStringExtra("IpAdress"),descriptionEventStarted);
                         syncMessage.setText("The sync was completed!");
-                        String mYear = Integer.toString(calendar.get(Calendar.YEAR));
-                        String mMonth = Integer.toString(calendar.get(Calendar.MONTH) + 1);
-                        if (mMonth.length() == 1) mMonth = "0" + mMonth;
-                        String mDay = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-                        if (mDay.length() == 1) mDay = "0" + mDay;
-                        String mHour = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY));
-                        if (mHour.length() == 1) mHour = "0" + mHour;
-                        String mMin = Integer.toString(calendar.get(Calendar.MINUTE));
-                        if (mMin.length() == 1) mMin = "0" + mMin;
-                        date = mHour + ":" + mMin + "  " + mDay + "/" + mMonth + "/" + mYear ;
-
-                        eventString = titleValue + "  " + date;
-                        events.add(eventString);
-
-
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(startTimeValue);
+                        event = new Event(calendar,titleValue,locationValue);
+                        listOfEvents.add(event);
                     }
 
                 } else {
@@ -115,11 +89,92 @@ public class ShowCalendarEvents extends Activity {
 
                 }
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,events);
-            listView.setAdapter(adapter);
+            Collections.sort(listOfEvents);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            for (int i = 0; i <  listOfEvents.size();i++) {
+                eventString = listOfEvents.get(i).title + "  " + sdf.format(listOfEvents.get(i).calendar.getTime());
+                eventsListView.add(eventString);
+            }
+        //    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,eventsListView);
+         //   listView.setAdapter(adapter);
+            listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, eventsListView) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View row = super.getView(position, convertView, parent);
+                    if (!coloredTitles.isEmpty()){
+                        for ( final String title : coloredTitles){
+                            if(listOfEvents.get(position).getTitle().equals(title)) {
+                                color = listOfEvents.get(position).getLocation().split("\\s")[0].toLowerCase();
+                                switch (color){
+                                    case "red":
+                                        row.setBackgroundColor(Color.RED);
+                                        break;
+                                    case "blue":
+                                        row.setBackgroundColor(Color.BLUE);
+                                        break;
+                                    case "green":
+                                        row.setBackgroundColor(Color.GREEN);
+                                        break;
+                                    case "yellow":
+                                        row.setBackgroundColor(Color.YELLOW);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    return row;
+                }
+            });
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(ShowCalendarEvents.this, SettingAnAlarmFromCalendar.class);
+                    String[] splitStr = listView.getItemAtPosition(position).toString().split("\\s+");
+                    Event event = listOfEvents.get(position);
+                    intent.putExtra("Date",event.getCalendar());
+                    intent.putExtra("Title",event.getTitle());
+                    intent.putExtra("Location",event.getLocation());
+                    String basicIpAdress = getIntent().getStringExtra("IpAdress");
+                    if(basicIpAdress == null) basicIpAdress = "192.168.1.107";
+                    intent.putExtra("IpAdress",basicIpAdress);
+                    intent.putStringArrayListExtra("Colored Titles", (ArrayList<String>) coloredTitles);
+                    startActivity(intent);
+                }
+            });
+//            if (!coloredTitles.isEmpty()){
+//                for ( final String title : coloredTitles){
+//                    for(Event ev : listOfEvents){
+//                        if(ev.getTitle().equals(title)) {
+//                            position = listOfEvents.indexOf(ev);
+//                            color = listOfEvents.get(position).getLocation().split("\\s")[0].toLowerCase();
+//                            switch (color){
+//                                case "red":
+//                                    listView.getChildAt(position).setBackgroundColor(Color.RED);
+//                                    break;
+//                                case "blue":
+//                                    listView.getChildAt(position).setBackgroundColor(Color.BLUE);
+//                                    break;
+//                                case "green":
+//                                    listView.getChildAt(position).setBackgroundColor(Color.GREEN);
+//                                    break;
+//                                case "yellow":
+//                                    listView.getChildAt(position).setBackgroundColor(Color.YELLOW);
+//                                    break;
+//
+//                            }
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+
+
         }
         if (!thereWereSomeSiemensEvent)syncMessage.setText("The were no events to sync!");
     }
+
 
 
 

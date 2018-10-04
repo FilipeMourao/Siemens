@@ -16,24 +16,26 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AlarmActivity"
-            android:label="@string/title_activity_alarm">
-
-        </activity>
+            android:label="@string/title_activity_alarm"></activity>
 
         <receiver android:name=".Alarm" />
 
-        <activity android:name=".IdLogIn"></activity>
+        <activity android:name=".IdLogIn" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity
             android:name=".ShowCalendarEvents"
-            android:label="@string/title_activity_show_calendar_events"></activity>
+            android:label="@string/title_activity_show_calendar_events" />
+        <activity android:name=".SettingAnAlarmFromCalendar"></activity>
     </application>
 
 </manifest>
