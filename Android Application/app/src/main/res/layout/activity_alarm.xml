@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Description"
+        app:layout_constraintTop_toBottomOf="@+id/Contacts"
         app:layout_constraintVertical_bias="0.272" />
 
     <DatePicker
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/Description"
+        android:id="@+id/Contacts"
         android:layout_width="354dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

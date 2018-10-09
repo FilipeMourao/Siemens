@@ -9,22 +9,19 @@
     <Button
         android:id="@+id/goToAlarm"
         android:layout_width="178dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="36dp"
         android:onClick="toAlarmButtonPressed"
         android:text="Go to Alarm"
         app:layout_constraintBottom_toTopOf="@+id/SyncCalendar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rainbomButton"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/rainbomButton"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:onClick="rainbowButtonClicked"
         android:text="Make a Rainbow"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +32,7 @@
         android:id="@+id/SyncCalendar"
         android:layout_width="178dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="72dp"
         android:onClick="syncButtonClicked"
         android:text="Sync Calendar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,5 +53,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/SyncWithContacts"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Sync with contacts"
+        android:onClick="syncWithContacts"
+        app:layout_constraintBottom_toTopOf="@+id/goToAlarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rainbomButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

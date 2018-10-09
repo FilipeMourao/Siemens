@@ -1,16 +1,13 @@
 package com.example.power.ledcode;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.provider.CalendarContract;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 public class ShowCalendarEvents extends Activity {
     int titleId ;
@@ -38,7 +34,6 @@ public class ShowCalendarEvents extends Activity {
     ArrayList<String> eventsListView = new ArrayList<String>();
     ArrayList<Event> listOfEvents = new ArrayList<Event>();
     List<String> coloredTitles = new  ArrayList<String>();
-
     Event event;
     String color;
 
@@ -57,7 +52,7 @@ public class ShowCalendarEvents extends Activity {
             return;
         }
         Cursor cursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, null, null, null, null);
-        TextView syncMessage = findViewById(R.id.Description);
+        TextView syncMessage = findViewById(R.id.Contacts);
         final ListView listView = findViewById(R.id.EventsList);
         boolean thereWereSomeSiemensEvent = false;
         if(getIntent().getStringArrayListExtra("Colored Titles") != null) coloredTitles = getIntent().getStringArrayListExtra("Colored Titles");
@@ -101,7 +96,9 @@ public class ShowCalendarEvents extends Activity {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View row = super.getView(position, convertView, parent);
+                    Boolean changeColor = false;
                     if (!coloredTitles.isEmpty()){
+                        changeColor = true;
                         for ( final String title : coloredTitles){
                             if(listOfEvents.get(position).getTitle().equals(title)) {
                                 color = listOfEvents.get(position).getLocation().split("\\s")[0].toLowerCase();
@@ -122,6 +119,7 @@ public class ShowCalendarEvents extends Activity {
                             }
                         }
                     }
+                    if (!changeColor) row.setBackgroundColor(Color.WHITE);
                     return row;
                 }
             });
@@ -136,7 +134,7 @@ public class ShowCalendarEvents extends Activity {
                     intent.putExtra("Title",event.getTitle());
                     intent.putExtra("Location",event.getLocation());
                     String basicIpAdress = getIntent().getStringExtra("IpAdress");
-                    if(basicIpAdress == null) basicIpAdress = "192.168.1.107";
+                    if(basicIpAdress == null) basicIpAdress = "192.168.1.117";
                     intent.putExtra("IpAdress",basicIpAdress);
                     intent.putStringArrayListExtra("Colored Titles", (ArrayList<String>) coloredTitles);
                     startActivity(intent);

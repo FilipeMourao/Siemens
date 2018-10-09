@@ -11,12 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -77,7 +77,7 @@ public class AlarmActivity extends Activity {
         }
         DatePicker datePicker = (DatePicker) findViewById(R.id.AlarmDate);
         TimePicker timePicker = (TimePicker) findViewById(R.id.AlarmTime);
-        EditText description = (EditText) findViewById(R.id.Description);
+        EditText description = (EditText) findViewById(R.id.Contacts);
         int year = datePicker.getYear();
         int month = datePicker.getMonth();
         int day = datePicker.getDayOfMonth();

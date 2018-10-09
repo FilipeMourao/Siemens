@@ -23,7 +23,7 @@ public class Alarm extends BroadcastReceiver {
         Bundle extras = intent.getExtras();
         Gson gson = new Gson();
         String ipAdress =  extras.getString("IpAdress");
-        ipAdress = "192.168.1.117";
+        //ipAdress = "192.168.1.117";
         List<String> ipAdresses = new ArrayList<String>();
         ipAdresses.add(ipAdress);
         String description = extras.getString("Description") ;
@@ -31,7 +31,7 @@ public class Alarm extends BroadcastReceiver {
         ConfigureLed configureLed = new ConfigureLed(ipAdresses,colorsetting,null);
         configureColorIndividually myTask = new configureColorIndividually();
         myTask.execute(configureLed);
-        Toast.makeText(context,description,Toast.LENGTH_LONG*2).show();
+        if (!description.isEmpty()) Toast.makeText(context,description,Toast.LENGTH_LONG*2).show();
         Vibrator v = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         v.vibrate(1000);
     }

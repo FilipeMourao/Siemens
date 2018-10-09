@@ -9,4 +9,6 @@
         <item>Yellow</item>
     </string-array>
     <string name="title_activity_show_calendar_events">ShowCalendarEvents</string>
+    <string name="title_activity_contact_list">ContactList</string>
+    <string name="title_activity_setting_contact_colors">SettingContactColors</string>
 </resources>

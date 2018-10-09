@@ -61,5 +61,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void syncWithContacts(View v) throws IOException, InterruptedException {
+        Intent intent = new Intent(this, ContactList.class);
+        String companyLogIn = getIntent().getStringExtra("CompanyLogIn");
+        String basicIpAdress = getIntent().getStringExtra("IpAdress");
+        intent.putExtra("IpAdress",basicIpAdress);
+        intent.putExtra("CompanyLogIn",companyLogIn);
+        startActivity(intent);
+    }
+
 
 }

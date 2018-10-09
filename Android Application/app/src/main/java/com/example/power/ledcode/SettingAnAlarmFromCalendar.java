@@ -19,7 +19,7 @@ public class SettingAnAlarmFromCalendar extends AppCompatActivity {
         setContentView(R.layout.activity_setting_an_alarm_from_calendar);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Calendar calendar = (Calendar) getIntent().getSerializableExtra("Date");
-        TextView title = findViewById(R.id.Title);
+        TextView title = findViewById(R.id.ContactName);
         title.setText(getIntent().getStringExtra("Title"));
         TextView location = findViewById(R.id.Location);
         location.setText(getIntent().getStringExtra("Location"));
@@ -68,8 +68,8 @@ public class SettingAnAlarmFromCalendar extends AppCompatActivity {
         List<String> coloredTitles =  getIntent().getStringArrayListExtra("Colored Titles");
         coloredTitles.add(getIntent().getStringExtra("Title"));
         Calendar calendar = (Calendar) getIntent().getSerializableExtra("Date");
-        String descriptionEventAlmostBeginning = "Attention! The event " + getIntent().getStringExtra("Title") + " will start in 2 minutes";
-        String descriptionEventStarted = "Attention! The event " + getIntent().getStringExtra("Title") + " is starting";
+        String descriptionEventAlmostBeginning = "Reminder! The event " + getIntent().getStringExtra("Title") + " will start in 2 minutes";
+        String descriptionEventStarted = "Reminder! The event " + getIntent().getStringExtra("Title") + " is starting";
         alarmActivity.createAlarm(calendar,colorSetting2,basicIpAdress,descriptionEventStarted,this);
         calendar.setTimeInMillis(calendar.getTimeInMillis() - 2*60*1000);
         alarmActivity.createAlarm(calendar,colorSetting,getIntent().getStringExtra("IpAdress"),descriptionEventAlmostBeginning,this);
