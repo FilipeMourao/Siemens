@@ -3,11 +3,13 @@ package com.example.power.ledcode;
 import android.support.annotation.NonNull;
 
 public class Contact implements  Comparable<Contact> {
+    int id;
     String name;
     String number;
     String color;
 
-    public Contact(String name, String number) {
+    public Contact(int id,String name, String number) {
+        this.id = id;
         this.name = name;
         this.number = number;
     }
@@ -34,6 +36,14 @@ public class Contact implements  Comparable<Contact> {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

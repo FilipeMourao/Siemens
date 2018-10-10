@@ -32,6 +32,7 @@ public class AlarmActivity extends Activity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource( this,R.array.colors,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        TextView contactName = findViewById(R.id.ContactName) ;
 
         // Get Current Date
        final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"));
@@ -107,7 +108,7 @@ public class AlarmActivity extends Activity {
         intent.putExtra("Description",description );
         intent.putExtra("IpAdress",basicIpAdress);
         final int _id = (int) System.currentTimeMillis();
-        PendingIntent p1=PendingIntent.getBroadcast(context,_id , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent p1 = PendingIntent.getBroadcast(context,_id , intent,  PendingIntent.FLAG_UPDATE_CURRENT);
         Long correctingTime = time - Math.abs( Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY) )*3600*1000;
         AlarmManager a = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         a.set(AlarmManager.RTC,correctingTime ,p1);
