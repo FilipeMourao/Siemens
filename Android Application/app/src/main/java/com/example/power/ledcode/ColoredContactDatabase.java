@@ -69,7 +69,7 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
         }
         String test = cursor.getString(0);
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
-       // contact.setColor( cursor.getString(3));
+        contact.setColor( cursor.getString(3));
         return contact;
     }
     public int  updateContact(Contact contact){
