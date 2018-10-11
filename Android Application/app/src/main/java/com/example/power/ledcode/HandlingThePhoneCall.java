@@ -22,22 +22,56 @@ public class HandlingThePhoneCall extends BroadcastReceiver {
             Bundle extras = intent.getExtras();
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
             String incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            ColoredContactDatabase db = new ColoredContactDatabase(context);
+            db.getReadableDatabase();
+            Contact contact = db.getContact(incomingNumber);
+            if (contact != null){
+                List<String> ipadresses = new ArrayList<String>();
+                ipadresses.add(contact.getIpAdress());
+                ColorSetting colorSetting =  new ColorSetting("ON", 75, null, "SOLID");
+                ColorSetting colorSetting2 =  new ColorSetting("ON", 0, null, "SOLID");
+                switch (contact.getColor().toLowerCase()){
+                    case "red":
+                        Color red  = new Color("rgb", 255, 0, 0);
+                        colorSetting.setColor(red);
+                        colorSetting2.setColor(red);
+                        break;
+                    case "blue" :
+                        Color blue  = new Color("rgb", 0, 0, 255);
+                        colorSetting.setColor(blue);
+                        colorSetting2.setColor(blue);
+                        break;
+                    case "green" :
+                        Color green  = new Color("rgb", 0, 255, 0);
+                        colorSetting.setColor(green);
+                        colorSetting2.setColor(green);
+                        break;
+                    case "yellow" :
+                        Color yellow  = new Color("rgb", 255, 255, 0);
+                        colorSetting.setColor(yellow);
+                        colorSetting2.setColor(yellow);
+                        break;
+                    default:
+                        break;
+                }
 
-            Gson gson = new Gson();
-            String  ipAdress =  intent.getExtras().getString("IpAdress" );
-            Contact contact =  gson.fromJson( intent.getExtras().getString("Colored Contacts"), Contact.class );
-            List<Contact> listOfColoredContacts = new ArrayList<Contact>();
-            listOfColoredContacts.add(contact);
-            List<String> ipadresses = new ArrayList<String>();
-            ipadresses.add(ipAdress);
-            ipadresses.add("192.168.1.117");
-            Color color = new Color("rgb",200,0,0);
-            ColorSetting colorSetting =  new ColorSetting("ON", 75, color, "SOLID");
-            ColorSetting colorSetting2 =  new ColorSetting("ON", 0, color, "SOLID");
-            ConfigureLed configureLed = new ConfigureLed(ipadresses ,colorSetting,null);
-            configureColorIndividually task = new configureColorIndividually();
-            task.execute(configureLed);
-            Toast.makeText(context, "Test",Toast.LENGTH_LONG).show();
+                if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_RINGING)){
+                    ConfigureLed configureLed = new ConfigureLed(ipadresses ,colorSetting,null);
+                    configureColorIndividually task = new configureColorIndividually();
+                    task.execute(configureLed);
+                }
+                if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+                    ConfigureLed configureLed = new ConfigureLed(ipadresses ,colorSetting2,null);
+                    configureColorIndividually task = new configureColorIndividually();
+                    task.execute(configureLed);
+                }
+                if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_IDLE)){
+                    ConfigureLed configureLed = new ConfigureLed(ipadresses ,colorSetting2,null);
+                    configureColorIndividually task = new configureColorIndividually();
+                    task.execute(configureLed);
+                }
+            }
+
 
         } catch (Exception e){
             e.printStackTrace();

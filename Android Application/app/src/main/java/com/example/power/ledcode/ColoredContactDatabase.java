@@ -18,6 +18,7 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
     private  static final String KEY_NAME = "name";
     private  static final String KEY_PHONE = "phone";
     private  static final String KEY_COLOR = "color";
+    private  static  final String KEY_IP = "ip";
 
     public ColoredContactDatabase(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -27,7 +28,7 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS  +
                 " (" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_PHONE + " TEXT," + KEY_COLOR + " TEXT" +  ")";
+                + KEY_PHONE + " TEXT," + KEY_COLOR + " TEXT," + KEY_IP + " TEXT" + ")";
 
         db.execSQL(CREATE_CONTACTS_TABLE);
 
@@ -44,16 +45,12 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
         values.put(KEY_NAME,contact.getName());
         values.put(KEY_PHONE,contact.getNumber());
         values.put(KEY_COLOR,contact.getColor());
+        values.put(KEY_IP,contact.getIpAdress());
         db.insert(TABLE_CONTACTS,null,values);
         db.close();
     }
     public Contact getContact(String number ){
         SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(TABLE_CONTACTS,
-//                new String[]{KEY_ID,KEY_NAME,KEY_PHONE,KEY_COLOR},
-//                KEY_PHONE + "=?",
-//                new String[]{number} ,
-//                null, null, null, null );
         Cursor cursor = db.query(TABLE_CONTACTS,
                 null,
                 KEY_PHONE + "=?",
@@ -61,15 +58,15 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
                 null, null, null, null );
 
 
-        if (cursor != null){
+        if ((cursor != null)  && (cursor.getCount() > 0) ){
             cursor.moveToFirst();
         }
         else {
             return null;
         }
-        String test = cursor.getString(0);
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
         contact.setColor( cursor.getString(3));
+        contact.setIpAdress( cursor.getString(4));
         return contact;
     }
     public int  updateContact(Contact contact){
@@ -78,11 +75,11 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
         values.put(KEY_NAME,contact.getName());
         values.put(KEY_PHONE,contact.getNumber());
         values.put(KEY_COLOR,contact.getColor());
+        values.put(KEY_IP,contact.getIpAdress());
         return db.update(TABLE_CONTACTS,values, KEY_ID + "=?", new String[]{String.valueOf(contact.getId())} );
     }
     public  void deleteContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
        db.delete(TABLE_CONTACTS,KEY_ID + "=?", new String[]{String.valueOf(contact.getId())} );
        db.close();
     }
@@ -95,6 +92,7 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
                 String test = cursor.getString(0);
                 Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
                 contact.setColor(cursor.getString(3));
+                contact.setIpAdress( cursor.getString(4));
                 listOfContacts.add(contact);
 
         }

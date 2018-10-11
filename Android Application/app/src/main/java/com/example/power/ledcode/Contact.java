@@ -7,6 +7,7 @@ public class Contact implements  Comparable<Contact> {
     String name;
     String number;
     String color;
+    String ipAdress;
 
     public Contact(int id,String name, String number) {
         this.id = id;
@@ -44,6 +45,14 @@ public class Contact implements  Comparable<Contact> {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getIpAdress() {
+        return ipAdress;
+    }
+
+    public void setIpAdress(String ipAdress) {
+        this.ipAdress = ipAdress;
     }
 
     @Override

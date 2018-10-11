@@ -31,6 +31,10 @@ public class SettingContactColors extends Activity {
         List<String> coloredTitles = getIntent().getStringArrayListExtra("Colored Titles");
         List<String> colorOfTheTitles = getIntent().getStringArrayListExtra("Color of the Titles");
         String basicIpAdress = getIntent().getStringExtra("IpAdress");
+        if(coloredTitles.indexOf(getIntent().getStringExtra("Contact Name")) != -1){
+            colorOfTheTitles.remove(coloredTitles.indexOf(getIntent().getStringExtra("Contact Name")));
+            coloredTitles.remove(coloredTitles.indexOf(getIntent().getStringExtra("Contact Name")));
+        }
         ColorSetting colorSetting = new ColorSetting("ON", 75, null, "SOLID");
         ColorSetting colorSetting2 = new ColorSetting("ON", 0, null, "SOLID");
         String color = spinner.getSelectedItem().toString().toLowerCase();

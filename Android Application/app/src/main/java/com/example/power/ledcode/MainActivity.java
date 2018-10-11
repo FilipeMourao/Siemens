@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         String basicIpAdress = getIntent().getStringExtra("IpAdress");
         intent.putExtra("IpAdress",basicIpAdress);
         intent.putExtra("CompanyLogIn",companyLogIn);
+        if(getIntent().getStringArrayListExtra("Colored Titles") != null)
+            intent.putStringArrayListExtra("Colored Titles", (ArrayList<String>) getIntent().getStringArrayListExtra("Colored Titles"));
+        if(getIntent().getStringArrayListExtra("Color of the Titles") != null)
+            intent.putStringArrayListExtra("Color of the Titles", (ArrayList<String>) getIntent().getStringArrayListExtra("Color of the Titles"));
         startActivity(intent);
     }
 
