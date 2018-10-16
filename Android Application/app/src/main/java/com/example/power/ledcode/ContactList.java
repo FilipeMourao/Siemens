@@ -81,10 +81,7 @@ public class ContactList extends Activity {
                                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                         if (cp != null && cp.moveToFirst()) {
                             String number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            number = number.replaceAll("\\s+","");
-                            number = number.replaceAll("-","");
-                            number = number.replaceAll("()","");
-                            number = number.replaceAll("","");
+                            number = number.replaceAll("[\\s\\-\\(\\)]","");
                             listOfContacts.add( new Contact(i,cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)),number));
                             contactListView.add(contactValue);
                             cp.close();

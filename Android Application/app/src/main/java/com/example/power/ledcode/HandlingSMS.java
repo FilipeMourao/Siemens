@@ -22,6 +22,7 @@ public class HandlingSMS extends BroadcastReceiver {
         String incomingNumber = messages[0].getOriginatingAddress();
         ColoredContactDatabase db = new ColoredContactDatabase(context);
         db.getReadableDatabase();
+       // List<Contact> contactList = db.getAllContacts();
         Contact contact = db.getContact(incomingNumber);
         if (contact != null) {
             List<String> ipadresses = new ArrayList<String>();
@@ -55,13 +56,15 @@ public class HandlingSMS extends BroadcastReceiver {
             ConfigureLed configureLed = new ConfigureLed(ipadresses, colorSetting, null);
             ConfigureLed configureLed2 = new ConfigureLed(ipadresses, colorSetting2, null);
             configureColorIndividually task = new configureColorIndividually();
+            configureColorIndividually task2 = new configureColorIndividually();
             task.execute(configureLed);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            task.execute(configureLed2);
+            task.cancel(true);
+            task2.execute(configureLed2);
         }
     }
 }

@@ -21,10 +21,27 @@ public class HandlingThePhoneCall extends BroadcastReceiver {
         try {
             Bundle extras = intent.getExtras();
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
-            String incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            String incomingNumber ;
             ColoredContactDatabase db = new ColoredContactDatabase(context);
             db.getReadableDatabase();
-            Contact contact = db.getContact(incomingNumber);
+            Contact contact = null;
+            List<Contact> listOfContacts;
+            if(state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+                listOfContacts = db.getAllContacts();
+                if (!listOfContacts.isEmpty()) contact = listOfContacts.get(0);
+            }
+
+            else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)){
+                incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                List<Contact> contactList = db.getAllContacts();
+                 contact = db.getContact(incomingNumber);
+            }
+            else if(state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+                listOfContacts = db.getAllContacts();
+                if (!listOfContacts.isEmpty()) contact = listOfContacts.get(0);
+            }
+
+
             if (contact != null){
                 List<String> ipadresses = new ArrayList<String>();
                 ipadresses.add(contact.getIpAdress());

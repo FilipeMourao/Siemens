@@ -89,13 +89,18 @@ public class ColoredContactDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
         if (cursor.moveToFirst()){
+            while (!cursor.isAfterLast()) {
                 String test = cursor.getString(0);
                 Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
                 contact.setColor(cursor.getString(3));
                 contact.setIpAdress( cursor.getString(4));
                 listOfContacts.add(contact);
+                cursor.moveToNext();
+            }
+
 
         }
+
         return listOfContacts;
     }
 
