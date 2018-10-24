@@ -1,0 +1,30 @@
+.button{
+  display: block;
+  padding: 1em 3em;
+  position: absolute;
+  text-align: center;
+  text-decoration: none;
+  color: #262a2f;
+  font-weight: 900;
+  left: 50%;
+  bottom: 3em;
+  transform: translate3d(-50%,0%,0);
+  text-transform: uppercase;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#006091+0,59007c+100 */
+  background: #fff; /* Old browsers */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006091', endColorstr='#59007c',GradientType=1 ); /* IE6-9 */
+  border-radius: 3em;
+  z-index: 10;
+  transition: opacity .5s;
+  opacity: 1;
+}
+
+.back-link{
+
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+
+}

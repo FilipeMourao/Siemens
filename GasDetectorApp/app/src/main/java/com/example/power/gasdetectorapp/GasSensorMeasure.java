@@ -84,6 +84,19 @@ public class GasSensorMeasure {
     public void setThermistor(String thermistor) {
         this.thermistor = thermistor;
     }
+
+    @Override
+    public String toString() {
+        String stringToReturn = new String();
+        stringToReturn += "ID1: " +Integer.toString(ID1) + "\n";
+        stringToReturn += "ID2: " +Integer.toString(ID2) + "\n";
+        stringToReturn += "ID3: " +Integer.toString(ID3) + "\n";
+        stringToReturn += "Sensor1: " +Integer.toString(sensor1) + "\n";
+        stringToReturn += "Sensor2: " +Integer.toString(sensor2) + "\n";
+        stringToReturn += "Sensor3: " +Integer.toString(sensor3) + "\n";
+        stringToReturn += "Thermistor " + thermistor + "\n";
+        return stringToReturn;
+    }
 }
 /*
 {

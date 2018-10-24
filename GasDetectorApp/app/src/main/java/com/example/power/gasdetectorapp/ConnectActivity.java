@@ -1,6 +1,7 @@
 package com.example.power.gasdetectorapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -34,6 +35,21 @@ public class ConnectActivity extends AppCompatActivity {
                             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             ){
+
+                        WifiManager wifiManager = (WifiManager)getApplicationContext().getSystemService(WIFI_SERVICE);
+                        if (!wifiManager.isWifiEnabled()){
+                            Toast.makeText(this, "You need a wifi connection to connet to the device, please enable it!",Toast.LENGTH_LONG).show();
+                        } else {
+                            String networkSSID = "GSens";
+                            String networkPass = "!SmellDetect!";
+                            if (connect(networkSSID,networkPass)){
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+
+
+                            } else Toast.makeText(this, "There was a problem with the connection, please check the device and try again!",Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
                 break;
@@ -66,6 +82,9 @@ public class ConnectActivity extends AppCompatActivity {
                 String networkSSID = "GSens";
                 String networkPass = "!SmellDetect!";
                 if (connect(networkSSID,networkPass)){
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
 
 
                 } else Toast.makeText(this, "There was a problem with the connection, please check the device and try again!",Toast.LENGTH_LONG).show();

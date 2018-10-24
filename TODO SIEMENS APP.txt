@@ -1,4 +1,0 @@
-POP up window to get acces to calendar
-calendar view
-change calendar frames to the color selected
-when the user change the color of the event warn the person 2 minutes before and the badge should blink until the time of the meeting 

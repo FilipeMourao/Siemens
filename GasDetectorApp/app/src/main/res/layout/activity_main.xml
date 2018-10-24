@@ -8,11 +8,11 @@
 
     <Button
         android:id="@+id/MakeNewMeasurement"
-        android:layout_width="wrap_content"
+        android:layout_width="359dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
-        android:text="Make new Measurement"
         android:onClick="newMeasureButtonPressed"
+        android:text="Make new Measurement"
         app:layout_constraintBottom_toTopOf="@+id/PlotGraphs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/PlotGraphs"
-        android:layout_width="195dp"
+        android:layout_width="362dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
         android:onClick="plotGraphsButtonPressed"
