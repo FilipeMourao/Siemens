@@ -28,7 +28,11 @@
             android:label="@string/title_activity_main" />
         <activity
             android:name=".PlottingGraphics"
-            android:label="@string/title_activity_plotting_graphics"></activity>
+            android:label="@string/title_activity_plotting_graphics" />
+        <activity android:name=".htmlTest">
+
+
+        </activity>
     </application>
 
 </manifest>

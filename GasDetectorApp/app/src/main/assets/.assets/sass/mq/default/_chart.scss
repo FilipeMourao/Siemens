@@ -1,0 +1,43 @@
+.content-pane.details{
+
+  #canvas-holder{
+    margin-top: 2em;
+    padding: 0 2em;
+  }
+
+  #chart-area{
+    height: 800px;
+  }
+
+
+  .result-table{
+    width: 100%;
+    padding: 2em;
+
+    tr td, tr th{
+      text-align: right;
+      padding: .5em 0;
+      border-top: 1px solid rgba(255,255,255,.1);
+      vertical-align: middle;
+
+      &:first-child{
+        text-align: left;
+      }
+
+
+      .color{
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #fff;
+        margin-right: 1em;
+
+      }
+
+    }
+
+  }
+
+}

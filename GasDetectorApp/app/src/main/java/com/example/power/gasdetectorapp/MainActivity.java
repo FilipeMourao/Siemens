@@ -33,37 +33,12 @@ public class MainActivity extends Activity {
         String response;
         new GettingGasMeauseHTTPRequest(this).execute();
     }
-    public void saveMeasureInDataBase(GasSensorMeasure measure){
-        GasSensorDataBase db = new GasSensorDataBase(this.getApplicationContext());
-        db.getWritableDatabase();
-        db.addMeasure(measure);
-
+    public void goToHtmlButtonPressed(View v ){
+        Intent intent = new Intent(this,htmlTest.class);
+        startActivity(intent);
+        finish();
     }
-//    public void saveGasSensorObject(String measureString){
-//        GasSensorMeasure measure = null;
-//        Gson gson = new Gson();
-//        measure  = gson.fromJson(measureString, GasSensorMeasure.class);
-//        Toast.makeText(this.getApplicationContext(),"New measurement available",Toast.LENGTH_LONG).show();
-//        AlertDialog.Builder altdial = new AlertDialog.Builder(this.getApplicationContext());
-//        final GasSensorMeasure finalMeasure = measure;
-//        altdial.setMessage(  measureString + "\n Do you want to save in the database?").setCancelable(false)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        saveMeasureInDataBase(finalMeasure);
-//                    }
-//                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        AlertDialog alert = altdial.create();
-//        alert.setTitle("New measurement available:");
-//        alert.show();
-//    }
+
 
 
 }

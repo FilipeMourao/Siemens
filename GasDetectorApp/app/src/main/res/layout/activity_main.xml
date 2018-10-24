@@ -7,6 +7,17 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/goToHTML"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:onClick="goToHtmlButtonPressed"
+        android:text="Go to HTML"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/MakeNewMeasurement"
         android:layout_width="359dp"
         android:layout_height="wrap_content"
@@ -22,10 +33,10 @@
         android:id="@+id/PlotGraphs"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="88dp"
         android:onClick="plotGraphsButtonPressed"
         android:text="Plot Graph"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/goToHTML"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
