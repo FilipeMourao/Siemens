@@ -94,7 +94,7 @@ public class GasSensorMeasure {
         stringToReturn += "Sensor1: " +Integer.toString(sensor1) + "\n";
         stringToReturn += "Sensor2: " +Integer.toString(sensor2) + "\n";
         stringToReturn += "Sensor3: " +Integer.toString(sensor3) + "\n";
-        stringToReturn += "Thermistor " + thermistor + "\n";
+     //   stringToReturn += "Thermistor " + thermistor + "\n";
         return stringToReturn;
     }
 }

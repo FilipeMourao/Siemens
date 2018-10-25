@@ -21,7 +21,7 @@
 
 <div class="content-pane intro">
 
-    <div class="wrapper">
+    <div class="wrapper">F
 
     </div>
 
@@ -134,77 +134,27 @@
     function connectDeviceHook(){
 
         // add connection code here
+       // var connected = window.JSInterface.connectToDevice();
+        if(window.JSInterface.connectToDevice()) app.deviceConnected();
+       //  //if connected then call this func and remove timeout
+      //  setTimeout(function(){
 
-        // if connected then call this func and remove timeout
-        setTimeout(function(){
+     //     app.deviceConnected();
 
-            app.deviceConnected();
-
-        }, 1000);
+      //  }, 1000);
 
     }
 
     function startAnalyzingHook(){
 
         // start analyzing code here
-
-        // if analyzed then call this func and remove the timeout
-        setTimeout(function(){
-
-            // what gas has been analyzed
-            var gas_name = "Breathing Air";
-            $('.result-name').text(gas_name);
-
-            // fill in the result data here
-
-            _chart_labels = [
-                    "Oxygen",
-                    "Carbon dioxid",
-                    "Amonia",
-                    "hydrogen",
-                    "others",
-                    "Oxygen",
-                    "Carbon dioxid",
-                    "Amonia",
-                    "hydrogen",
-                    "others"
-            ];
-
-            _chart_data = [
-                32.4,
-                17.6,
-                12.2,
-                8.8,
-                12.7,
-                32.4,
-                17.6,
-                12.2,
-                8.8,
-                12.7
-            ];
-
-            _chart_colors = [
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16),
-                '#'+Math.floor(Math.random()*16777215).toString(16)
-            ];
+        var analyse = window.JSInterface.analyze();
+        if( window.JSInterface.analyze()) {
 
 
-            // give the result a color if needed
-            // var color = '#47b3f7';
+        }
 
-            //random color for testing
-            var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-            app.showresult(color);
 
-        }, 3000);
 
     }
 
@@ -234,8 +184,6 @@
 
 
 </script>
-
-
 
 
 
