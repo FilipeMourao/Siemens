@@ -20,7 +20,7 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
     private  static final String KEY_SENSOR1 = "sensor1";
     private  static final String KEY_SENSOR2 = "sensor2";
     private  static final String KEY_SENSOR3 = "sensor3";
-    private  static final String KEY_THERMISTOR= "thermistor";
+    private  static final String KEY_THERMISTOR = "thermistor";
 
     public GasSensorDataBase(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -52,43 +52,49 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         values.put(KEY_SENSOR1,gasSensorMeasure.getSensor1());
         values.put(KEY_SENSOR2,gasSensorMeasure.getSensor2());
         values.put(KEY_SENSOR3,gasSensorMeasure.getSensor3());
+        values.put(KEY_THERMISTOR, gasSensorMeasure.getThermistor());
         db.insert(TABLE_GAS_SENSOR,null,values);
         db.close();
     }
-//    public Contact getContact(String number ){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(TABLE_CONTACTS,
-//                null,
-//                KEY_PHONE + "=?",
-//                new String[]{number} ,
-//                null, null, null, null );
-//
-//
-//        if ((cursor != null)  && (cursor.getCount() > 0) ){
-//            cursor.moveToFirst();
-//        }
-//        else {
-//            return null;
-//        }
-//        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
-//        contact.setColor( cursor.getString(3));
-//        contact.setIpAdress( cursor.getString(4));
-//        return contact;
-//    }
-//    public int  updateContact(Contact contact){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_NAME,contact.getName());
-//        values.put(KEY_PHONE,contact.getNumber());
-//        values.put(KEY_COLOR,contact.getColor());
-//        values.put(KEY_IP,contact.getIpAdress());
-//        return db.update(TABLE_CONTACTS,values, KEY_ID + "=?", new String[]{String.valueOf(contact.getId())} );
-//    }
-//    public  void deleteContact(Contact contact){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_CONTACTS,KEY_ID + "=?", new String[]{String.valueOf(contact.getId())} );
-//        db.close();
-//    }
+    public GasSensorMeasure getContact(GasSensorMeasure gasSensorMeasure ){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_GAS_SENSOR,
+                new String[]{KEY_ID1,KEY_ID2,KEY_ID3,KEY_SENSOR1,KEY_SENSOR2,KEY_SENSOR3,TABLE_GAS_SENSOR},
+                KEY_ID1 + "=?" + " AND " + KEY_ID2 + "=?"  +" AND " + KEY_ID3+ "=?" + KEY_SENSOR1 + "=?" + KEY_SENSOR2 + "=?"  + KEY_SENSOR3 + "=?" + KEY_THERMISTOR + "=?" ,
+                new String[]{Integer.toString(gasSensorMeasure.getID1()),Integer.toString(gasSensorMeasure.getID2()),Integer.toString(gasSensorMeasure.getID3()),
+                        Integer.toString(gasSensorMeasure.getSensor1()), Integer.toString(gasSensorMeasure.getSensor2()),Integer.toString(gasSensorMeasure.getSensor3()),gasSensorMeasure.getThermistor()} ,
+                null, null, null, null );
+
+
+        if ((cursor != null)  && (cursor.getCount() > 0) ){
+            cursor.moveToFirst();
+        }
+        else {
+            return null;
+        }
+        GasSensorMeasure measure = new GasSensorMeasure(Integer.parseInt(cursor.getString(0)),Integer.parseInt(cursor.getString(1)),
+                Integer.parseInt(cursor.getString(2)),Integer.parseInt(cursor.getString(3)),
+                Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)), cursor.getString(6));
+        return measure;
+    }
+    public boolean contains(GasSensorMeasure gasSensorMeasure ){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_GAS_SENSOR,
+                new String[]{KEY_ID1,KEY_ID2,KEY_ID3,KEY_SENSOR1,KEY_SENSOR2,KEY_SENSOR3,KEY_THERMISTOR},
+                KEY_ID1 + "=?" + " AND " + KEY_ID2 + "=?"  +" AND " + KEY_ID3+ "=?" + " AND " +KEY_SENSOR1 + "=?" + " AND " +KEY_SENSOR2 + "=?"  + " AND " +KEY_SENSOR3 + "=?" + " AND " +KEY_THERMISTOR + "=?" ,
+                new String[]{Integer.toString(gasSensorMeasure.getID1()),Integer.toString(gasSensorMeasure.getID2()),Integer.toString(gasSensorMeasure.getID3()),
+                        Integer.toString(gasSensorMeasure.getSensor1()), Integer.toString(gasSensorMeasure.getSensor2()),Integer.toString(gasSensorMeasure.getSensor3()),gasSensorMeasure.getThermistor()} ,
+                null, null, null, null );
+
+
+        if ((cursor != null)  && (cursor.getCount() > 0) ){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
     public List<GasSensorMeasure> getAllMeasures(){
         List<GasSensorMeasure> listOfMeasures = new ArrayList<GasSensorMeasure>();
         String selectQuery = "SELECT * FROM " + TABLE_GAS_SENSOR;

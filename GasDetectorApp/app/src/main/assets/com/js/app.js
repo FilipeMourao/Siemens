@@ -154,7 +154,7 @@ var app = {
             visual.SPEED = obj.speed;
         }});
 
-        app.createTable();
+        //app.createTable();
 
 
     },
@@ -177,59 +177,88 @@ var app = {
         var graph_color = '#ffffff';
 
         var ctx_result = $('.content-pane.details').find('canvas').get(0).getContext('2d');
-        ctx_result.height = 800;
-        var myChart = new Chart(ctx_result, {
-            type: 'bar',
-            data: {
-                animationSteps: 300,
-                labels: _chart_labels,
-                datasets: [{
-                    label: 'average',
-                    data: _chart_data,
-                    backgroundColor: _chart_colors
-                }],
-            },
-
-
-            options: {
-                responsive: true,
-                legend: {
-                    display: false,
-                    labels:{
-                        fontColor: label_color
-                    }
-                },
-
-                scales: {
-                    maintainAspectRatio: false,
-                    yAxes: [{
-                        gridLines:{
-                            display: false
-                        },
-                        ticks: {
-                            fontColor: label_color,
-                            fontSize: 18,
-                            stepSize: 1,
-                            beginAtZero: true,
-                            display: false
-                        }
-                    }],
-                    xAxes: [{
-                        gridLines:{
-                            display: false
-                        },
-                        ticks: {
-                            fontColor: label_color,
-                            fontSize: 14,
-                            stepSize: 1,
-                            beginAtZero: true,
-                            display: false
-                        }
-                    }]
-                }
-            }
-
-        });
+        ctx_result.height = auto;
+         var myChart = new Chart(ctx_result, {
+    type: 'line',
+      data: {
+        labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+        datasets: [{
+            data: [86,114,106,106,107,111,133,221,783,2478],
+            label: "Sensor1",
+            borderColor: "#3e95cd",
+            fill: false
+          }, {
+            data: [282,350,411,502,635,809,947,1402,3700,5267],
+            label: "Sensor2",
+            borderColor: "#8e5ea2",
+            fill: false
+          }, {
+            data: [168,170,178,190,203,276,408,547,675,734],
+            label: "Sensor3",
+            borderColor: "#3cba9f",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Sensors measures'
+        }
+      }
+    });
+//        var myChart = new Chart(ctx_result, {
+//            type: 'bar',
+//            data: {
+//                animationSteps: 300,
+//                labels: _chart_labels,
+//                datasets: [{
+//                    label: 'average',
+//                    data: _chart_data,
+//                    backgroundColor: _chart_colors
+//                }],
+//            },
+//
+//
+//            options: {
+//                responsive: true,
+//                legend: {
+//                    display: false,
+//                    labels:{
+//                        fontColor: label_color
+//                    }
+//                },
+//
+//                scales: {
+//                    maintainAspectRatio: false,
+//                    yAxes: [{
+//                        gridLines:{
+//                            display: false
+//                        },
+//                        ticks: {
+//                            fontColor: label_color,
+//                            fontSize: 18,
+//                            stepSize: 1,
+//                            beginAtZero: true,
+//                            display: false
+//                        }
+//                    }],
+//                    xAxes: [{
+//                        gridLines:{
+//                            display: false
+//                        },
+//                        ticks: {
+//                            fontColor: label_color,
+//                            fontSize: 14,
+//                            stepSize: 1,
+//                            beginAtZero: true,
+//                            display: false
+//                        }
+//                    }]
+//                }
+//            }
+//
+//        });
     },
 
     createTable : function(){
@@ -287,8 +316,6 @@ var app = {
         }
 
     },
-
-
 }
 
 var results = [];
@@ -312,3 +339,4 @@ function shuffle(a) {
     }
     return a;
 }
+

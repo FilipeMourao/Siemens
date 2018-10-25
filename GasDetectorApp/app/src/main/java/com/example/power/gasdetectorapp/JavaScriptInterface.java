@@ -95,18 +95,31 @@ public class JavaScriptInterface {
         }
     }
     @JavascriptInterface
-    public void analyze(){
+    public boolean analyze(){
         Toast.makeText(activity.getApplicationContext(),"Waiting measurement...",Toast.LENGTH_LONG).show();
+        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());db.getWritableDatabase();
+        int databasePreviousSize = db.getAllMeasures().size();
         GasSensorMeasure measure = null;
         Gson gson = new Gson();
         String response;
         GettingGasMeauseHTTPRequestHTML httpRequest = new GettingGasMeauseHTTPRequestHTML(activity.getApplicationContext());
         httpRequest.execute();
-        while (httpRequest.getStatus() == AsyncTask.Status.RUNNING){
-            Toast.makeText(activity.getApplicationContext(),"Waiting measurement...",Toast.LENGTH_LONG).show();
+       // while (httpRequest.getStatus() == AsyncTask.Status.RUNNING){};
+        return true;
+    }
+
+    @JavascriptInterface
+    public int[][] getSensor1Points(){
+        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+        db.getReadableDatabase();
+        List<GasSensorMeasure> measures = db.getAllMeasures();
+        int[][] sensorMeasurements = new int[measures.size()][2];
+        for (int i = 0; i < measures.size(); i++){
+            sensorMeasurements[i][0] = i;
+            sensorMeasurements[i][1] = measures.get(i).getSensor1();
         }
-        Toast.makeText(activity.getApplicationContext(),"New measurement available",Toast.LENGTH_LONG).show();
-        //return true;
+        return sensorMeasurements;
+
     }
 
 }

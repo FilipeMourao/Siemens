@@ -24,6 +24,7 @@ protected  String doInBackground(Void... voids) {
     StringBuffer response = new StringBuffer();
     while (response.toString().isEmpty()){
         try {
+           // Toast.makeText(context.getApplicationContext(),"Waiting measurement...",Toast.LENGTH_LONG).show();
             String url = "http://192.168.4.1/";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -45,18 +46,16 @@ protected  String doInBackground(Void... voids) {
     return response.toString();
         }
     protected void onPostExecute(String response) {
-        saveGasSensorObject(response);
-    }
-    public void saveGasSensorObject(String measureString){
-        GasSensorMeasure measure = null;
-        Gson gson = new Gson();
-        measure  = gson.fromJson(measureString, GasSensorMeasure.class);
-        saveMeasureInDataBase(measure);
-    }
-    public void saveMeasureInDataBase(GasSensorMeasure measure){
         GasSensorDataBase db = new GasSensorDataBase(context);
         db.getWritableDatabase();
-        db.addMeasure(measure);
-
+        GasSensorMeasure measure = null;
+        Gson gson = new Gson();
+        measure  = gson.fromJson(response, GasSensorMeasure.class);
+        if (db.contains(measure)) {
+            GettingGasMeauseHTTPRequestHTML httpRequest = new GettingGasMeauseHTTPRequestHTML(context);
+            httpRequest.execute();
+        }
+        else db.addMeasure(measure);
     }
+
 }
