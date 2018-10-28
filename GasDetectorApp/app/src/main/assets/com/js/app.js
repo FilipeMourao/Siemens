@@ -176,35 +176,47 @@ var app = {
         var label_color = '#ffffff';
         var graph_color = '#ffffff';
 
+        var _chart_data_structure =  JSON.parse(window.JSInterface.getSensorPoints());
+        var sensor3 = _chart_data_structure.pop();
+        var sensor2 =_chart_data_structure.pop();
+        var sensor1 = _chart_data_structure.pop();
+        var label = _chart_data_structure.pop();
+
         var ctx_result = $('.content-pane.details').find('canvas').get(0).getContext('2d');
-        ctx_result.height = auto;
+     //   ctx_result.height = "200%" ;
+     //    ctx_result.height = 500 ;
          var myChart = new Chart(ctx_result, {
     type: 'line',
       data: {
-        labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+        //labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+        labels: label,
         datasets: [{
-            data: [86,114,106,106,107,111,133,221,783,2478],
+            //data: [86,114,106,106,107,111,133,221,783,2478],
+            data: sensor1,
             label: "Sensor1",
-            borderColor: "#3e95cd",
+            borderColor: "#9A2A13",
             fill: false
           }, {
-            data: [282,350,411,502,635,809,947,1402,3700,5267],
+            //data: [282,350,411,502,635,809,947,1402,3700,5267],
+            data: sensor2,
             label: "Sensor2",
-            borderColor: "#8e5ea2",
+            borderColor: "#139A29",
             fill: false
           }, {
-            data: [168,170,178,190,203,276,408,547,675,734],
+            //data: [168,170,178,190,203,276,408,547,675,734],
+            data: sensor3,
             label: "Sensor3",
-            borderColor: "#3cba9f",
+            borderColor: "#1E139A",
             fill: false
           }
         ]
       },
       options: {
-        title: {
-          display: true,
-          text: 'Sensors measures'
-        }
+        responsive: true
+//                title: {
+//                  display: false,
+//                  text: 'Sensors measures',
+//                }
       }
     });
 //        var myChart = new Chart(ctx_result, {

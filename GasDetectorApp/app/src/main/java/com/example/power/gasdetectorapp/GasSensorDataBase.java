@@ -119,4 +119,11 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         }
         return listOfMeasures;
     }
+    public void removeAll(){
+        // db.delete(String tableName, String whereClause, String[] whereArgs);
+        // If whereClause is null, it will delete all rows.
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GAS_SENSOR, null, null);
+ //       db.delete(DatabaseHelper.TAB_USERS_GROUP, null, null);
+    }
 }
