@@ -32,7 +32,6 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public boolean connectToDevice() {
-
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -56,6 +55,9 @@ public class JavaScriptInterface {
                 if (connect(networkSSID, networkPass)) {
                     //Intent intent = new Intent(this, MainActivity.class);
                     //startActivity(intent);
+                    GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+                    db.getReadableDatabase();
+                    db.removeAll();
                     return true;
 
                 } else
@@ -138,20 +140,8 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public String getSensorPoints() {
-        Random rand = new Random();
         GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
         db.getReadableDatabase();
-//        db.getWritableDatabase();
-//        db.removeAll();
-//        for (int i = 0; i < 10; i++){
-//            GasSensorMeasure mes = new GasSensorMeasure(rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    "test"
-//                    );
 //            db.addMeasure(mes);
 //        }
         List<GasSensorMeasure> measures = db.getAllMeasures();
@@ -162,9 +152,53 @@ public class JavaScriptInterface {
             sensorMeasurements[2][i] = measures.get(i).getSensor2();
             sensorMeasurements[3][i] = measures.get(i).getSensor3();
         }
+        // normalizing the results
+        int sensor1MinResult = getMinValue(sensorMeasurements[1]);
+        int sensor2MinResult = getMinValue(sensorMeasurements[2]);
+        int sensor3MinResult = getMinValue(sensorMeasurements[3]);
+        for (int i = 0; i < measures.size();i++){
+            sensorMeasurements[1][i] = (sensorMeasurements[1][i] - sensor1MinResult);
+            sensorMeasurements[2][i] = (sensorMeasurements[2][i] - sensor2MinResult);
+            sensorMeasurements[3][i] = (sensorMeasurements[3][i] - sensor3MinResult);
+        }
+
         Gson gson = new Gson();
         return gson.toJson(sensorMeasurements).toString();
 
+    }
+    @JavascriptInterface
+    public boolean isAlcohol() {
+        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+        db.getReadableDatabase();
+//        Random rand = new Random();
+//        db.getWritableDatabase();
+//        for (int i = 0; i < 10; i++) {
+//            GasSensorMeasure mes = new GasSensorMeasure(rand.nextInt(100),
+//                    rand.nextInt(100),
+//                    rand.nextInt(100),
+//                    rand.nextInt(100),
+//                    rand.nextInt(100),
+//                    rand.nextInt(100),
+//                    "test"
+//            );
+//            db.addMeasure(mes);
+//        }
+        List<GasSensorMeasure> measures = db.getAllMeasures();
+        if (measures.size() > 0)
+            if (measures.get(measures.size() - 1).getSensor1() > 1000) return true;
+        return false;
+
+    }
+
+
+    public static int getMinValue(int[] numbers){
+        int minValue = numbers[0];
+        for(int i=1;i<numbers.length;i++){
+            if(numbers[i] < minValue){
+                minValue = numbers[i];
+            }
+        }
+        return minValue;
     }
 }
 

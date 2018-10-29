@@ -193,19 +193,19 @@ var app = {
         datasets: [{
             //data: [86,114,106,106,107,111,133,221,783,2478],
             data: sensor1,
-            label: "Sensor1",
+            label: "Alcohol",
             borderColor: "#9A2A13",
             fill: false
           }, {
             //data: [282,350,411,502,635,809,947,1402,3700,5267],
             data: sensor2,
-            label: "Sensor2",
+            label: "Air quality",
             borderColor: "#139A29",
             fill: false
           }, {
             //data: [168,170,178,190,203,276,408,547,675,734],
             data: sensor3,
-            label: "Sensor3",
+            label: "Methan",
             borderColor: "#1E139A",
             fill: false
           }
