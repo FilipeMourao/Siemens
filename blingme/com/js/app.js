@@ -1,0 +1,327 @@
+var app = {
+
+
+    connected : false,
+    colors : [
+
+        "#123456",
+        "#FF0000",
+        "#FFFF00",
+        "#00FF00",
+        "#00FFFF",
+        "#FF00FF"
+
+    ],
+
+
+    init : function(){
+
+        app.initListeners();
+
+        setTimeout(function(){
+
+            app.initWelcomeScreen();
+
+            setTimeout(function(){
+
+                if(!app.connected){
+                    app.initConnectionScreen();
+                }else{
+                    app.initHomeScreen();
+                }
+
+
+            }, 4000);
+
+        }, 2000);
+
+    },
+
+
+    initHomeScreen : function(){
+        $('.page.current').removeClass('current');
+        $('.page.home').addClass('current');
+        $('.header').removeClass('hide');
+        $('.footer').addClass('connected');
+        grow = true;
+        updateParticles(data["icon-home"]);
+    },
+
+
+    initWelcomeScreen : function(){
+
+        var obj = {
+            color : _bgcolor
+        };
+
+        TweenLite.to(obj, 2, {color: "#26313c", ease:Linear.easeOut, onUpdate:function(){
+            _bgcolor = obj.color;
+        }});
+
+        $('.page.intro').addClass('current');
+        grow = true;
+        updateParticles(data["icon"]);
+
+    },
+
+
+    initConnectionScreen : function(){
+
+        $('.page.current').removeClass('current');
+        $('.page.connection').addClass('current');
+        grow = true;
+        updateParticles(data["bluetooth"]);
+
+    },
+
+    connectDevice: function(){
+
+        grow = true;
+        $('.page.current').removeClass('current');
+        updateParticles(data["connecting"]);
+        setTimeout(function(){
+            $('.page.current').removeClass('current');
+            $('.page.connection_success').addClass('current');
+            app.connected = true;
+            grow = true;
+            updateParticles(data["check"]);
+
+            setTimeout(function(){
+
+                app.initHomeScreen();
+
+            }, 4000);
+        }, 4000);
+    },
+
+    initListeners : function(){
+
+
+        $('.menu-trigger').on('click', function(){
+            $('body').addClass('menuopen');
+        });
+
+        $('.close-menu').on('click', function(){
+            $('body').removeClass('menuopen');
+        });
+
+
+        $('.connect-btn').on('click', function(){
+            app.connectDevice();
+        });
+
+        $('.save-notifications').on('click', function(){
+            app.saveNotifications();
+        });
+
+        $('.save-contacts').on('click', function(){
+            app.saveContacts();
+        });
+
+        $('.save-preferences').on('click', function(){
+            app.savePreferences();
+        });
+
+        $('.app-config-trigger').on('click', function(){
+
+            $(this).addClass('current');
+
+            var _appname = $(this).attr('data-name');
+            var _appcolor = $(this).attr('data-color');
+            var _appcount = $(this).attr('data-count');
+
+            var obj = {
+                color : _bgcolor
+            }
+            TweenLite.to(obj, 2, {color: _appcolor, ease:Linear.easeOut, onUpdate:function(){
+                _bgcolor = obj.color;
+            }});
+
+            $('.page.config-list').addClass('out');
+            $('.page.config-detail').addClass('current');
+
+
+            initConfiDetail(_appcolor, _appcount);
+
+            setTimeout(function(){
+                grow = true;
+                updateParticles(data[_appname]);
+            }, 500);
+
+        });
+
+
+        $('.app-config-row .count').on('click', function(){
+
+            var currentNum = parseInt($(this).attr('data-count'));
+
+            if(currentNum < 4){
+                currentNum++;
+            }else{
+                currentNum = 0;
+            }
+            $(this).attr('data-count', currentNum);
+        });
+
+        $('.app-config-row .color').on('click', function(){
+
+            var currentColorNum = parseInt($(this).attr('data-color'));
+
+            if(currentColorNum < app.colors.length){
+                currentColorNum++;
+            }else{
+                currentColorNum = 0;
+            }
+
+            $(this).attr('data-color', currentColorNum);
+            $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+        });
+
+        // menu listeners
+
+
+        $('.connection-trigger').on('click', function(){
+
+            app.closeMenu();
+
+            if(app.connected){
+                app.connected = false;
+                $('.page.current').removeClass('current');
+                $('.header').addClass('hide');
+                $('.footer').removeClass('connected');
+                app.initConnectionScreen();
+            }
+        });
+
+        $('.notifications-trigger').on('click', function(){
+
+            app.closeMenu();
+            setTimeout(function(){
+                app.initConfiguration();
+            }, 500);
+
+        });
+
+
+        $('.contacts-trigger').on('click', function(){
+
+            $('.content').addClass('dark');
+            app.closeMenu();
+            $('.page.current').removeClass('current');
+            $('.page.contacts').addClass('current');
+
+        });
+
+
+
+        $('.health-trigger').on('click', function(){
+
+            $('.content').addClass('dark');
+            app.closeMenu();
+            $('.page.current').removeClass('current');
+            $('.page.health').addClass('current');
+
+        });
+
+        $('.preferences-trigger').on('click', function(){
+
+            $('.content').addClass('dark');
+            app.closeMenu();
+            $('.page.current').removeClass('current');
+            $('.page.preferences').addClass('current');
+
+        });
+
+        $('.help-trigger').on('click', function(){
+
+            $('.content').addClass('dark');
+            app.closeMenu();
+            $('.page.current').removeClass('current');
+            $('.page.help').addClass('current');
+        });
+
+        $('.logo').on('click', function(){
+
+            $('.page.current').removeClass('current');
+            $('.content').removeClass('dark');
+            app.closeMenu();
+            app.initHomeScreen();
+
+        });
+
+    },
+
+    savePreferences : function(){
+
+        grow = true;
+        updateParticles(data["check"]);
+        $('.page.current').removeClass('current');
+        $('.content').removeClass('dark');
+        setTimeout(function(){
+            app.initHomeScreen();
+        }, 2000);
+
+    },
+
+    saveContacts : function(){
+
+        grow = true;
+        updateParticles(data["check"]);
+        $('.page.current').removeClass('current');
+        $('.content').removeClass('dark');
+        setTimeout(function(){
+            app.initHomeScreen();
+        }, 2000);
+
+    },
+
+    saveNotifications : function(){
+
+        grow = true;
+        updateParticles(data["check"]);
+        $('.page.current').removeClass('current');
+        $('.content').removeClass('dark');
+        setTimeout(function(){
+            app.initHomeScreen();
+        }, 2000);
+
+    },
+
+    closeMenu : function(){
+
+        $('body').removeClass('menuopen');
+
+    },
+
+    initConfiguration : function(){
+
+        $('.content').addClass('dark');
+        $('.page.current').removeClass('current');
+        $('.page.notifications-list').addClass('current');
+        $('.page.notifications-list').removeClass('out');
+        resetColor();
+        $('.notifications-list .container').scrollTop(0);
+        grow = true;
+        updateParticles(data[Object.keys(data)[1]]);
+
+    },
+
+
+
+
+
+}
+
+function resetColor(){
+
+    //_bgcolor = "#26313c";
+
+    var obj = {
+        color : _bgcolor
+    };
+
+    TweenLite.to(obj, 2, {color: "#26313c", ease:Linear.easeOut, onUpdate:function(){
+        _bgcolor = obj.color;
+    }});
+
+}
