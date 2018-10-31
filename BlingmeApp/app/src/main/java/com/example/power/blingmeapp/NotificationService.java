@@ -33,6 +33,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
 
     public void onNotificationPosted(StatusBarNotification sbn) {
+        //https://github.com/kpbird/NotificationListenerService-Example/
         String pack = sbn.getPackageName();
         String ticker ="";
         if(sbn.getNotification().tickerText !=null) {
