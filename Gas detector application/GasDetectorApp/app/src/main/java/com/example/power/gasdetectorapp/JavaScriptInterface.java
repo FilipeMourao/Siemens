@@ -129,13 +129,20 @@ public class JavaScriptInterface {
         GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
         db.getWritableDatabase();
         Toast.makeText(activity.getApplicationContext(), "Waiting new measurement...", Toast.LENGTH_SHORT).show();
-        int databasePreviousSize = db.getAllMeasures().size();
         GasSensorMeasure measure = null;
         Gson gson = new Gson();
         String response;
         GettingGasMeauseHTTPRequestHTML httpRequest = new GettingGasMeauseHTTPRequestHTML(activity.getApplicationContext());
         httpRequest.execute();
         return true;
+    }
+    @JavascriptInterface
+    public void saveMeasureIntoServer() throws ExecutionException, InterruptedException {
+        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+        db.getWritableDatabase();
+        GasSensorMeasure measure = new GasSensorMeasure(1,2,3,4,5,6,"test");
+        SendingGasMeausesToServer httpPost = new SendingGasMeausesToServer(activity.getApplicationContext());
+        httpPost.execute(measure);
     }
 
     @JavascriptInterface

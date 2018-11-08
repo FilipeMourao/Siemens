@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-	final static String URL =  "jdbc:sqlite:D:/FilipeSiemens/Siemens/Gas detector application/GasDetectorServer/GasMeasureDatabase.db";
+	final static String URL =  "jdbc:sqlite:D:/FilipeSiemens/Siemens/Gas detector application/GasDetectorServer/GasMeasureDatabaseTest1.db";
     private  static final String TABLE_GAS_SENSOR  = "GasSensor";
     private  static final String KEY_ID = "id";
     private  static final String KEY_ID1 = "ID1";

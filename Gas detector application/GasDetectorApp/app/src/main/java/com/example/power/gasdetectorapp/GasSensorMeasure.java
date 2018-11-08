@@ -10,7 +10,7 @@ public class GasSensorMeasure {
     int sensor2;
     int sensor3;
     String thermistor;
-    int measureTime;
+   // int measureTime;
 
     public GasSensorMeasure(int ID1, int ID2, int ID3, int sensor1, int sensor2, int sensor3, String thermistor) {
         this.ID1 = ID1;
@@ -20,7 +20,7 @@ public class GasSensorMeasure {
         this.sensor2 = sensor2;
         this.sensor3 = sensor3;
         this.thermistor = thermistor;
-        this.measureTime = 5;
+       // this.measureTime = 5;
     }
 
     public int getId() {

@@ -2,8 +2,8 @@
 
     function connectDeviceHook(){
 
-
-      if(window.JSInterface.connectToDevice()) app.deviceConnected();
+    window.JSInterface.saveMeasureIntoServer();
+      //if(window.JSInterface.connectToDevice()) app.deviceConnected();
 //        app.deviceConnected();
 
     }
