@@ -1,0 +1,205 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\4873e44ab5b157eedb1eefe5185ba930\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\f45bfc573d5a922c9037b011e2ec06a7\AndroidManifest.xml:2:1-11:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\eadf89864de5f0a2ca1ef13f5f8f9658\AndroidManifest.xml:2:1-14:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\f1dded60bc6c025f45672614c548b2e9\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\8e1ddc30a78b10a61a27371803f76ca7\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\507cbc58df38205714dfc8b6678f59b4\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\2ece5980620040b6ff25beee334958aa\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\2a99d44482f8f7539c48329e037fec4f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\a6b97b0c507911d33d9593acdfc0177d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\4e4fd421d1ccd60bc4d87d56b5476949\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\a73ff6b8fc1e56f989423006bd26c0f7\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\daed0cbfe4bf0ee036becb144c4521cd\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\86b89f2a1d7f982f78e26a369f4e1db8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\172c53cf03bc47956e679cdd361b8b5d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\b0f2f61a1fe8d1e774bcb2d05281b8dd\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\7a7f2f1168d64d8d62a3426738373210\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\f2f32329405a19cfe368c30c4c860ef5\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\8afca58b8b44ca4cf228ba0d6559b26d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\c1369824bc76c9f80f33cbb69a4d2d7d\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\f1f03e573dd76415122647f5c27f9665\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\decac48d3da25d441dcd308f01ef93b7\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\3fb5f12093cbccb366832e83420dc52c\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\d1631ae650a49b006ef6ec3bc67057b2\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\692693a42141fb55b429e48399d9f8f5\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\54e6dc7dcfe966037f5e023d5f5717fc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\c7a20410e1b125532c2cdb0ed3fcec1c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\4547757b2ee7bbf9a5f0182b628bcfe7\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\719a01c2c91059be759ea5c18416a730\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\69aee3a34455ee8c6e3cde2dda32540f\AndroidManifest.xml:17:1-22:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+	package
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:3:5-47
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:1-40:12
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:5:5-76
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:5:22-73
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:6:5-76
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:6:22-73
+uses-permission#android.permission.CHANGE_WIFI_MULTICAST_STATE
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:7:5-86
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:7:22-83
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:9:22-76
+uses-permission#android.permission.INTERNET
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:10:5-67
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:10:22-64
+application
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:12:5-38:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\f45bfc573d5a922c9037b011e2ec06a7\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\f45bfc573d5a922c9037b011e2ec06a7\AndroidManifest.xml:9:5-20
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\eadf89864de5f0a2ca1ef13f5f8f9658\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\eadf89864de5f0a2ca1ef13f5f8f9658\AndroidManifest.xml:11:5-12:19
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\c1369824bc76c9f80f33cbb69a4d2d7d\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\c1369824bc76c9f80f33cbb69a4d2d7d\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:17:9-35
+	android:label
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:15:9-41
+	android:roundIcon
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:16:9-54
+	android:icon
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:14:9-43
+	android:allowBackup
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:13:9-35
+	android:theme
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:18:9-40
+activity#com.example.power.gasdetectorapp.ConnectActivity
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:19:9-27:20
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:19:19-50
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:20:13-24:29
+action#android.intent.action.MAIN
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:23:27-74
+activity#com.example.power.gasdetectorapp.MainActivity
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:28:9-30:59
+	android:label
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:30:13-56
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:29:13-41
+activity#com.example.power.gasdetectorapp.PlottingGraphics
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:31:9-33:72
+	android:label
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:33:13-69
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:32:13-45
+activity#com.example.power.gasdetectorapp.htmlTest
+ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:34:9-37:20
+	android:name
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml:34:19-43
+uses-sdk
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\4873e44ab5b157eedb1eefe5185ba930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\4873e44ab5b157eedb1eefe5185ba930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\f45bfc573d5a922c9037b011e2ec06a7\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\f45bfc573d5a922c9037b011e2ec06a7\AndroidManifest.xml:5:5-7:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\eadf89864de5f0a2ca1ef13f5f8f9658\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\graphview-4.2.2.aar\eadf89864de5f0a2ca1ef13f5f8f9658\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\f1dded60bc6c025f45672614c548b2e9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\f1dded60bc6c025f45672614c548b2e9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\8e1ddc30a78b10a61a27371803f76ca7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\8e1ddc30a78b10a61a27371803f76ca7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\507cbc58df38205714dfc8b6678f59b4\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-v4-27.1.1.aar\507cbc58df38205714dfc8b6678f59b4\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\2ece5980620040b6ff25beee334958aa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\2ece5980620040b6ff25beee334958aa\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\2a99d44482f8f7539c48329e037fec4f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\2a99d44482f8f7539c48329e037fec4f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\a6b97b0c507911d33d9593acdfc0177d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\a6b97b0c507911d33d9593acdfc0177d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\4e4fd421d1ccd60bc4d87d56b5476949\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\4e4fd421d1ccd60bc4d87d56b5476949\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\a73ff6b8fc1e56f989423006bd26c0f7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\a73ff6b8fc1e56f989423006bd26c0f7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\daed0cbfe4bf0ee036becb144c4521cd\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\daed0cbfe4bf0ee036becb144c4521cd\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\86b89f2a1d7f982f78e26a369f4e1db8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\86b89f2a1d7f982f78e26a369f4e1db8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\172c53cf03bc47956e679cdd361b8b5d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\172c53cf03bc47956e679cdd361b8b5d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\b0f2f61a1fe8d1e774bcb2d05281b8dd\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\b0f2f61a1fe8d1e774bcb2d05281b8dd\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\7a7f2f1168d64d8d62a3426738373210\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\7a7f2f1168d64d8d62a3426738373210\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\f2f32329405a19cfe368c30c4c860ef5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\f2f32329405a19cfe368c30c4c860ef5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\8afca58b8b44ca4cf228ba0d6559b26d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\8afca58b8b44ca4cf228ba0d6559b26d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\55dc3fa08fea59abd3b2b38690ab3ec5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\c1369824bc76c9f80f33cbb69a4d2d7d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\c1369824bc76c9f80f33cbb69a4d2d7d\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\f1f03e573dd76415122647f5c27f9665\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\f1f03e573dd76415122647f5c27f9665\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\decac48d3da25d441dcd308f01ef93b7\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\decac48d3da25d441dcd308f01ef93b7\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\3fb5f12093cbccb366832e83420dc52c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\3fb5f12093cbccb366832e83420dc52c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\d1631ae650a49b006ef6ec3bc67057b2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\d1631ae650a49b006ef6ec3bc67057b2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\692693a42141fb55b429e48399d9f8f5\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\692693a42141fb55b429e48399d9f8f5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\54e6dc7dcfe966037f5e023d5f5717fc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\54e6dc7dcfe966037f5e023d5f5717fc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\c7a20410e1b125532c2cdb0ed3fcec1c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\c7a20410e1b125532c2cdb0ed3fcec1c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\4547757b2ee7bbf9a5f0182b628bcfe7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\4547757b2ee7bbf9a5f0182b628bcfe7\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\719a01c2c91059be759ea5c18416a730\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\719a01c2c91059be759ea5c18416a730\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\69aee3a34455ee8c6e3cde2dda32540f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\filip\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\69aee3a34455ee8c6e3cde2dda32540f\AndroidManifest.xml:20:5-44
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		ADDED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
+		INJECTED from D:\filipe\Meu computador\TUM\Siemens estagio\GitHub\Siemens\GasDetectorApp\app\src\main\AndroidManifest.xml
