@@ -2,9 +2,10 @@
 
     function connectDeviceHook(){
 
-    window.JSInterface.saveMeasureIntoServer();
-      //if(window.JSInterface.connectToDevice()) app.deviceConnected();
-//        app.deviceConnected();
+    //window.JSInterface.saveMeasureIntoServer();
+  //  window.JSInterface.getSensorPoints();
+     if(window.JSInterface.connectToDevice()) app.deviceConnected();
+   //    app.deviceConnected();
 
     }
 
@@ -35,7 +36,7 @@
                  // var color = '#'+Math.floor(Math.random()*16777215).toString(16);
                   app.showresult(getRandomColor());
 
-              }, 8000);
+              }, 10000);
         }
 
 

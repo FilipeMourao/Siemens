@@ -27,7 +27,9 @@ public class SendingGasMeausesToServer extends AsyncTask<GasSensorMeasure, Void,
         try{
             Gson gson = new Gson();
             String jsonString = gson.toJson(gasSensorMeasures[0]);
-            String url = "http://192.168.1.107:8888/addMeasure";
+//            String url = "http://192.168.1.107:8888/addMeasure";
+           // String url = "http://10.192.150.251:8888/addMeasure";
+            String url = "http://192.168.4.2:8888/addMeasure";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setConnectTimeout(5000);

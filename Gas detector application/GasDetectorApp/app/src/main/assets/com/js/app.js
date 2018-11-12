@@ -154,7 +154,7 @@ var app = {
             visual.SPEED = obj.speed;
         }});
 
-        //app.createTable();
+        app.createTable();
 
 
     },
@@ -177,9 +177,9 @@ var app = {
         var graph_color = '#ffffff';
 
         var _chart_data_structure =  JSON.parse(window.JSInterface.getSensorPoints());
-        var sensor3 = _chart_data_structure.pop();
-        var sensor2 =_chart_data_structure.pop();
-        var sensor1 = _chart_data_structure.pop();
+        var methanMeasure = _chart_data_structure.pop();
+        var airQualityMeasure =_chart_data_structure.pop();
+        var alcoholMeasure = _chart_data_structure.pop();
         var label = _chart_data_structure.pop();
 
         var ctx_result = $('.content-pane.details').find('canvas').get(0).getContext('2d');
@@ -192,19 +192,19 @@ var app = {
         labels: label,
         datasets: [{
             //data: [86,114,106,106,107,111,133,221,783,2478],
-            data: sensor1,
+            data: alcoholMeasure,
             label: "Alcohol",
             borderColor: "#9A2A13",
             fill: false
           }, {
             //data: [282,350,411,502,635,809,947,1402,3700,5267],
-            data: sensor2,
+            data: airQualityMeasure,
             label: "Air quality",
             borderColor: "#139A29",
             fill: false
           }, {
             //data: [168,170,178,190,203,276,408,547,675,734],
-            data: sensor3,
+            data: methanMeasure,
             label: "Methan",
             borderColor: "#1E139A",
             fill: false
@@ -277,15 +277,14 @@ var app = {
 
         // clean table
         $('.result-table .result-row').remove();
-
-        $.each(_chart_data, function(index, value) {
-
-            var label = _chart_labels[index];
-            var data = value;
-            var color = _chart_colors[index];
-            var markup = '<tr class="result-row"><td><span class="color" style="background-color: '+color+';"></span>'+label+'</td><td>'+data+' %</td></tr>';
+        var gasesClassification =  JSON.parse(window.JSInterface.getSensorPointClassification());
+//        var markup = '<tr class="result-row"><td></span>Test</td><td>1</td></tr>';
+//        $('.result-table').append(markup);
+        $.each(gasesClassification, function(index, value) {
+            var stringToWrite = value.toString();
+           // var stringToWrite = "A" ;
+            var markup = '<tr class="result-row"><td>'+stringToWrite+'</td><td>'+index+'</td></tr>';
             $('.result-table').append(markup);
-
         });
 
 

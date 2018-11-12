@@ -219,14 +219,24 @@ var app = {
 
         });
 
-
+// ADD CODE HERE
         $('.contacts-trigger').on('click', function(){
-
             $('.content').addClass('dark');
             app.closeMenu();
             $('.page.current').removeClass('current');
             $('.page.contacts').addClass('current');
+//            $('.contacts ul li').remove();
+//            var markup =
+//            '<li class="list-header"><div class="name">Name</div><div class="color">color</div><div class="count">count</div></li>';
+//            $('.contacts ul').append(markup);
+            var test = JSON.parse(window.JSInterface.getAllPhoneContacts());
+                    $.each(test, function(index, value) {
+                        var markup = '<li> <div class="app-config-row"><div class="name">'+ value.name +
+                        '</div><div class="color" data-color="0"><div class="app-color-preview"></div></div><div class="count" data-count="4">'+
+                        '<span></span><span></span><span></span><span></span></div></div></li>';
 
+                        $('.contacts ul').append(markup);
+                    });
         });
 
 

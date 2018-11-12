@@ -6,7 +6,6 @@ function GasSensorMeasure(ID1, ID2, ID3, sensor1,sensor2,sensor3,thermistor) {
     this.sensor2 = sensor2;
     this.sensor3 = sensor3;
     this.thermistor = thermistor;
-    this.id = 0;
 }
 var measures = [];
 var measure1 = new GasSensorMeasure(1, 2, 3, 1, 2, 3, "1");
@@ -17,6 +16,7 @@ measures.push(measure2);
 measures.push(measure3);
 exports.measures = measures;
 exports.convertMeasure = convertObjectToMeasure;
+exports.gasMeasure = GasSensorMeasure;
 //measures.push(JSON.parse("{\"ID1\":9,\"ID2\":0,\"ID3\":4,\"sensor1\":9,\"sensor2\":6,\"sensor3\":5,\"thermistor\":\"3\"}"));
 
 function convertObjectToMeasure(jsonObject) {

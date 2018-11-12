@@ -16,6 +16,7 @@ import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.Random;
@@ -35,7 +36,7 @@ public class JavaScriptInterface {
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(activity, new String[]{
                             Manifest.permission.ACCESS_WIFI_STATE,
@@ -45,25 +46,32 @@ public class JavaScriptInterface {
                     },
                     1);
 
-        }
-        else {WifiManager wifiManager = (WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE);
+        } else {
+            WifiManager wifiManager = (WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 Toast.makeText(activity.getApplicationContext(), "You need a wifi connection to connet to the device, please enable it!", Toast.LENGTH_LONG).show();
             } else {
                 String networkSSID = "GSens";
                 String networkPass = "!SmellDetect!";
                 if (connect(networkSSID, networkPass)) {
-                    //Intent intent = new Intent(this, MainActivity.class);
-                    //startActivity(intent);
-                    GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
-                    db.getReadableDatabase();
-                    db.removeAll();
-                    return true;
-
+                    CheckingLocalServerConnection serverConnection = new CheckingLocalServerConnection(activity.getApplicationContext());
+                    serverConnection.execute();
+                    long pastTime = System.currentTimeMillis();
+                    long timeDifference = System.currentTimeMillis() - pastTime;
+                    while (timeDifference < 150)
+                        timeDifference = System.currentTimeMillis() - pastTime;
+                    if (serverConnection.getStatus() == AsyncTask.Status.FINISHED) {
+//                        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+//                        db.getReadableDatabase();
+//                        db.removeAll();
+                        return true;
+                    } else {
+                        serverConnection.cancel(true);
+                        Toast.makeText(activity.getApplicationContext(), "There was a problem with the server connection, please check the server and try again!", Toast.LENGTH_LONG).show();
+                    }
                 } else
-                    Toast.makeText(activity.getApplicationContext(), "There was a problem with the connection, please check the device and try again!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity.getApplicationContext(), "There was a problem with the device connection, please check the device and try again!", Toast.LENGTH_LONG).show();
             }
-
         }
         return false;
     }
@@ -136,76 +144,62 @@ public class JavaScriptInterface {
         httpRequest.execute();
         return true;
     }
+
     @JavascriptInterface
     public void saveMeasureIntoServer() throws ExecutionException, InterruptedException {
         GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
         db.getWritableDatabase();
-        GasSensorMeasure measure = new GasSensorMeasure(1,2,3,4,5,6,"test");
+        List<GasSensorMeasure> measures = db.getAllMeasures();
+        for (GasSensorMeasure measure : measures) {
+            // check if this multi task works
+            SendingGasMeausesToServer httpPost = new SendingGasMeausesToServer(activity.getApplicationContext());
+            httpPost.execute(measure);
+        }
+        GasSensorMeasure measure = new GasSensorMeasure(959, 960, 961, 962, 963, 964, "964");
         SendingGasMeausesToServer httpPost = new SendingGasMeausesToServer(activity.getApplicationContext());
         httpPost.execute(measure);
     }
 
     @JavascriptInterface
-    public String getSensorPoints() {
-        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
-        db.getReadableDatabase();
-//            db.addMeasure(mes);
-//        }
-        List<GasSensorMeasure> measures = db.getAllMeasures();
-        int[][] sensorMeasurements = new int[4][measures.size()];
-        for (int i = 0; i < measures.size(); i++) {
-            sensorMeasurements[0][i] = i;
-            sensorMeasurements[1][i] = measures.get(i).getSensor1();
-            sensorMeasurements[2][i] = measures.get(i).getSensor2();
-            sensorMeasurements[3][i] = measures.get(i).getSensor3();
-        }
-        // normalizing the results
-        int sensor1MinResult = getMinValue(sensorMeasurements[1]);
-        int sensor2MinResult = getMinValue(sensorMeasurements[2]);
-        int sensor3MinResult = getMinValue(sensorMeasurements[3]);
-        for (int i = 0; i < measures.size();i++){
-            sensorMeasurements[1][i] = (sensorMeasurements[1][i] - sensor1MinResult);
-            sensorMeasurements[2][i] = (sensorMeasurements[2][i] - sensor2MinResult);
-            sensorMeasurements[3][i] = (sensorMeasurements[3][i] - sensor3MinResult);
-        }
-
+    public String getSensorPoints() throws ExecutionException, InterruptedException {
+        GettingGasMeausesFromServerHTTPRequestHTML httpGetAllResults = new GettingGasMeausesFromServerHTTPRequestHTML(activity.getApplicationContext());
+        String str_result = httpGetAllResults.execute().get();
+        // GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
+        //db.getReadableDatabase();
+        // List<GasSensorMeasure> measures = db.getAllMeasures();
         Gson gson = new Gson();
-        return gson.toJson(sensorMeasurements).toString();
-
-    }
-    @JavascriptInterface
-    public boolean isAlcohol() {
-        GasSensorDataBase db = new GasSensorDataBase(activity.getApplicationContext());
-        db.getReadableDatabase();
-//        Random rand = new Random();
-//        db.getWritableDatabase();
-//        for (int i = 0; i < 10; i++) {
-//            GasSensorMeasure mes = new GasSensorMeasure(rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    rand.nextInt(100),
-//                    "test"
-//            );
-//            db.addMeasure(mes);
-//        }
-        List<GasSensorMeasure> measures = db.getAllMeasures();
-        if (measures.size() > 0)
-            if (measures.get(measures.size() - 1).getSensor1() > 1000) return true;
-        return false;
-
-    }
-
-
-    public static int getMinValue(int[] numbers){
-        int minValue = numbers[0];
-        for(int i=1;i<numbers.length;i++){
-            if(numbers[i] < minValue){
-                minValue = numbers[i];
+        List<GasSensorMeasure> measures = gson.fromJson(str_result, new TypeToken<List<GasSensorMeasure>>() {
+        }.getType());
+        int[][] sensorMeasurements = new int[4][measures.size()];
+        if (!str_result.isEmpty()) {
+            for (int i = 0; i < measures.size(); i++) {
+                sensorMeasurements[0][i] = i;
+                sensorMeasurements[1][i] = measures.get(i).getSensor1();
+                sensorMeasurements[2][i] = measures.get(i).getSensor2();
+                sensorMeasurements[3][i] = measures.get(i).getSensor3();
+            }
+            // normalizing the results
+            int initialValueSensor1 = sensorMeasurements[1][0];
+            int initialValueSensor2 = sensorMeasurements[2][0];
+            int initialValueSensor3 = sensorMeasurements[3][0];
+            for (int i = 0; i < measures.size(); i++) {
+                sensorMeasurements[1][i] = (sensorMeasurements[1][i] - initialValueSensor1);
+                sensorMeasurements[2][i] = (sensorMeasurements[2][i] - initialValueSensor2);
+                sensorMeasurements[3][i] = (sensorMeasurements[3][i] - initialValueSensor3);
             }
         }
-        return minValue;
+
+        return gson.toJson(sensorMeasurements);
+
+    }
+
+    @JavascriptInterface
+    public String getSensorPointClassification() throws ExecutionException, InterruptedException {
+        ClassifyingGasMeausesFromServer httpGetAllResults = new ClassifyingGasMeausesFromServer(activity.getApplicationContext());
+        String str_result = httpGetAllResults.execute().get();
+        Gson gson = new Gson();
+        return str_result;
+
     }
 }
 

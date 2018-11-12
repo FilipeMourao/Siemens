@@ -36,12 +36,12 @@ import static android.support.v7.widget.RecyclerView.*;
 
 public class ContactList extends Activity {
     String contactValue;
+    int hasPhone;
     ArrayList<String> contactListView = new ArrayList<String>();
     List<String> coloredTitles = new  ArrayList<String>();
     List<String> colorOfTheTitles = new  ArrayList<String>();
   //  List<Contact> listOfColorContacts = db.getAllContacts();
     List<Contact> listOfContacts =  new ArrayList<Contact>();
-    int hasPhone;
     String color;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

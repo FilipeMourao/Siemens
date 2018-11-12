@@ -4,18 +4,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
-public class GettingGasMeausesFromServerHTTPRequestHTML extends AsyncTask<Void , Void, String> {
+public class ClassifyingGasMeausesFromServer extends AsyncTask<Void , Void, String> {
     private Context context;
-    public GettingGasMeausesFromServerHTTPRequestHTML(Context context){
+    public ClassifyingGasMeausesFromServer(Context context){
         this.context=context;
     }
 @Override
@@ -27,7 +25,7 @@ protected  String doInBackground(Void... voids) {
             // Toast.makeText(context.getApplicationContext(),"Waiting measurement...",Toast.LENGTH_LONG).show();
            // String url = "http://192.168.4.2:8888/getAllResults";
            // String url = "http://10.192.150.251:8888/getAllResults";
-            String url = "http://192.168.4.2:8888/getAllResults";
+            String url = "http://192.168.4.2:8888/classifyGases";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
