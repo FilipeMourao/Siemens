@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e9c9322e-1437-427a-a8aa-ca0361fa6242" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Android Application/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android Application/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Android Application/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android Application/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Android Application/app/src/main/java/com/example/power/ledcode/ContactList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Android Application/app/src/main/java/com/example/power/ledcode/ContactList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../App-icon-iOS Gas sensor.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BlingmeApp/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../../BlingmeApp/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BlingmeApp/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../BlingmeApp/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/com/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/com/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/com/js/backEndFunctions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/com/js/backEndFunctions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/assets/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/ic_launcher-web.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/ic_launcher-web.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/GettingGasMeauseHTTPRequestHTML.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/GettingGasMeauseHTTPRequestHTML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/GettingGasMeausesFromServerHTTPRequestHTML.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/GettingGasMeausesFromServerHTTPRequestHTML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/JavaScriptInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/JavaScriptInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/SendingGasMeausesToServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/java/com/example/power/gasdetectorapp/SendingGasMeausesToServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../GasDetectorApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverCode/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/serverCode/Database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverCode/MySQLDatabase.js" beforeDir="false" afterPath="$PROJECT_DIR$/serverCode/MySQLDatabase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverCode/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/serverCode/Server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SmartBadgesApp/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../../SmartBadgesApp/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SmartBadgesApp/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SmartBadgesApp/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SmartBadgesApp/app/src/main/java/com/example/power/blingmeapp/JavaScriptInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SmartBadgesApp/app/src/main/java/com/example/power/blingmeapp/JavaScriptInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Unbenannt.png" beforeDir="false" />
-    </list>
+    <list default="true" id="e9c9322e-1437-427a-a8aa-ca0361fa6242" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +32,7 @@
     <session id="-546292523">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.7" value="1" />
           <entry key="project.opened" value="2" />
@@ -223,7 +195,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="580" />
     <option name="y" value="200" />
     <option name="width" value="1400" />
@@ -260,7 +232,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542042170465" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542042529456" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../GasDetectorServer/GasDetectorServer" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -322,12 +294,12 @@
       <workItem from="1541966054460" duration="598000" />
       <workItem from="1541966675775" duration="386000" />
       <workItem from="1541967157450" duration="7739000" />
-      <workItem from="1542012425531" duration="17676000" />
+      <workItem from="1542012425531" duration="18260000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45015000" />
+    <option name="totallyTimeSpent" value="45599000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -339,8 +311,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4994985" visible="true" weight="0.1399046" />
       <window_info id="Structure" order="1" sideWeight="0.5005015" side_tool="true" weight="0.13314785" />
@@ -351,7 +322,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.5005015" side_tool="true" weight="0.13314785" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32839313" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32839313" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.3978159" />

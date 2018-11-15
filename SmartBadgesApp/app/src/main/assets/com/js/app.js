@@ -3,7 +3,7 @@ var app = {
 
     connected : false,
     colors : [
-
+        "#FFFFFF",
         "#123456",
         "#FF0000",
         "#FFFF00",
@@ -168,7 +168,33 @@ var app = {
         });
 
 
-        $('.app-config-row .count').on('click', function(){
+//        $('.app-config-row .count').on('click', function(){
+//
+//            var currentNum = parseInt($(this).attr('data-count'));
+//
+//            if(currentNum < 4){
+//                currentNum++;
+//            }else{
+//                currentNum = 0;
+//            }
+//            $(this).attr('data-count', currentNum);
+//        });
+//        $('.app-config-row .color').on('click', function(){
+//
+//            var currentColorNum = parseInt($(this).attr('data-color'));
+//
+//            if(currentColorNum < app.colors.length){
+//                currentColorNum++;
+//            }else{
+//                currentColorNum = 0;
+//            }
+//
+//            $(this).attr('data-color', currentColorNum);
+//            $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+//
+//        });
+
+        $(document).on('click','.app-config-row .count',function (){
 
             var currentNum = parseInt($(this).attr('data-count'));
 
@@ -179,7 +205,7 @@ var app = {
             }
             $(this).attr('data-count', currentNum);
         });
-        $('.app-config-row .color').on('click', function(){
+        $(document).on('click','.app-config-row .color',function (){
 
             var currentColorNum = parseInt($(this).attr('data-color'));
 
@@ -207,6 +233,7 @@ var app = {
                 $('.header').addClass('hide');
                 $('.footer').removeClass('connected');
                 app.initConnectionScreen();
+                window.JSInterface.getIpAdress();
             }
         });
 
@@ -225,21 +252,38 @@ var app = {
             app.closeMenu();
             $('.page.current').removeClass('current');
             $('.page.contacts').addClass('current');
-//            $('.contacts ul li').remove();
-//            var markup =
-//            '<li class="list-header"><div class="name">Name</div><div class="color">color</div><div class="count">count</div></li>';
-//            $('.contacts ul').append(markup);
-            var test = JSON.parse(window.JSInterface.getAllPhoneContacts());
-                    $.each(test, function(index, value) {
-                        var markup = '<li> <div class="app-config-row"><div class="name">'+ value.name +
-                        '</div><div class="color" data-color="0"><div class="app-color-preview"></div></div><div class="count" data-count="4">'+
-                        '<span></span><span></span><span></span><span></span></div></div></li>';
-
+             $('.page.contacts').removeClass('out');
+             resetColor();
+             $('.page.contacts .container').scrollTop(0);
+            $('.contacts ul li').remove();
+            var markup =
+            '<li class="list-header"><div class="name">Name</div><div class="color">color</div><div class="count">count</div></li>';
+            $('.contacts ul').append(markup);
+            var events = JSON.parse(window.JSInterface.getEventList());
+                    $.each(events, function(index, value) {
+                    var date = new Date(value.calendar.year, value.calendar.month, value.calendar.dayOfMonth, value.calendar.hourOfDay, value.calendar.minute, 0, 0);
+                    var text = value.title + date.toString();
+                        var markup =
+                        '<li> ' +
+                                   '<div class="app-config-row">' +
+                                        '<div class="name">'+
+                                            '<p>' + value.title+
+                                            '</p>'+
+                                            '<p>'+date.toString() +
+                                            '</p>'+
+                                         '</div>'+
+                                     '<div class="color" data-color="0">'+
+                                        '<div class="app-color-preview">'+
+                                        '</div>'+
+                                     '</div>'+
+                                     '<div class="count" data-count="4">'+
+                                        '<span></span><span></span><span></span><span></span>'+
+                                     '</div>'+
+                                   '</div>'+
+                        '</li>';
                         $('.contacts ul').append(markup);
-                    });
+                   });
         });
-
-
 
         $('.health-trigger').on('click', function(){
 

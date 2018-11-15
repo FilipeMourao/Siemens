@@ -1,0 +1,35 @@
+.footer{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 5em;
+  border-top: 1px solid rgba(0,0,0,.4);
+  transform: translate3d(0,100%,0);
+  transition: transform .5s;
+
+  .battery-state{
+    width: 30px;
+    padding-top: 64px;
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    transition-delay: 1.3s;
+  }
+
+  .connection-state{
+    width: 30px;
+    padding-top: 64px;
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    transition: transform .5s;
+    transition-delay: 1s;
+  }
+
+
+  &.connected{
+      transform: translate3d(0,0,0);
+  }
+
+}
