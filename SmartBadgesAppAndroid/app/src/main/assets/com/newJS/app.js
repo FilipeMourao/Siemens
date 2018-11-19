@@ -131,7 +131,7 @@ var app = {
             app.saveNotifications();
         });
         $('.save-calendar').on('click', function(){
-            app.saveContacts();
+            app.saveCalendar();
         });
 
 //        $('.save-contacts').on('click', function(){
