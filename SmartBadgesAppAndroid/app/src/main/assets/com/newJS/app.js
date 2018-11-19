@@ -96,7 +96,6 @@ var app = {
 
     initListeners : function(){
 
-
         $('.menu-trigger').on('click', function(){
             $('body').addClass('menuopen');
         });
@@ -105,22 +104,43 @@ var app = {
             $('body').removeClass('menuopen');
         });
 
-
+        // connect to the device
         $('.connect-btn').on('click', function(){
-            app.connectDevice();
+            if(window.JSInterface.connectToDevice()) app.connectDevice();
+           //app.connectDevice();
         });
 
+
+        // change this function
         $('.save-notifications').on('click', function(){
+        var appNameArray = [];
+        var colorArray = [];
+        $('ul .app-config-row ').each(function(i){
+
+          var appName = $(this).text().replace(/(?:\s+\r\n|\r|\n)/g, '').trim(); // This is your rel value
+          appNameArray.push(appName);
+
+        });
+        $('ul .app-config-row .color ').each(function(i){
+
+                   var currentColorNum = parseInt($(this).attr('data-color'));
+                   colorArray.push(app.colors[currentColorNum]);
+                });
+
+            window.JSInterface.saveConfiguration(appNameArray,colorArray);
             app.saveNotifications();
         });
-
-        $('.save-contacts').on('click', function(){
+        $('.save-calendar').on('click', function(){
             app.saveContacts();
         });
 
-        $('.save-preferences').on('click', function(){
-            app.savePreferences();
-        });
+//        $('.save-contacts').on('click', function(){
+//            app.saveContacts();
+//        });
+//
+//        $('.save-preferences').on('click', function(){
+//            app.savePreferences();
+//        });
 
         $('.app-config-trigger').on('click', function(){
 
@@ -190,6 +210,7 @@ var app = {
                 $('.header').addClass('hide');
                 $('.footer').removeClass('connected');
                 app.initConnectionScreen();
+                window.JSInterface.getIpAdress();
             }
         });
 
@@ -201,57 +222,88 @@ var app = {
             }, 500);
 
         });
+                $('.calendar-trigger').on('click', function(){
 
+                    $('.content').addClass('dark');
+                    app.closeMenu();
+                    $('.page.current').removeClass('current');
+                    $('.page.calendar').addClass('current');
+                    grow = true;
+                    updateParticles(data["calendar"]);
 
-        $('.contacts-trigger').on('click', function(){
-
-            $('.content').addClass('dark');
-            app.closeMenu();
-            $('.page.current').removeClass('current');
-            $('.page.contacts').addClass('current');
-
-        });
-
-
-
-        $('.health-trigger').on('click', function(){
-
-            $('.content').addClass('dark');
-            app.closeMenu();
-            $('.page.current').removeClass('current');
-            $('.page.health').addClass('current');
-
-        });
-
-        $('.calendar-trigger').on('click', function(){
-
+                });
+// ADD CODE HERE
+      $('.calendar-trigger').on('click', function(){
             $('.content').addClass('dark');
             app.closeMenu();
             $('.page.current').removeClass('current');
             $('.page.calendar').addClass('current');
-            grow = true;
-            updateParticles(data["calendar"]);
-
+             $('.page.calendar').removeClass('out');
+             resetColor();
+             $('.page.calendar .container').scrollTop(0);
+            $('.calendar ul li').remove();
+            var markup =
+            '<li class="list-header"><div class="name">Name</div><div class="color">Meeting Colors</div></li>';
+            $('.calendar ul').append(markup);
+            var events = JSON.parse(window.JSInterface.getEventList());
+                    $.each(events, function(index, value) {
+                    var date = new Date(value.calendar.year, value.calendar.month, value.calendar.dayOfMonth, value.calendar.hourOfDay, value.calendar.minute, 0, 0);
+                    var text = value.title + date.toString();
+                        var markup =
+                        '<li> ' +
+                                   '<div class="app-config-row">' +
+                                        '<div class="name">'+
+                                            '<p>' + value.title+
+                                            '</p>'+
+                                         '</div>'+
+                                     '<div class="color" data-color="0">'+
+                                        '<div class="app-color-preview" style="background-color:'+value.color +' ">'+
+                                        '</div>'+
+                                     '</div>'
+                        '</li>';
+                        $('.contacts ul').append(markup);
+                       // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
+                   });
         });
-
-
-
-        $('.preferences-trigger').on('click', function(){
-
-            $('.content').addClass('dark');
-            app.closeMenu();
-            $('.page.current').removeClass('current');
-            $('.page.preferences').addClass('current');
-
-        });
-
-        $('.help-trigger').on('click', function(){
-
-            $('.content').addClass('dark');
-            app.closeMenu();
-            $('.page.current').removeClass('current');
-            $('.page.help').addClass('current');
-        });
+//
+//        $('.contacts-trigger').on('click', function(){
+//
+//            $('.content').addClass('dark');
+//            app.closeMenu();
+//            $('.page.current').removeClass('current');
+//            $('.page.contacts').addClass('current');
+//
+//        });
+//
+//
+//
+//        $('.health-trigger').on('click', function(){
+//
+//            $('.content').addClass('dark');
+//            app.closeMenu();
+//            $('.page.current').removeClass('current');
+//            $('.page.health').addClass('current');
+//
+//        });
+//
+//
+//
+//        $('.preferences-trigger').on('click', function(){
+//
+//            $('.content').addClass('dark');
+//            app.closeMenu();
+//            $('.page.current').removeClass('current');
+//            $('.page.preferences').addClass('current');
+//
+//        });
+//
+//        $('.help-trigger').on('click', function(){
+//
+//            $('.content').addClass('dark');
+//            app.closeMenu();
+//            $('.page.current').removeClass('current');
+//            $('.page.help').addClass('current');
+//        });
 
         $('.logo').on('click', function(){
 
@@ -264,7 +316,30 @@ var app = {
 
     },
 
-    savePreferences : function(){
+//    savePreferences : function(){
+//
+//        grow = true;
+//        updateParticles(data["check"]);
+//        $('.page.current').removeClass('current');
+//        $('.content').removeClass('dark');
+//        setTimeout(function(){
+//            app.initHomeScreen();
+//        }, 2000);
+//
+//    },
+
+//    saveContacts : function(){
+//
+//        grow = true;
+//        updateParticles(data["check"]);
+//        $('.page.current').removeClass('current');
+//        $('.content').removeClass('dark');
+//        setTimeout(function(){
+//            app.initHomeScreen();
+//        }, 2000);
+//
+//    },
+    saveCalendar : function(){
 
         grow = true;
         updateParticles(data["check"]);
@@ -273,21 +348,9 @@ var app = {
         setTimeout(function(){
             app.initHomeScreen();
         }, 2000);
+        window.JSInterface.createAlarmForMeetings()
 
     },
-
-    saveContacts : function(){
-
-        grow = true;
-        updateParticles(data["check"]);
-        $('.page.current').removeClass('current');
-        $('.content').removeClass('dark');
-        setTimeout(function(){
-            app.initHomeScreen();
-        }, 2000);
-
-    },
-
     saveNotifications : function(){
 
         grow = true;
