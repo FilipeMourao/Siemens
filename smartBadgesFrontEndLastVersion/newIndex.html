@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>bling:me</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="com/css/main.min.css">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+</head>
+
+<body>
+
+<div class="menu">
+
+    <div class="wrapper">
+
+        <a href="#" class="close-menu"></a>
+
+        <div class="menu-container">
+
+            <ul>
+                <li>
+                    <a href="#" class="connection-trigger">
+                        <i class="fa fa-lg fa-link fa-lg"></i> Connection
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="notifications-trigger">
+                        <i class="fa fa-lg fa-bell fa-lg"></i> Notifications
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="calendar-trigger">
+                        <i class="fa fa-lg fa-calendar fa-lg"></i> Calendar
+                    </a>
+                </li>
+                <!--<li>-->
+                    <!--<a href="#" class="contacts-trigger">-->
+                        <!--<i class="fa fa-lg fa-user fa-lg"></i> Contacts-->
+                    <!--</a>-->
+                <!--</li>-->
+
+                <!--<li>-->
+                    <!--<a href="#" class="health-trigger">-->
+                        <!--<i class="fa fa-lg fa-heart fa-lg"></i> Health-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#" class="preferences-trigger">-->
+                        <!--<i class="fa fa-lg fa-cog fa-lg"></i> Preferences-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#" class="help-trigger">-->
+                        <!--<i class="fa fa-lg fa-question fa-lg"></i> Help-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="header hide">
+    <!-- <a href="#" class="logo">
+        <img src="img/logo.png" />
+    </a> -->
+    <div class="logo-icon">
+        <img src="img/icon_white.svg" />
+    </div>
+
+    <img src="img/logo_white.svg" class="logo" />
+
+    <a href="#" class="menu-trigger">
+        <img src="img/menu_icon.png" />
+    </a>
+
+</div>
+
+<div class="content">
+
+    <div class="page intro">
+        <div class="container">
+            <div class="wrapper">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="page connection">
+        <div class="container">
+            <div class="wrapper">
+                <h2>Please connect <br />your device</h2>
+                <a href="#" class="button connect-btn">Connect now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page connection_success">
+        <div class="container">
+            <div class="wrapper">
+                <h2>Great, you have successfully connected your device.</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="page home">
+        <div class="container">
+            <div class="wrapper">
+                <h2>Welcome to <br />bling:me</h2>
+                <p>Open the menu to configure your notifications.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page notifications-list scrollable">
+        <div class="container">
+            <div class="wrapper">
+
+                <h2>Configure your notifications</h2>
+                <p>Tab on the colored area and the buzzer points to change notification settings.</p>
+
+                <ul>
+                    <li class="list-header">
+                        <div class="name">App name</div>
+                        <div class="color">color</div>
+                        <div class="count">count</div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-facebook fa-lg"></i></div>
+                            <div class="name">facebook</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-twitter fa-lg"></i></div>
+                            <div class="name">Twitter</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-whatsapp fa-lg"></i></div>
+                            <div class="name">Whatsapp</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-instagram fa-lg"></i></div>
+                            <div class="name">Instagram</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-phone fa-lg"></i></div>
+                            <div class="name">Calls</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="1">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="icon"><i class="fa fa-lg fa-envelope fa-lg"></i></div>
+                            <div class="name">Messages</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="1">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-facebook fa-lg"></i></div>-->
+                            <!--<div class="name">facebook</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count" data-count="1">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-twitter fa-lg"></i></div>-->
+                            <!--<div class="name">Twitter</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-whatsapp fa-lg"></i></div>-->
+                            <!--<div class="name">Whatsapp</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count" data-count="1">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-instagram fa-lg"></i></div>-->
+                            <!--<div class="name">Instagram</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count" data-count="1">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-phone fa-lg"></i></div>-->
+                            <!--<div class="name">Calls</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count" data-count="1">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+
+                    <!--<li>-->
+                        <!--<div class="app-config-row">-->
+                            <!--<div class="icon"><i class="fa fa-lg fa-envelope fa-lg"></i></div>-->
+                            <!--<div class="name">Messages</div>-->
+                            <!--<div class="color" data-color="0">-->
+                                <!--<div class="app-color-preview"></div>-->
+                            <!--</div>-->
+                            <!--<div class="count" data-count="1">-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                                <!--<span></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                </ul>
+                <a href="#" class="button save-notifications">DONE</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="page config-detail">
+        <div class="container">
+            <div class="wrapper">
+                <h2>facebook</h2>
+
+                <div class="result"><input type="text" /></div>
+                <div id="drag">
+
+                    <div id="c_holder"></div>
+
+                    <div class="top-wrapper">
+                        <span>Hue<h2 id="horiz">205</h2></span>
+                    </div>
+
+                    <div class="bottom-wrapper">
+                        <span>Vibrations<h2 id="vert">5</h2></span>
+                        <a href="#" class="button close-config">DONE</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!--<div class="page contacts scrollable">-->
+        <!--<div class="container">-->
+            <!--<div class="wrapper">-->
+                <!--<h2>Contacts</h2>-->
+                <!--<p>Manage your contacts` notifications</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<a href="#" class="button save-contacts">DONE</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="page calendar scrollable">
+        <div class="container">
+            <div class="wrapper">
+                <h2>Calendar</h2>
+                <p>Tab in the 'done' button to create all the alarms.</p>
+                <ul>
+                    <li class="list-header">
+                        <div class="name">Name</div>
+                        <div class="color">color</div>
+                        <div class="count">count</div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="name">facebook</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="name">Twitter</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="name">Whatsapp</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="app-config-row">
+                            <div class="name">Instagram</div>
+                            <div class="color" data-color="0">
+                                <div class="app-color-preview"></div>
+                            </div>
+                            <div class="count" data-count="4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#" class="button save-calendar">DONE</a>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="page health scrollable">-->
+        <!--<div class="container">-->
+            <!--<div class="wrapper">-->
+                <!--<h2>Health</h2>-->
+                <!--<p>Manage your health notifications</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="page help scrollable">-->
+        <!--<div class="container">-->
+            <!--<div class="wrapper">-->
+                <!--<h2>Your bling:me help section</h2>-->
+                <!--<p>Learn how to use bling:me</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="page preferences scrollable">-->
+        <!--<div class="container">-->
+            <!--<div class="wrapper">-->
+                <!--<h2>Preferences</h2>-->
+                <!--<p>Your bling:me settings</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>-->
+                <!--<a href="#" class="button save-preferences">DONE</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+</div>
+
+<div class="footer">
+    <img src="img/connect_icon.png" class="connection-state" />
+    <img src="img/battery_icon.png" class="battery-state" />
+</div>
+
+
+<canvas id="scene"></canvas>
+
+
+<!-- these are just the svg icons for the particle render -->
+<div id="svgs">
+
+    <svg id="carl" name="carl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='400' height="300">
+
+        <text x="50" y="55" class='large' text-anchor="middle">;)</text>
+        <!-- <text x="50" y="70" class='small' text-anchor="middle">ME</text> -->
+    </svg>
+
+
+    <svg name="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='300' height="300">
+
+        <circle cx="50.6" cy="30.8" r="12.9"/>
+        <circle cx="50.6" cy="69.2" r="12.9"/>
+        <circle cx="69.8" cy="50" r="12.9"/>
+        <circle cx="31.3" cy="50" r="12.9"/>
+    </svg>
+
+    <svg name="icon-home" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width='450' height="450">
+
+        <circle cx="50.6" cy="30.8" r="12.9"/>
+        <circle cx="50.6" cy="69.2" r="12.9"/>
+        <circle cx="69.8" cy="50" r="12.9"/>
+        <circle cx="31.3" cy="50" r="12.9"/>
+    </svg>
+
+
+    <svg name="bluetooth" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width='300' height="300">
+        <g>
+            <polygon class="st0" points="52.1,74.9 60.4,64.8 52.1,56.4 	"/>
+            <polygon class="st0" points="52.1,26.6 52.1,44.3 60.4,36.2 	"/>
+            <path class="st0" d="M52.8,2h-5.7C31.4,2,18.6,14.8,18.6,30.6v38.7C18.6,85.2,31.4,98,47.2,98h5.7c15.8,0,28.6-12.8,28.6-28.6V30.6
+		C81.4,14.8,68.6,2,52.8,2z M67.5,64.5L46.9,89.4V56.7L35.8,67.6l-3.6-3.7L46,50.3l-13.9-14l3.7-3.7l11.1,11.1V12.6l20.6,23.8
+		L53.4,50.3L67.5,64.5z"/>
+        </g>
+    </svg>
+
+    <svg name="calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width='300' height="300">
+        <path class="st0" d="M39.9,41.9H48V50h-8.1V41.9z M52,41.9h8.1V50H52V41.9z M64.1,41.9h8.1V50h-8.1V41.9z M27.8,66.1h8.1v8.1h-8.1
+        V66.1z M39.9,66.1H48v8.1h-8.1V66.1z M52,66.1h8.1v8.1H52V66.1z M39.9,54H48v8.1h-8.1V54z M52,54h8.1v8.1H52V54z M64.1,54h8.1v8.1
+        h-8.1V54z M27.8,54h8.1v8.1h-8.1V54z M72.2,17.7v4h-8.1v-4H35.9v4h-8.1v-4h-8.1v64.6h60.6V17.7H72.2z M76.2,78.3H23.8V33.9h52.5
+        V78.3z"/>
+    </svg>
+
+    <svg name="wifi" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width='400' height="400">
+        <path class="st0" d="M44.5,65.2c-3,3-3,7.9,0,10.9c3,3,7.9,3,10.9,0c3-3,3-7.9,0-10.9C52.4,62.2,47.5,62.1,44.5,65.2z M23,54.5
+	l7.8,7.8c5.1-5.1,11.9-7.9,19.1-7.9c7.2,0,14,2.8,19.1,7.9l7.9-7.9C62.1,39.6,37.9,39.6,23,54.5z M9.1,40.6l7.8,7.8
+	c18.2-18.2,47.8-18.2,66,0l7.9-7.9C68.3,18.1,31.7,18.1,9.1,40.6z"/>
+    </svg>
+
+    <svg name="connecting" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='200' height="200">
+        <path class="st0" d="M40.5,50.5c0,5.4,4.4,9.8,9.8,9.8s9.8-4.4,9.8-9.8s-4.4-9.8-9.8-9.8S40.5,45.1,40.5,50.5z M62,28.9
+        c7.7,4.2,12.9,12.3,12.9,21.6S69.6,67.9,62,72.1c3.4-5.4,5.5-13.1,5.5-21.6S65.4,34.3,62,28.9z M33.1,50.5c0,8.5,2.1,16.2,5.5,21.6
+        C31,67.9,25.7,59.8,25.7,50.5S31,33.1,38.6,28.9C35.2,34.3,33.1,42,33.1,50.5z M18.4,50.5c0,13.2,4.2,25,10.8,33.1
+        C18.3,76.6,11,64.4,11,50.5s7.2-26.1,18.1-33.1C22.6,25.5,18.4,37.3,18.4,50.5z M71.4,17.4c10.9,7,18.1,19.2,18.1,33.1
+        s-7.2,26.1-18.1,33.1c6.6-8.1,10.8-19.9,10.8-33.1S78,25.5,71.4,17.4z"/>
+    </svg>
+
+
+    <svg name="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width='300' height="300">
+        <path class="st0" d="M72.6,26l-30,30l-14-14l-10,10l24,24L82.7,36L72.6,26z"/>
+    </svg>
+
+    <svg name="settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='200' height="200">
+        <g>
+            <path class="st0" d="M81.3,58.7c-4.1-7-1.6-16.1,5.5-20.2l-7.6-13.2c-2.2,1.3-4.7,2-7.4,2c-8.1,0-14.7-6.6-14.7-14.8l-15.2,0
+	c0,2.5-0.6,5.1-2,7.4c-4.1,7-13.1,9.4-20.2,5.4l-7.6,13.2c2.2,1.2,4.1,3.1,5.4,5.4c4.1,7,1.6,16-5.4,20.1l7.6,13.2
+	c2.2-1.3,4.7-2,7.4-2c8.1,0,14.7,6.6,14.7,14.7H57c0-2.5,0.6-5,2-7.4c4.1-7,13.1-9.4,20.2-5.4l7.6-13.2C84.6,62.8,82.7,61,81.3,58.7
+	z M49.4,66.9c-8.7,0-15.7-7-15.7-15.7c0-8.7,7-15.7,15.7-15.7c8.7,0,15.7,7,15.7,15.7C65.1,59.9,58.1,66.9,49.4,66.9z"/>
+        </g>
+    </svg>
+
+    <svg id="facebook" name="facebook" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='200' height="200">
+        <path class="st0" d="M54.1,95.6H37.1V50H25.7V34.3l11.4,0l0-9.3c0-12.8,3.5-20.6,18.6-20.6h12.6v15.7h-7.9c-5.9,0-6.2,2.2-6.2,6.3
+	l0,7.9h14.1L66.6,50l-12.5,0L54.1,95.6z"/>
+    </svg>
+
+    <svg id="twitter" name="twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='300' height="300">
+        <path class="st0" d="M93.7,22.9c-3.2,1.4-6.7,2.4-10.3,2.8c3.7-2.2,6.6-5.7,7.9-9.9c-3.5,2.1-7.3,3.6-11.4,4.4
+	c-3.3-3.5-7.9-5.7-13.1-5.7c-9.9,0-17.9,8-17.9,17.9c0,1.4,0.2,2.8,0.5,4.1c-14.9-0.7-28.1-7.9-37-18.7c-1.5,2.7-2.4,5.7-2.4,9
+	c0,6.2,3.2,11.7,8,14.9c-2.9-0.1-5.7-0.9-8.1-2.2c0,0.1,0,0.1,0,0.2c0,8.7,6.2,15.9,14.4,17.6c-1.5,0.4-3.1,0.6-4.7,0.6
+	c-1.2,0-2.3-0.1-3.4-0.3C18.4,64.7,25,69.9,32.8,70c-6.1,4.8-13.9,7.7-22.3,7.7c-1.4,0-2.9-0.1-4.3-0.3c7.9,5.1,17.4,8.1,27.5,8.1
+	c33,0,51.1-27.3,51.1-51.1c0-0.8,0-1.6-0.1-2.3C88.3,29.6,91.3,26.5,93.7,22.9z"/>
+    </svg>
+
+    <svg id="instagram" name="instagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width='300' height="300">
+        <path class="st0" d="M78.9,7.2H21.5c-7.8,0-14.3,6.4-14.3,14.3v57.4c0,7.9,6.4,14.3,14.3,14.3h57.4c7.9,0,14.3-6.4,14.3-14.3l0-57.4
+	C93.1,13.6,86.7,7.2,78.9,7.2z M34.7,44.8h30.9c0.6,1.7,0.9,3.5,0.9,5.4c0,9-7.3,16.4-16.4,16.4c-9,0-16.4-7.3-16.4-16.4
+	C33.8,48.3,34.1,46.5,34.7,44.8z M82.4,44.8v21.5V77c0,3-2.4,5.4-5.4,5.4H23.3c-3,0-5.4-2.4-5.4-5.4V66.3V44.8v0h8.4
+	c-0.4,1.7-0.6,3.5-0.6,5.4c0,13.5,11,24.4,24.4,24.4c13.5,0,24.4-11,24.4-24.4c0-1.8-0.2-3.6-0.6-5.4L82.4,44.8L82.4,44.8z M82.4,26
+	c0,1.5-1.2,2.7-2.7,2.7h-5.4c-1.5,0-2.7-1.2-2.7-2.7v-5.4c0-1.5,1.2-2.7,2.7-2.7h5.4c1.5,0,2.7,1.2,2.7,2.7V26z"/>
+    </svg>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/plugins/CSSPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/easing/EasePack.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenLite.min.js"></script>
+
+<!--<script src='com/js/jquery-1.8.2.min.js'></script>-->
+<!--<script src='com/js/polyfill.min.js'></script>-->
+<!--<script  src="com/js/main.js"></script>-->
+<!--<script  src="com/js/app.js"></script>-->
+<script src='com/newJS/jquery-1.8.2.min.js'></script>
+<script src='com/newJS/polyfill.min.js'></script>
+<script  src="com/newJS/main.js"></script>
+<script  src="com/newJS/app.js"></script>
+<script>
+
+    $(document).ready(function(){
+
+        app.init();
+
+    });
+
+</script>
+
+
+
+</body>
+
+</html>
