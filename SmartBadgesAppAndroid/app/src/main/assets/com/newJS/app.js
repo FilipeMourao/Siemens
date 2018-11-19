@@ -131,7 +131,7 @@ var app = {
             app.saveNotifications();
         });
         $('.save-calendar').on('click', function(){
-            app.saveContacts();
+            app.saveCalendar();
         });
 
 //        $('.save-contacts').on('click', function(){
@@ -261,7 +261,7 @@ var app = {
                                         '</div>'+
                                      '</div>'
                         '</li>';
-                        $('.contacts ul').append(markup);
+                        $('.calendar ul').append(markup);
                        // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
                    });
         });
