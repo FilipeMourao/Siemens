@@ -261,7 +261,7 @@ var app = {
                                         '</div>'+
                                      '</div>'
                         '</li>';
-                        $('.contacts ul').append(markup);
+                        $('.calendar ul').append(markup);
                        // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
                    });
         });
