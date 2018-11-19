@@ -33,11 +33,11 @@ public class ConfigureLed {
 	     // optional default is GET
 	     con.setRequestMethod("POST");
 	     //add request header
-         con.setConnectTimeout(5000);
-         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-         con.setDoOutput(true);
-         con.setDoInput(true);
-         con.setRequestMethod("POST");
+		con.setConnectTimeout(15000);
+		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		con.setDoOutput(true);
+		con.setDoInput(true);
+		con.setRequestMethod("POST");
 		DataOutputStream os = new DataOutputStream(con.getOutputStream());
 		os.writeBytes(jsonString);
 		os.flush();
