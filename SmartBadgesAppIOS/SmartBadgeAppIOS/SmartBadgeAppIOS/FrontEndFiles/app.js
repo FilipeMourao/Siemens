@@ -134,6 +134,8 @@ var app = {
         $('.save-calendar').on('click', function(){
             app.saveContacts();
         });
+        
+
 
 //        $('.save-contacts').on('click', function(){
 //            app.saveContacts();
@@ -231,6 +233,7 @@ var app = {
                     $('.page.calendar').addClass('current');
                     grow = true;
                     updateParticles(data["calendar"]);
+//                    window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
 
                 });
 // ADD CODE HERE
@@ -246,26 +249,9 @@ var app = {
             var markup =
             '<li class="list-header"><div class="name">Name</div><div class="color">Meeting Colors</div></li>';
             $('.calendar ul').append(markup);
-            var events = JSON.parse(window.JSInterface.getEventList());
-                    $.each(events, function(index, value) {
-                    var date = new Date(value.calendar.year, value.calendar.month, value.calendar.dayOfMonth, value.calendar.hourOfDay, value.calendar.minute, 0, 0);
-                    var text = value.title + date.toString();
-                        var markup =
-                        '<li> ' +
-                                   '<div class="app-config-row">' +
-                                        '<div class="name">'+
-                                            '<p>' + value.title+
-                                            '</p>'+
-                                         '</div>'+
-                                     '<div class="color" data-color="0">'+
-                                        '<div class="app-color-preview" style="background-color:'+value.color +' ">'+
-                                        '</div>'+
-                                     '</div>'
-                        '</li>';
-                        $('.contacts ul').append(markup);
-                       // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
-                   });
+            window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
         });
+
 //
 //        $('.contacts-trigger').on('click', function(){
 //
@@ -316,6 +302,32 @@ var app = {
         });
 
     },
+//    ListEvents : function(){
+//        window.webkit.messageHandlers.JSInterface.postMessage("events");
+//    },
+    ListEvents : function(eventList){
+        var events = JSON.parse(eventList);
+     //   window.webkit.messageHandlers.JSInterface.postMessage(events);
+        $.each(events, function(index, value) {
+               var date = new Date(value.calendar.year, value.calendar.month, value.calendar.dayOfMonth, value.calendar.hourOfDay, value.calendar.minute, 0, 0);
+               var text = value.title + date.toString();
+               var markup =
+               '<li> ' +
+               '<div class="app-config-row">' +
+               '<div class="name">'+
+               '<p>' + value.title+
+               '</p>'+
+               '</div>'+
+               '<div class="color" data-color="0">'+
+               '<div class="app-color-preview" style="background-color:'+value.color +' ">'+
+               '</div>'+
+               '</div>'
+               '</li>';
+               $('.calendar ul').append(markup);
+               // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
+               });
+    },
+    
 
 //    savePreferences : function(){
 //

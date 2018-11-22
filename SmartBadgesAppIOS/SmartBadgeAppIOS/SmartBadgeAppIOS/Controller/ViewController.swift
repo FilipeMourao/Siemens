@@ -8,9 +8,12 @@
 
 import UIKit
 import WebKit
-class ViewController: UIViewController,WKScriptMessageHandler {
+import EventKit
+class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     var ipAdress = "";
-    var webView: WKWebView?
+    var webView: WKWebView?;
+    var events:[Event] = [];
+    let eventStore = EKEventStore();
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -40,9 +43,100 @@ class ViewController: UIViewController,WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print("Message from beyond: \(message.body)")
         if ("\(message.body)" == "connectDevice()") {createPopUp()}
+        if ("\(message.body)" == "showEvents()") {showUserEvents()}
         
     }
+    func showUserEvents(){
+        eventStore.requestAccess(to: EKEntityType.event, completion: {
+            (granted, error) in
+            if granted && error == nil {
+                print("Permisson granted!");
+            
+            } else {
+                print("No permisson!");
+            }
+        })
+        self.events = getUserEvents();
+        let jsonEncoder  = JSONEncoder();
+        let jsonData = try! jsonEncoder.encode(self.events);
+        let json =  String(data: jsonData, encoding: .utf8)!;
+        let javaScriptString = "app.ListEvents('\(json)');"
+        //let javaScriptString = "app.ListEvents('\(jsonEncoding(object: events))');"
+        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
+        
+    }
+    func getUserEvents() -> [Event] {
+        var events:[Event] = [];
+        var event:Event;
+        let ekEvents = get();
+        var location:String;
+        var color:String;
+        for ekEvent in ekEvents{
+            location = ekEvent.location!;
+            for i in 0...location.count - 1{
+                if(Array(location)[i] == "#" ){
+                    if(Array(location)[i + 1] == "#" ){
+                        color = String(Array(location)[i+1...i+7]);
+                        if (ColorCustomized.checkIfColorIsValid(hexColor: color)) {
+                            events.append(Event(title: ekEvent.title,
+                                                location: ekEvent.location!,
+                                                color: color,
+                                                calendar: ekEvent.startDate))
+                            break;
+                        } else {
+                            print("Error Converting color: \(color)" );
+                            break;
+                        }
+                            
+                        
+                    }
+                    
+                }
+            }
+            
+        }
+        return events;
+    }
+    
+    private func get()->[EKEvent] {
+        let calendars = eventStore.calendars(for: .event)
+        var eventsTotal:[EKEvent]  = []
+        for calendar in calendars {
+            // This checking will remove Birthdays and Hollidays callendars
+            guard calendar.allowsContentModifications else {
+                continue
+            }
+            let cal = Calendar.current
+            let start = Date();
+            let end = createDate(year: cal.component(.year, from: Date()) + 4)
+            
+            //print("start: \(start)")
+            //print("  end: \(end)")
+            
+            let predicate = eventStore.predicateForEvents(withStart: start, end: end, calendars: [calendar])
+            
+            print("predicate: \(predicate)")
+            
+            let events = eventStore.events(matching: predicate)
+            //return events;
+            for event in events {
+              eventsTotal.append(event);
+            }
+        }
+        return eventsTotal;
+    }
+    
+
+    private func createDate(year: Int) -> Date {
+        var components = DateComponents()
+        components.year = year
+        components.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        return Calendar.current.date(from: components)!
+    }
+
     func createPopUp(){
+        
         let alertController = UIAlertController(title: "Add your card number!",
                                                 message: nil,
                                                 preferredStyle: .alert)
@@ -54,8 +148,8 @@ class ViewController: UIViewController,WKScriptMessageHandler {
                 self.ipAdress = "192.168.1." + (textField?.text!)!;
                 let javaScriptString = "app.connectDevice();"
                 self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
+                
             }
-            
           })
         let cancelAction = UIAlertAction (title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(okAction)
@@ -65,11 +159,10 @@ class ViewController: UIViewController,WKScriptMessageHandler {
         func takeCardNumber(textField: UITextField) {
         textField.keyboardType = .numberPad;
     }
-    func jsonEncoding() -> String {
+    func jsonEncoding(object:[Event]) -> String {
         do {
-            let test:ColorCustomized = ColorCustomized(hexColor: "#FF0000");
             let jsonEncoder  = JSONEncoder();
-            let jsonData = try jsonEncoder.encode(test);
+            let jsonData = try jsonEncoder.encode(object);
             let json =  String(data: jsonData, encoding: .utf8)!;
             return json;
         } catch {

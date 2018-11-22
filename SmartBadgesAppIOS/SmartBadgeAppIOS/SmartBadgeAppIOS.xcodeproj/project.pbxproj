@@ -40,6 +40,7 @@
 		D22E6E8F21A6AC2500AFEAE9 /* ColorCustomized.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E8E21A6AC2500AFEAE9 /* ColorCustomized.swift */; };
 		D22E6E9421A6CA3E00AFEAE9 /* ColorSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */; };
 		D22E6E9621A6D70500AFEAE9 /* ConfigureLed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */; };
+		D22E6E9821A7044700AFEAE9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9721A7044700AFEAE9 /* Event.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		D22E6E8E21A6AC2500AFEAE9 /* ColorCustomized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCustomized.swift; sourceTree = "<group>"; };
 		D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSetting.swift; sourceTree = "<group>"; };
 		D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureLed.swift; sourceTree = "<group>"; };
+		D22E6E9721A7044700AFEAE9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				D22E6E8E21A6AC2500AFEAE9 /* ColorCustomized.swift */,
 				D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */,
 				D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */,
+				D22E6E9721A7044700AFEAE9 /* Event.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				D22E6E1221A2D4E000AFEAE9 /* AppDelegate.swift in Sources */,
 				D22E6E9621A6D70500AFEAE9 /* ConfigureLed.swift in Sources */,
 				D22E6E9421A6CA3E00AFEAE9 /* ColorSetting.swift in Sources */,
+				D22E6E9821A7044700AFEAE9 /* Event.swift in Sources */,
 				D22E6E8F21A6AC2500AFEAE9 /* ColorCustomized.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

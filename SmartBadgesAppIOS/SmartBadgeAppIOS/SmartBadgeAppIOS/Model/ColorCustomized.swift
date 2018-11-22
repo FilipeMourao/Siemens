@@ -7,7 +7,7 @@
 //
 
 import Foundation
-class ColorCustomized: Codable{
+class ColorCustomized: Codable {
     let mode = "rgb";
     var r: Int;
     var g: Int;
@@ -17,9 +17,9 @@ class ColorCustomized: Codable{
         self.g = g;
         self.b = b;
     }
-    init(hexColor:String){
-        var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    init(hexColor:String) throws {
         
+        var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
@@ -30,5 +30,19 @@ class ColorCustomized: Codable{
         self.r = Int(((rgbValue & 0xFF0000) >> 16));
         self.g = Int(((rgbValue & 0x00FF00) >> 8));
         self.b = Int(((rgbValue & 0x0000FF) ));
+    }
+    static func checkIfColorIsValid(hexColor:String) -> Bool {
+        let hexArray = "0123456789ABCDEF";
+        
+        var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        for char in cString{
+            if hexArray.range(of: String(char)) == nil {
+                return false
+            }
+        }
+        return true
     }
 }
