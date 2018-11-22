@@ -66,7 +66,7 @@ class JavaScriptInterface {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (!input.getText().toString().isEmpty()) {
-                    String ipAdress = "192.168." + input.getText().toString();
+                    String ipAdress = "192.168.1." + input.getText().toString();
                     ((IpAdress) activity.getApplication()).setIPADRESS(ipAdress);
                 }
             }
