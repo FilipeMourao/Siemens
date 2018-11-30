@@ -132,7 +132,7 @@ var app = {
             app.saveNotifications();
         });
         $('.save-calendar').on('click', function(){
-            app.saveContacts();
+            app.saveCalendar();
         });
         
 
@@ -361,7 +361,7 @@ var app = {
         setTimeout(function(){
             app.initHomeScreen();
         }, 2000);
-        window.JSInterface.createAlarmForMeetings()
+         window.webkit.messageHandlers.JSInterface.postMessage("createAlarms()");
 
     },
     saveNotifications : function(){

@@ -17,7 +17,7 @@ class ColorCustomized: Codable {
         self.g = g;
         self.b = b;
     }
-    init(hexColor:String) throws {
+    init(hexColor:String)  {
         
         var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if (cString.hasPrefix("#")) {

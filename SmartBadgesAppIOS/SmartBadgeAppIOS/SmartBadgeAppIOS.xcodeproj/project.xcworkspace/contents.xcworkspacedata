@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SmartBadgeAppIOS.xcodeproj">
+      location = "self:/Users/rebeccajohnson/Desktop/FilipeSiemens/Siemens/SmartBadgesAppIOS/SmartBadgeAppIOS/SmartBadgeAppIOS.xcodeproj">
    </FileRef>
 </Workspace>

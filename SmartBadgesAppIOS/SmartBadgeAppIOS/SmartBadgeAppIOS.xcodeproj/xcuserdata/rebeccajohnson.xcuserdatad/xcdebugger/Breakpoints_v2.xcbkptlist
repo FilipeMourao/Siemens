@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Model/ColorCustomized.swift"
-            timestampString = "564603041.852493"
+            timestampString = "565298074.379343"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Model/ColorCustomized.swift"
-            timestampString = "564603041.852571"
+            timestampString = "565298074.379423"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.852631"
+            timestampString = "565298074.3794889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "jsonEncoding(object:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.853243"
+            timestampString = "565298074.379621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "jsonDencoding(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Model/ConfigureLed.swift"
-            timestampString = "564603041.8536839"
+            timestampString = "565298074.379739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "24"
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.853768"
+            timestampString = "565298074.3797849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "showUserEvents()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.8541189"
+            timestampString = "565298074.3798569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "getUserEvents()"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.854449"
+            timestampString = "565298074.379923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "showUserEvents()"
             landmarkType = "7">
             <Locations>
@@ -186,12 +186,12 @@
                   moduleName = "SmartBadgeAppIOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rebeccajohnson/Desktop/FilipeSiemens/Siemens/SmartBadgesAppIOS/SmartBadgeAppIOS/SmartBadgeAppIOS/Controller/ViewController.swift"
-                  timestampString = "564599064.920743"
+                  timestampString = "565289111.486028"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "57">
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "31">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -201,11 +201,11 @@
                   moduleName = "SmartBadgeAppIOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rebeccajohnson/Desktop/FilipeSiemens/Siemens/SmartBadgesAppIOS/SmartBadgeAppIOS/SmartBadgeAppIOS/Controller/ViewController.swift"
-                  timestampString = "564599064.931686"
+                  timestampString = "565289111.488158"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
                   offsetFromSymbolStart = "49">
                </Location>
             </Locations>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.854831"
+            timestampString = "565298074.379988"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "getUserEvents()"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.855178"
+            timestampString = "565298074.380048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "showUserEvents()"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.855503"
+            timestampString = "565298074.380109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "get()"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.855834"
+            timestampString = "565298074.38017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "get()"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,7 +282,55 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.856154"
+            timestampString = "565298074.380231"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "getUserEvents()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
+            timestampString = "565298074.380291"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "getUserEvents()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
+            timestampString = "565298074.380349"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "getUserEvents()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
+            timestampString = "565298074.380404"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "85"
@@ -298,12 +346,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
-            timestampString = "564603041.856467"
+            timestampString = "565298074.380484"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "getUserEvents()"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "showUserEvents()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
+            timestampString = "565298074.3805569"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "showUserEvents()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartBadgeAppIOS/Controller/ViewController.swift"
+            timestampString = "565298074.380625"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "createNotifications()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

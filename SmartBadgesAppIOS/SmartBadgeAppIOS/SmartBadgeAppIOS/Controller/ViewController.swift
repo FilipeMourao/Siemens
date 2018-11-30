@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 import EventKit
+import UserNotifications
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     var ipAdress = "";
     var webView: WKWebView?;
@@ -44,6 +45,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         print("Message from beyond: \(message.body)")
         if ("\(message.body)" == "connectDevice()") {createPopUp()}
         if ("\(message.body)" == "showEvents()") {showUserEvents()}
+        if ("\(message.body)" == "createAlarms()") {createNotifications()}
+        
         
     }
     func showUserEvents(){
@@ -125,7 +128,63 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         }
         return eventsTotal;
     }
-    
+    private func createNotifications(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
+        })
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert], completionHandler: {didAllow, error in
+//        })
+        
+        for event in self.events {
+            
+//            let content = UNMutableNotificationContent()
+//            content.title = "How many days are there in one year"
+//            content.subtitle = "Do you know?"
+//            content.body = "Do you really know?"
+//            content.badge = 1
+//
+//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+//            let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+//
+//            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+//
+//
+            let configureLed = ConfigureLed(ipAdress: ipAdress, colorSetting: ColorSetting(color: ColorCustomized(hexColor:event.color )));
+            configureLed.colorSetting.brightness = 0;
+            var time = event.calendar.timeIntervalSinceNow;
+            let descriptionFirstAlarm = "Reminder! " +  event.title + " will start in 2 minutes";
+            let descriptionLastAlarm = "Reminder! " +  event.title + " is starting...";
+            let content = UNMutableNotificationContent()
+            time = 5;
+            //$(PRODUCT_NAME)
+            //Siemens.SmartBadgeAppIOS
+            content.title = "Reminder!";
+            content.subtitle =  event.title + " is starting..."
+            content.badge = 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                configureLed.configureColors();
+            }
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+            let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            if(time - 2*60 > 0){
+                time = time - 2*60;
+                let content2 = UNMutableNotificationContent()
+                content2.title = "Reminder!";
+                content.subtitle =  event.title + " will start in 2 minutes";
+                content.badge = 1
+                configureLed.colorSetting.brightness = 75;
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                    configureLed.configureColors();
+                }
+                let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+                let request2 = UNNotificationRequest(identifier: "timerDone", content: content2, trigger: trigger2)
+                UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
+
+            }
+            
+        }
+    }
 
     private func createDate(year: Int) -> Date {
         var components = DateComponents()
@@ -176,7 +235,12 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             return test2;
     }
     
-    
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            closure()
+        }
+    }
     
 
 }
