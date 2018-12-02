@@ -7,15 +7,26 @@
 //
 
 import UIKit
-
+import CallKit
+import UserNotifications
+import EventKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    var callObserver: CXCallObserver!
     var window: UIWindow?
-
+    let center = UNUserNotificationCenter.current();
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        callObserver = CXCallObserver()
+        callObserver.setDelegate(self, queue: nil) // nil queue means main thread
+        center.delegate = self;
+        //permissions
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
+        })
+        EKEventStore().requestAccess(to: EKEntityType.event, completion: {
+            (granted, error) in})
+        
         return true
     }
 
@@ -42,5 +53,105 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+extension AppDelegate: CXCallObserverDelegate {
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        let viewController = (self.window?.rootViewController as? ViewController)!
+        let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
+                                        colorSetting: ColorSetting(
+                                            color: ColorCustomized(hexColor:
+                                                UserDefaults.standard.string(forKey: "calls")! )));
+        if call.hasEnded == true {
+            configureLed.colorSetting.brightness = 0;
+            configureLed.configureColors();
+            print("Disconnected")
+        }
+        if call.isOutgoing == true && call.hasConnected == false {
+            print("Dialing")
+        }
+        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+            print("Incoming")
+        }
+        
+        if call.hasConnected == true && call.hasEnded == false {
+            configureLed.colorSetting.brightness = 75;
+            configureLed.configureColors();
+            print("Connected")
+        }
+    }
+}
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    // while your app is active in forground
+    
+    // Handle Notifications While Your App Runs in the Foreground
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert,.sound])
+        let notifiticationIdentifier = notification.request.identifier
+        print(notifiticationIdentifier);
+        let viewController = (self.window?.rootViewController as? ViewController)!
+        if (notifiticationIdentifier.lowercased().range(of: "facebook") != nil) {
+            if let color  = UserDefaults.standard.string(forKey:"facebook"){
+                let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(
+                                                        hexColor: color)
+                ));
+                configureLed.configureColors();
+            }
+        }
+        if (notifiticationIdentifier.lowercased().range(of: "twitter") != nil) {
+            if let color  = UserDefaults.standard.string(forKey:"twitter"){
+                let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(
+                                                        hexColor: color)
+                ));
+                configureLed.configureColors();
+            }
+        }
+        if (notifiticationIdentifier.lowercased().range(of: "instagram") != nil) {
+            if let color  = UserDefaults.standard.string(forKey:"instagram"){
+                let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(
+                                                        hexColor: color)
+                ));
+                configureLed.configureColors();
+            }
+        }
+        if (notifiticationIdentifier.lowercased().range(of: "whatsapp") != nil) {
+            if let color  = UserDefaults.standard.string(forKey:"whatsapp"){
+                let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(
+                                                        hexColor: color)
+                ));
+                configureLed.configureColors();
+            }
+        }
+
+        // Change this to your preferred presentation option
+        // Play a sound.
+        //  completionHandler(UNNotificationPresentationOptions.sound)
+    }
+    
+    // While App is inactive  in background
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.identifier
+        print(userInfo)
+
+        // While App is inactive  in background
+        
+        
+        print(userInfo)
+        
+        
+        completionHandler()
+    }
 }
 

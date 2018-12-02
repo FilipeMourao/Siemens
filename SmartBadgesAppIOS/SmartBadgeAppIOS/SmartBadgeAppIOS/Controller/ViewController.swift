@@ -11,9 +11,10 @@ import WebKit
 import EventKit
 import UserNotifications
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
-    var ipAdress = "";
+    public var ipAdress = "";
     var webView: WKWebView?;
     var events:[Event] = [];
+    var defaults = UserDefaults.standard;
     let eventStore = EKEventStore();
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,19 +47,23 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         if ("\(message.body)" == "connectDevice()") {createPopUp()}
         if ("\(message.body)" == "showEvents()") {showUserEvents()}
         if ("\(message.body)" == "createAlarms()") {createNotifications()}
-        
+        if (("\(message.body)").range(of: "saveConfiguration") != nil) {
+            let (appNames,colorStrings) = getNotificationsNamesAndColors(functionString:"\(message.body)");
+            saveConfigurations(appNames: appNames, colorStrings: colorStrings);
+            
+         }
         
     }
     func showUserEvents(){
-        eventStore.requestAccess(to: EKEntityType.event, completion: {
-            (granted, error) in
-            if granted && error == nil {
-                print("Permisson granted!");
-            
-            } else {
-                print("No permisson!");
-            }
-        })
+//        eventStore.requestAccess(to: EKEntityType.event, completion: {
+//            (granted, error) in
+//            if granted && error == nil {
+//                print("Permisson granted!");
+//
+//            } else {
+//                print("No permisson!");
+//            }
+//        })
         self.events = getUserEvents();
         let jsonEncoder  = JSONEncoder();
         let jsonData = try! jsonEncoder.encode(self.events);
@@ -70,7 +75,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     }
     func getUserEvents() -> [Event] {
         var events:[Event] = [];
-        var event:Event;
         let ekEvents = get();
         var location:String;
         var color:String;
@@ -129,42 +133,24 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         return eventsTotal;
     }
     private func createNotifications(){
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
-        })
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert], completionHandler: {didAllow, error in
-//        })
-        
         for event in self.events {
-            
-//            let content = UNMutableNotificationContent()
-//            content.title = "How many days are there in one year"
-//            content.subtitle = "Do you know?"
-//            content.body = "Do you really know?"
-//            content.badge = 1
-//
-//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-//            let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
-//
-//            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//
-//
             let configureLed = ConfigureLed(ipAdress: ipAdress, colorSetting: ColorSetting(color: ColorCustomized(hexColor:event.color )));
-            configureLed.colorSetting.brightness = 0;
             var time = event.calendar.timeIntervalSinceNow;
-            let descriptionFirstAlarm = "Reminder! " +  event.title + " will start in 2 minutes";
-            let descriptionLastAlarm = "Reminder! " +  event.title + " is starting...";
-            let content = UNMutableNotificationContent()
-            time = 5;
+             let content = UNMutableNotificationContent()
+            //let descriptionFirstAlarm = "Reminder! " +  event.title + " will start in 2 minutes";
+            //let descriptionLastAlarm = "Reminder! " +  event.title + " is starting...";
             //$(PRODUCT_NAME)
-            //Siemens.SmartBadgeAppIOS
+            //$(TARGET_NAME)
             content.title = "Reminder!";
             content.subtitle =  event.title + " is starting..."
             content.badge = 1
+            time = 5;
+            //configureLed.colorSetting.brightness = 0;
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
                 configureLed.configureColors();
             }
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-            let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: "meeting reminder", content: content, trigger: trigger)
 
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             if(time - 2*60 > 0){
@@ -178,7 +164,7 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
                     configureLed.configureColors();
                 }
                 let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-                let request2 = UNNotificationRequest(identifier: "timerDone", content: content2, trigger: trigger2)
+                let request2 = UNNotificationRequest(identifier: "meeting reminder", content: content2, trigger: trigger2)
                 UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
 
             }
@@ -235,13 +221,40 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             return test2;
     }
     
-    func delay(delay: Double, closure: @escaping () -> ()) {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            closure()
+    func saveConfigurations(appNames: [String],colorStrings: [String] ) {
+        for i in 0...appNames.count - 1 {
+            UserDefaults.standard.set( colorStrings[i], forKey: appNames[i].lowercased());
+            //print("\(UserDefaults.standard.string(forKey: appNames[i].lowercased())!)")
         }
     }
-    
+    func getNotificationsNamesAndColors(functionString:String) -> ([String], [String]) {
+        var notificantionsNames = "";
+       var notificantionsColors = "";
+       var addChars = 0;
+        for char in functionString {
+            if char == "[" || char == "]" {addChars = addChars + 1 ;}
+            if addChars == 1 {
+                notificantionsNames = notificantionsNames  + String(char);
+            }
+            
+            if addChars == 3 {
+                notificantionsColors = notificantionsColors  + String(char);
+            }
+            
+        }
+        notificantionsNames = notificantionsNames  + "]";
+        notificantionsColors = notificantionsColors  + "]";
+    //    print(notificantionsNames);
+    //    print(notificantionsColors);
+        return(convertStringToStringArray(string: notificantionsNames),
+        convertStringToStringArray(string: notificantionsColors));
+    }
+    func convertStringToStringArray(string:String) -> [String] {
+        let separators = CharacterSet(charactersIn: "[,]");
+        var stringArray:[String] = string.components(separatedBy: separators);
+        return Array(stringArray[1...stringArray.count - 2]);
+
+    }
 
 }
 

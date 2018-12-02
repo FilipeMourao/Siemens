@@ -33,7 +33,7 @@ class ConfigureLed {
               //  print("response = \(response)");
             }
             
-            let responseString = String(data: data, encoding: .utf8)
+           // let responseString = String(data: data, encoding: .utf8)
            // print("responseString = \(responseString)");
         }
         task.resume();

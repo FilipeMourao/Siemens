@@ -41,10 +41,11 @@
 		D22E6E9421A6CA3E00AFEAE9 /* ColorSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */; };
 		D22E6E9621A6D70500AFEAE9 /* ConfigureLed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */; };
 		D22E6E9821A7044700AFEAE9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9721A7044700AFEAE9 /* Event.swift */; };
+		D22E6E9A21B29DBD00AFEAE9 /* CustomizedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6E9921B29DBD00AFEAE9 /* CustomizedNotification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D22E6E0E21A2D4E000AFEAE9 /* SmartBadgeAppIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartBadgeAppIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D22E6E0E21A2D4E000AFEAE9 /* Smart Badges.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Badges.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22E6E1121A2D4E000AFEAE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D22E6E1321A2D4E000AFEAE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D22E6E1621A2D4E000AFEAE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 		D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSetting.swift; sourceTree = "<group>"; };
 		D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureLed.swift; sourceTree = "<group>"; };
 		D22E6E9721A7044700AFEAE9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		D22E6E9921B29DBD00AFEAE9 /* CustomizedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizedNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +106,7 @@
 		D22E6E0F21A2D4E000AFEAE9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D22E6E0E21A2D4E000AFEAE9 /* SmartBadgeAppIOS.app */,
+				D22E6E0E21A2D4E000AFEAE9 /* Smart Badges.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +165,7 @@
 				D22E6E9321A6CA3E00AFEAE9 /* ColorSetting.swift */,
 				D22E6E9521A6D70500AFEAE9 /* ConfigureLed.swift */,
 				D22E6E9721A7044700AFEAE9 /* Event.swift */,
+				D22E6E9921B29DBD00AFEAE9 /* CustomizedNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,7 +203,7 @@
 			);
 			name = SmartBadgeAppIOS;
 			productName = SmartBadgeAppIOS;
-			productReference = D22E6E0E21A2D4E000AFEAE9 /* SmartBadgeAppIOS.app */;
+			productReference = D22E6E0E21A2D4E000AFEAE9 /* Smart Badges.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -285,6 +288,7 @@
 				D22E6E9421A6CA3E00AFEAE9 /* ColorSetting.swift in Sources */,
 				D22E6E9821A7044700AFEAE9 /* Event.swift in Sources */,
 				D22E6E8F21A6AC2500AFEAE9 /* ColorCustomized.swift in Sources */,
+				D22E6E9A21B29DBD00AFEAE9 /* CustomizedNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,7 +441,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Siemens.SmartBadgeAppIOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Badges";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -454,7 +458,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Siemens.SmartBadgeAppIOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Badges";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

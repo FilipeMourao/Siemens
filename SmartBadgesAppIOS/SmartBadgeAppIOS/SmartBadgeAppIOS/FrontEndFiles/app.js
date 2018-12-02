@@ -116,19 +116,19 @@ var app = {
         $('.save-notifications').on('click', function(){
         var appNameArray = [];
         var colorArray = [];
-        $('ul .app-config-row ').each(function(i){
+        $('.notifications-list ul .app-config-row ').each(function(i){
 
           var appName = $(this).text().replace(/(?:\s+\r\n|\r|\n)/g, '').trim(); // This is your rel value
           appNameArray.push(appName);
 
         });
-        $('ul .app-config-row .color ').each(function(i){
+        $('.notifications-list ul .app-config-row .color ').each(function(i){
 
                    var currentColorNum = parseInt($(this).attr('data-color'));
                    colorArray.push(app.colors[currentColorNum]);
                 });
-
-            window.JSInterface.saveConfiguration(appNameArray,colorArray);
+            window.webkit.messageHandlers.JSInterface.postMessage("saveConfiguration([" + appNameArray+"],["+ colorArray +"])");
+            //window.JSInterface.saveConfiguration(appNameArray,colorArray);
             app.saveNotifications();
         });
         $('.save-calendar').on('click', function(){
@@ -220,28 +220,32 @@ var app = {
         $('.notifications-trigger').on('click', function(){
 
             app.closeMenu();
-            setTimeout(function(){
-                app.initConfiguration();
-            }, 500);
+            app.initConfiguration();
+//            setTimeout(function(){
+//                app.initConfiguration();
+//            }, 500);
 
         });
-                $('.calendar-trigger').on('click', function(){
-
-                    $('.content').addClass('dark');
-                    app.closeMenu();
-                    $('.page.current').removeClass('current');
-                    $('.page.calendar').addClass('current');
-                    grow = true;
-                    updateParticles(data["calendar"]);
-//                    window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
-
-                });
+//                $('.calendar-trigger').on('click', function(){
+//
+//                    $('.content').addClass('dark');
+//                    app.closeMenu();
+//                    $('.page.current').removeClass('current');
+//                    $('.page.calendar').addClass('current');
+//                    grow = true;
+//                    updateParticles(data["calendar"]);
+////                    window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
+//
+//
+//
+//                });
 // ADD CODE HERE
       $('.calendar-trigger').on('click', function(){
             $('.content').addClass('dark');
             app.closeMenu();
             $('.page.current').removeClass('current');
             $('.page.calendar').addClass('current');
+            updateParticles(data["calendar"]);
              $('.page.calendar').removeClass('out');
              resetColor();
              $('.page.calendar .container').scrollTop(0);
