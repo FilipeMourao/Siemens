@@ -70,7 +70,7 @@ var app = {
         $('.page.current').removeClass('current');
         $('.page.connection').addClass('current');
         grow = true;
-        updateParticles(data["wifi"]);
+        updateParticles(data["bluetooth"]);
 
     },
 
@@ -223,19 +223,6 @@ var app = {
 
         });
 
-        $('.calendar-trigger').on('click', function(){
-
-            $('.content').addClass('dark');
-            app.closeMenu();
-            $('.page.current').removeClass('current');
-            $('.page.calendar').addClass('current');
-            grow = true;
-            updateParticles(data["calendar"]);
-
-        });
-
-
-
         $('.preferences-trigger').on('click', function(){
 
             $('.content').addClass('dark');
@@ -318,6 +305,9 @@ var app = {
         updateParticles(data[Object.keys(data)[1]]);
 
     },
+
+
+
 
 
 }

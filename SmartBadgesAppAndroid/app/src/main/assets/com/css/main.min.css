@@ -3032,7 +3032,7 @@ table.workout-calendar {
         -webkit-transform: translate3d(-100%, 0, 0);
         transform: translate3d(-100%, 0, 0); }
 
-        .contacts a.save-notifications {
+        .contacts a.save-contacts {
         margin-top: 2em; }
 
         .contacts ul {
@@ -3327,7 +3327,7 @@ table.workout-calendar {
         -webkit-transform: translate3d(-100%, 0, 0);
         transform: translate3d(-100%, 0, 0); }
 
-        .calendar a.save-notifications {
+        .calendar a.save-calendar {
         margin-top: 2em; }
 
         .calendar ul {
@@ -3605,7 +3605,7 @@ table.workout-calendar {
         background: white; }
         .calendar ul li .app-config-row div.count[data-count="4"] span:nth-child(2), .calendar ul li.list-header > div.count[data-count="4"] span:nth-child(2) {
         background: white; }
-        .ncontacts ul li .app-config-row div.count[data-count="4"] span:nth-child(3), .calendar ul li.list-header > div.count[data-count="4"] span:nth-child(3) {
+        .calendar ul li .app-config-row div.count[data-count="4"] span:nth-child(3), .calendar ul li.list-header > div.count[data-count="4"] span:nth-child(3) {
         background: white; }
         .calendar ul li .app-config-row div.count[data-count="4"] span:nth-child(4), .calendar ul li.list-header > div.count[data-count="4"] span:nth-child(4) {
         background: white; }

@@ -4,40 +4,35 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.text.InputType;
 import android.webkit.JavascriptInterface;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.WIFI_SERVICE;
@@ -139,52 +134,65 @@ class JavaScriptInterface {
         db.getWritableDatabase();
         CustomizedNotification notification;
         for (int i = 0; i < appNames.length; i++) {
-            String das = appNames[i];
-            String der = colorString[i];
             notification = new CustomizedNotification(appNames[i], colorString[i]);
             db.addNotification(notification);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @JavascriptInterface
     public String getAllPhoneContacts() {
         String contactValue;
         int hasPhone;
         Gson gson = new Gson();
-        ColoredContactDatabase db = new ColoredContactDatabase(activity.getApplicationContext());
-        db.getWritableDatabase();
-        List<Contact> contacts = db.getAllContacts();
-        if (contacts.isEmpty()) {
-            Cursor cursor = activity.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-            int i = 0;
-            while (cursor.moveToNext()) {
-                i++;
-                if (cursor != null) {
-                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    contactValue = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    hasPhone = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-                    if (hasPhone > 0) {
-                        Cursor cp = activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-                        if (cp != null && cp.moveToFirst()) {
-                            String number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            number = number.replaceAll("[\\s\\-\\(\\)]", "");
-                            contacts.add(new Contact(i, cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)), number));
-                            cp.close();
-                        }
+        ContactDatabase db = new ContactDatabase(activity.getApplicationContext());
+        List<Contact> contactsInDatabase = db.getAllContacts();
+        List<Contact> contactsInAgenda = new ArrayList<>();
+        Cursor cursor = activity.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        int i = 0;
+        while (cursor.moveToNext()) {
+            i++;
+            if (cursor != null) {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                contactValue = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                hasPhone = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                if (hasPhone > 0) {
+                    Cursor cp = activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                    if (cp != null && cp.moveToFirst()) {
+                        String number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        number = number.replaceAll("[\\s\\-\\(\\)]", "");
+                        contactsInAgenda.add(new Contact(i, cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)), number));
+                        cp.close();
                     }
-                } else {
-                    break;
                 }
             }
         }
-        return gson.toJson(contacts);
+        Contact contact1;
+        for (Contact contact : contactsInAgenda) {
+            contact1 = db.getContact(contact.getNumber());
+            if (contact1 != null) {
+                contact.setColor(contact1.getColor());
+                contact.setColorBrihgtness(contact1.getColorBrihgtness());
+            }
+
+        }
+
+        return gson.toJson(contactsInAgenda);
     }
 
-    public void sendCollorToJewlery(String colorString) {
-        ConfigureLed configureLed = new ConfigureLed(new ColorSetting(new ColorCustomized(colorString)));
-        configureColorIndividually myTask = new configureColorIndividually();
-        myTask.execute(configureLed);
+    @JavascriptInterface
+    public void saveContactsColors(String contactColors) {
+        String contactValue;
+        Gson gson = new Gson();
+        List<Contact> contacts =  gson.fromJson(contactColors, new TypeToken<List<Contact>>() {
+        }.getType());
+        ContactDatabase db = new ContactDatabase(activity);
+        db.getWritableDatabase();
+        for (Contact contact : contacts){
+            db.addContact(contact);
+        }
+        System.out.println(contacts);
     }
 
     @JavascriptInterface

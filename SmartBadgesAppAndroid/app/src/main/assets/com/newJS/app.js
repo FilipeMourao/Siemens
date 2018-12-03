@@ -60,7 +60,10 @@ var app = {
 
         $('.page.intro').addClass('current');
         grow = true;
-        updateParticles(data["icon"]);
+       // updateParticles(data["icon"]);
+         setTimeout(function(){
+            updateParticles(data["icon"]);
+          }, 100);
 
     },
 
@@ -70,6 +73,7 @@ var app = {
         $('.page.current').removeClass('current');
         $('.page.connection').addClass('current');
         grow = true;
+
         updateParticles(data["wifi"]);
 
     },
@@ -115,13 +119,13 @@ var app = {
         $('.save-notifications').on('click', function(){
         var appNameArray = [];
         var colorArray = [];
-        $('ul .app-config-row ').each(function(i){
+        $('.notifications-list ul .app-config-row ').each(function(i){
 
           var appName = $(this).text().replace(/(?:\s+\r\n|\r|\n)/g, '').trim(); // This is your rel value
           appNameArray.push(appName);
 
         });
-        $('ul .app-config-row .color ').each(function(i){
+        $('.notifications-list ul .app-config-row .color ').each(function(i){
 
                    var currentColorNum = parseInt($(this).attr('data-color'));
                    colorArray.push(app.colors[currentColorNum]);
@@ -134,9 +138,9 @@ var app = {
             app.saveCalendar();
         });
 
-//        $('.save-contacts').on('click', function(){
-//            app.saveContacts();
-//        });
+        $('.save-contacts').on('click', function(){
+            app.saveContacts();
+        });
 //
 //        $('.save-preferences').on('click', function(){
 //            app.savePreferences();
@@ -171,7 +175,32 @@ var app = {
         });
 
 
-        $('.app-config-row .count').on('click', function(){
+//        $('.app-config-row .count').on('click', function(){
+//
+//            var currentNum = parseInt($(this).attr('data-count'));
+//
+//            if(currentNum < 4){
+//                currentNum++;
+//            }else{
+//                currentNum = 0;
+//            }
+//            $(this).attr('data-count', currentNum);
+//        });
+//
+//        $('.app-config-row .color').on('click', function(){
+//
+//            var currentColorNum = parseInt($(this).attr('data-color'));
+//
+//            if(currentColorNum < app.colors.length){
+//                currentColorNum++;
+//            }else{
+//                currentColorNum = 0;
+//            }
+//
+//            $(this).attr('data-color', currentColorNum);
+//            $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+//        });
+        $(document).on('click','.app-config-row .count',function (){
 
             var currentNum = parseInt($(this).attr('data-count'));
 
@@ -182,8 +211,7 @@ var app = {
             }
             $(this).attr('data-count', currentNum);
         });
-
-        $('.app-config-row .color').on('click', function(){
+        $(document).on('click','.app-config-row .color',function (){
 
             var currentColorNum = parseInt($(this).attr('data-color'));
 
@@ -195,6 +223,7 @@ var app = {
 
             $(this).attr('data-color', currentColorNum);
             $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+
         });
 
         // menu listeners
@@ -266,14 +295,42 @@ var app = {
                    });
         });
 //
-//        $('.contacts-trigger').on('click', function(){
-//
-//            $('.content').addClass('dark');
-//            app.closeMenu();
-//            $('.page.current').removeClass('current');
-//            $('.page.contacts').addClass('current');
-//
-//        });
+        $('.contacts-trigger').on('click', function(){
+            $('.content').addClass('dark');
+            app.closeMenu();
+            $('.page.current').removeClass('current');
+            $('.page.contacts').addClass('current');
+             $('.contacts ul li').remove();
+            var markup ='<li class="list-header"><div class="name">App name</div><div class="color">color</div><div class="count">brightness</div></li>';
+            $('.contacts ul').append(markup);
+            var contacts = JSON.parse(window.JSInterface.getAllPhoneContacts());
+            $.each(contacts, function(index, value) {
+            var colorPosition = 0;
+            if(value.color != null) colorPosition = app.colors.indexOf(String(value.color));
+                                    var markup =
+                        '<li> ' +
+                                   '<div class="app-config-row">' +
+                                        '<div class="name">'+
+                                            '<p>' + value.name+
+                                            '</p>'+
+                                         '</div>'+
+                                     '<div class="color" data-color="'+ colorPosition+'">'+
+                                        '<div class="app-color-preview">'+
+                                        '</div>'+
+                                     '</div>'+
+                                     '<div class="count" data-count="'+ value.colorBrihgtness/25 +'" style="width:32px;height:32px;">'+
+                                        '<span></span><span></span><span></span><span></span>'+
+                                     '</div>'+
+                                   '</div>'+
+                        '</li>';
+                           $('.contacts ul').append(markup);
+                               });
+
+        $(' .app-config-row .color').each(function(i){
+                    var currentColorNum = parseInt($(this).attr('data-color'));
+                    $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+        });
+        });
 //
 //
 //
@@ -328,17 +385,28 @@ var app = {
 //
 //    },
 
-//    saveContacts : function(){
-//
-//        grow = true;
-//        updateParticles(data["check"]);
-//        $('.page.current').removeClass('current');
-//        $('.content').removeClass('dark');
-//        setTimeout(function(){
-//            app.initHomeScreen();
-//        }, 2000);
-//
-//    },
+    saveContacts : function(){
+
+        grow = true;
+        updateParticles(data["check"]);
+        $('.page.current').removeClass('current');
+        $('.content').removeClass('dark');
+        setTimeout(function(){
+            app.initHomeScreen();
+        }, 2000);
+         var contacts = JSON.parse(window.JSInterface.getAllPhoneContacts());
+         $('.contacts ul .app-config-row .count').each(function(index, value){
+            var currentBrightness = parseInt($(this).attr('data-count'))*25;
+            contacts[index].colorBrihgtness = currentBrightness;
+
+          });
+         $('.contacts ul .app-config-row .color ').each(function(index, value){
+              var currentColorNum = parseInt($(this).attr('data-color'));
+                contacts[index].color = app.colors[currentColorNum];
+           });
+         window.JSInterface.saveContactsColors(JSON.stringify(contacts));
+
+    },
     saveCalendar : function(){
 
         grow = true;

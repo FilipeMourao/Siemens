@@ -4,16 +4,23 @@ import android.support.annotation.NonNull;
 
 public class Contact implements  Comparable<Contact> {
     int id;
-    String name;
-    String number;
-    String color;
-    String ipAdress;
-
-    public Contact(int id, String name, String number) {
+   private String name;
+    private String number;
+    private String color;
+    private int colorBrihgtness;
+     public Contact(int id, String name, String number) {
         this.id = id;
         this.name = name;
         this.number = number;
     }
+    public Contact(int id, String name, String number,String color,int colorBrihgtness) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.color = color;
+        this.colorBrihgtness = colorBrihgtness;
+    }
+
 
     public String getName() {
         return name;
@@ -47,12 +54,12 @@ public class Contact implements  Comparable<Contact> {
         this.id = id;
     }
 
-    public String getIpAdress() {
-        return ipAdress;
+    public int getColorBrihgtness() {
+        return colorBrihgtness;
     }
 
-    public void setIpAdress(String ipAdress) {
-        this.ipAdress = ipAdress;
+    public void setColorBrihgtness(int colorBrihgtness) {
+        this.colorBrihgtness = colorBrihgtness;
     }
 
     @Override
