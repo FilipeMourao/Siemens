@@ -7,19 +7,15 @@
 //
 
 import UIKit
-import CallKit
 import UserNotifications
 import EventKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var callObserver: CXCallObserver!
     var window: UIWindow?
     let center = UNUserNotificationCenter.current();
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        callObserver = CXCallObserver()
-        callObserver.setDelegate(self, queue: nil) // nil queue means main thread
         center.delegate = self;
         //permissions
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
@@ -54,32 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-extension AppDelegate: CXCallObserverDelegate {
-    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        let viewController = (self.window?.rootViewController as? ViewController)!
-        let configureLed = ConfigureLed(ipAdress: viewController.ipAdress,
-                                        colorSetting: ColorSetting(
-                                            color: ColorCustomized(hexColor:
-                                                UserDefaults.standard.string(forKey: "calls")! )));
-        if call.hasEnded == true {
-            configureLed.colorSetting.brightness = 0;
-            configureLed.configureColors();
-            print("Disconnected")
-        }
-        if call.isOutgoing == true && call.hasConnected == false {
-            print("Dialing")
-        }
-        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            print("Incoming")
-        }
-        
-        if call.hasConnected == true && call.hasEnded == false {
-            configureLed.colorSetting.brightness = 75;
-            configureLed.configureColors();
-            print("Connected")
-        }
-    }
-}
+
 extension AppDelegate : UNUserNotificationCenterDelegate {
     // while your app is active in forground
     

@@ -10,12 +10,14 @@ import UIKit
 import WebKit
 import EventKit
 import UserNotifications
+import CallKit
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     public var ipAdress = "";
     var webView: WKWebView?;
     var events:[Event] = [];
     var defaults = UserDefaults.standard;
     let eventStore = EKEventStore();
+    let callObserver = CXCallObserver();
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -32,6 +34,7 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             let request = URLRequest(url: url!)
             self.view = webView
             webView!.load(request)
+            callObserver.setDelegate(self, queue: nil) // nil queue means main thread
 //            myWebView.configuration = configuration
 //            myWebView.loadFileURL(url!, allowingReadAccessTo: url!.deletingPathExtension())
 //
@@ -144,8 +147,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             content.title = "Reminder!";
             content.subtitle =  event.title + " is starting..."
             content.badge = 1
-            time = 5;
-            //configureLed.colorSetting.brightness = 0;
+            //time = 5;
+            configureLed.colorSetting.brightness = 0;
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
                 configureLed.configureColors();
             }
@@ -257,4 +260,30 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     }
 
 }
-
+extension ViewController: CXCallObserverDelegate {
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        if let color = UserDefaults.standard.string(forKey: "calls") {
+            let configureLed = ConfigureLed(ipAdress: ipAdress,
+                                            colorSetting: ColorSetting(
+                                                color: ColorCustomized(hexColor:color
+                                            )));
+            if call.hasEnded == true {
+                configureLed.colorSetting.brightness = 0;
+                configureLed.configureColors();
+                print("Disconnected")
+            }
+            if call.isOutgoing == true && call.hasConnected == false {
+                print("Dialing")
+            }
+            if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+                print("Incoming")
+            }
+            
+            if call.hasConnected == true && call.hasEnded == false {
+                configureLed.colorSetting.brightness = 75;
+                configureLed.configureColors();
+                print("Connected")
+            }
+        }
+    }
+}
