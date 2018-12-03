@@ -11,6 +11,7 @@ import WebKit
 import EventKit
 import UserNotifications
 import CallKit
+import PushKit
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     public var ipAdress = "";
     var webView: WKWebView?;
@@ -18,6 +19,7 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     var defaults = UserDefaults.standard;
     let eventStore = EKEventStore();
     let callObserver = CXCallObserver();
+    var provider = CXProvider(configuration: CXProviderConfiguration(localizedName: "My App"));
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -34,15 +36,14 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             let request = URLRequest(url: url!)
             self.view = webView
             webView!.load(request)
-            callObserver.setDelegate(self, queue: nil) // nil queue means main thread
-//            myWebView.configuration = configuration
-//            myWebView.loadFileURL(url!, allowingReadAccessTo: url!.deletingPathExtension())
+//            callObserver.setDelegate(self, queue: nil) // nil queue means main thread
 //
-//        if let url = Bundle.main.url(forResource: "newIndex", withExtension: "html"){
-//        } else{
-//            print("Error Loadging page")
-//        }
-//
+        provider.setDelegate(self, queue: nil)
+//// test user calling
+//        let update = CXCallUpdate()
+//        update.remoteHandle = CXHandle(type: .generic, value: "Pete Za")
+//        provider.reportNewIncomingCall(with: UUID(), update: update, completion: { error in })
+
         
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -118,7 +119,7 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             }
             let cal = Calendar.current
             let start = Date();
-            let end = createDate(year: cal.component(.year, from: Date()) + 4)
+            let end = createDate(year: cal.component(.year, from: Date()) + 4)// limit of it is 4 years
             
             //print("start: \(start)")
             //print("  end: \(end)")
@@ -260,7 +261,11 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     }
 
 }
-extension ViewController: CXCallObserverDelegate {
+extension ViewController: CXCallObserverDelegate,CXProviderDelegate,PKPushRegistryDelegate{
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+        print("passed from pushRegistery")
+    }
+    
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         if let color = UserDefaults.standard.string(forKey: "calls") {
             let configureLed = ConfigureLed(ipAdress: ipAdress,
@@ -268,21 +273,67 @@ extension ViewController: CXCallObserverDelegate {
                                                 color: ColorCustomized(hexColor:color
                                             )));
             if call.hasEnded == true {
-                configureLed.colorSetting.brightness = 0;
-                configureLed.configureColors();
                 print("Disconnected")
             }
             if call.isOutgoing == true && call.hasConnected == false {
                 print("Dialing")
             }
             if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-                print("Incoming")
-            }
-            
-            if call.hasConnected == true && call.hasEnded == false {
                 configureLed.colorSetting.brightness = 75;
                 configureLed.configureColors();
+                print("Incoming")
+            }
+
+            if call.hasConnected == true && call.hasEnded == false {
+                configureLed.colorSetting.brightness = 0;
+                configureLed.configureColors();
                 print("Connected")
+            }
+        }
+    }
+
+    func providerDidReset(_ provider: CXProvider) {
+    }
+
+    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
+        if let color = UserDefaults.standard.string(forKey: "calls") {
+            let configureLed = ConfigureLed(ipAdress: ipAdress,
+                                            colorSetting: ColorSetting(
+                                                color: ColorCustomized(hexColor:color
+                                            )));
+            configureLed.colorSetting.brightness = 0;
+            configureLed.configureColors();
+        }
+        action.fulfill()
+    }
+
+    func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
+        if let color = UserDefaults.standard.string(forKey: "calls") {
+            let configureLed = ConfigureLed(ipAdress: ipAdress,
+                                            colorSetting: ColorSetting(
+                                                color: ColorCustomized(hexColor:color
+                                            )));
+            configureLed.colorSetting.brightness = 0;
+            configureLed.configureColors();
+        }
+        action.fulfill()
+    }
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+        // report new incoming call
+        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
+            let identifier = payload.dictionaryPayload["identifier"] as? String,
+            let uuid = UUID(uuidString: uuidString)
+        {
+            let update = CXCallUpdate()
+            update.remoteHandle = CXHandle(type: .generic, value: identifier)
+            provider.reportNewIncomingCall(with: uuid, update: update, completion: { error in })
+            if let color = UserDefaults.standard.string(forKey: "calls") {
+                let configureLed = ConfigureLed(ipAdress: ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(hexColor:color
+                                                )));
+                configureLed.colorSetting.brightness = 75;
+                configureLed.configureColors();
             }
         }
     }
