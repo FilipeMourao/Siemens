@@ -14,6 +14,7 @@ public class HandlingCalls extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
+            Contact contact = null;
             Bundle extras = intent.getExtras();
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
             ContactDatabase db = new ContactDatabase(context);
@@ -66,7 +67,7 @@ public class HandlingCalls extends BroadcastReceiver {
 
                 if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_RINGING)){
                     String incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    Contact contact = db.getContact(incomingNumber);
+                     contact = db.getContact(incomingNumber);
                     if (contact != null){
                         IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
                         ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(contact.getColor())));
@@ -75,6 +76,7 @@ public class HandlingCalls extends BroadcastReceiver {
                         myTask.execute(configureLed);
                     }
                 }
+            if (contact != null){
                 if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
                     IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
                     ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized("#000000")));
@@ -89,6 +91,8 @@ public class HandlingCalls extends BroadcastReceiver {
                     configureColorIndividually myTask = new configureColorIndividually();
                     myTask.execute(configureLed);
                 }
+            }
+
         } catch (Exception e){
             e.printStackTrace();
         }

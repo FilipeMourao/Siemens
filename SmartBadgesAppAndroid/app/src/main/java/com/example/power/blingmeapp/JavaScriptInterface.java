@@ -60,7 +60,8 @@ class JavaScriptInterface {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!input.getText().toString().isEmpty()) {
+//                if (!input.getText().toString().isEmpty()) {
+                if (input.getText().toString().length() != 3) {
                     String ipAdress = "192.168.1." + input.getText().toString();
                     ((IpAdress) activity.getApplication()).setIPADRESS(ipAdress);
                 }
@@ -208,16 +209,20 @@ class JavaScriptInterface {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             ColorSetting colorSetting = new ColorSetting(new ColorCustomized(colorString));
             ColorSetting colorSetting2 = new ColorSetting(new ColorCustomized(colorString));
-            String descriptionEventAlmostBeginning = "Reminder!  " + title + " will start in 2 minutes... " ;
-            String descriptionEventStarted = "Reminder!  " + title + " is starting...";
+//            String descriptionEventAlmostBeginning = "Reminder!  " + title + " will start in 2 minutes... " ;
+//            String descriptionEventStarted = "Reminder!  " + title + " is starting...";
+            String descriptionEventAlmostBeginning =  title + " will start in 2 minutes... " ;
+            String descriptionEventStarted =  title + " is starting...";
             colorSetting2.setBrightness(0);
           //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
            // Calendar calendar = Calendar.getInstance();
            // calendar.setTime(dateFormat.parse(calendarString));
+        calendar.setTimeInMillis(System.currentTimeMillis() + 3000);
             createAlarm(calendar, colorSetting2, descriptionEventStarted, activity.getApplicationContext());
-            calendar.setTimeInMillis(calendar.getTimeInMillis() - 2 * 60 * 1000);
-            createAlarm(calendar, colorSetting, descriptionEventAlmostBeginning, activity.getApplicationContext());
-
+            if ((calendar.getTimeInMillis() - 2 * 60 * 1000 - System.currentTimeMillis()) > 0 ){
+                calendar.setTimeInMillis(calendar.getTimeInMillis() - 2 * 60 * 1000);
+                createAlarm(calendar, colorSetting, descriptionEventAlmostBeginning, activity.getApplicationContext());
+            }
     }
 
     public void createAlarm(Calendar calendar, ColorSetting colorSetting, String description, Context context) {
