@@ -60,8 +60,8 @@ class JavaScriptInterface {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                if (!input.getText().toString().isEmpty()) {
-                if (input.getText().toString().length() != 3) {
+      //          if (!input.getText().toString().isEmpty()) {
+                if (input.getText().toString().length() == 3) {
                     String ipAdress = "192.168.1." + input.getText().toString();
                     ((IpAdress) activity.getApplication()).setIPADRESS(ipAdress);
                 }
@@ -178,7 +178,7 @@ class JavaScriptInterface {
             }
 
         }
-
+        Collections.sort(contactsInAgenda);
         return gson.toJson(contactsInAgenda);
     }
 

@@ -76,21 +76,19 @@ public class HandlingCalls extends BroadcastReceiver {
                         myTask.execute(configureLed);
                     }
                 }
-            if (contact != null){
-                if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
-                    IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
-                    ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized("#000000")));
-                    configureLed.getColorStetting().setBrightness(0);
-                    configureColorIndividually myTask = new configureColorIndividually();
-                    myTask.execute(configureLed);
-                }
-                if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_IDLE)){
-                    IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
-                    ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized("#000000")));
-                    configureLed.getColorStetting().setBrightness(0);
-                    configureColorIndividually myTask = new configureColorIndividually();
-                    myTask.execute(configureLed);
-                }
+            if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+                IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
+                ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized("#000000")));
+                configureLed.getColorStetting().setBrightness(0);
+                configureColorIndividually myTask = new configureColorIndividually();
+                myTask.execute(configureLed);
+            }
+            if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_IDLE)){
+                IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
+                ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized("#000000")));
+                configureLed.getColorStetting().setBrightness(0);
+                configureColorIndividually myTask = new configureColorIndividually();
+                myTask.execute(configureLed);
             }
 
         } catch (Exception e){
