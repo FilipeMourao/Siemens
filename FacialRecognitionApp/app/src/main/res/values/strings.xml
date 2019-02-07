@@ -31,91 +31,86 @@
     <string name="your_data">Dein Profil</string>
 
 
-    <!- TODO: Remove or change this placeholder text -->
-<!--   <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!- TODO: Remove or change this placeholder text --><!--   <string name="hello_blank_fragment">Hello blank fragment</string>
    <string name="title_activity_event_details2">Dein Event am:</string>
    <string name="title_home">Info</string>
    <string name="title_dashboard">Chat</string>
    <string name="title_notifications">Kontakt</string>
    <string name="title_activity_maps">Map</string>
 
-   <!- TODO: Remove or change this placeholder text -->
-    <!-- Text for NewEvent-->
-<!--  <string name="pick_date">Datum</string>
+   <!- TODO: Remove or change this placeholder text --><!-- Text for NewEvent--><!--  <string name="pick_date">Datum</string>
   <string name="pick_start_time">Von</string>
   <string name="pick_end_time">Bis</string>
   <string name="introNewComeeting">Wann knurrt Dein Magen?</string>
 
-  <!- TODO: Remove or change this placeholder text -->
-    <!--settings strings-->
-<!--   <string name="settings_name">Write your name</string>
+  <!- TODO: Remove or change this placeholder text --><!--settings strings--><!--   <string name="settings_name">Write your name</string>
    <string name="settings_phone_number">Write your name</string>
    <string name="settings_share_name">Dein Event am:</string>
    <string name="settings_share_phone_number">Info</string>
    <string name="cancelEvent">ABSAGEN</string>
    <string name="locationMensa">Haupteingang Mensa,\nCampus Garching \nLichtenbergstr. 2</string>
 
-   <!-chat strings-->
-<!--  <string name="send_message">Schreibe eine Nachricht...</string>
+   <!-chat strings--><!--  <string name="send_message">Schreibe eine Nachricht...</string>
 </resources>-->
 
 <resources>
-<string name="app_name">CoEATcidence</string>
-<!-- Strings related to login -->
-<string name="prompt_email">Email</string>
-<string name="prompt_password">Password (optional)</string>
-<string name="action_sign_in">Sign in</string>
-<string name="action_register">Register</string>
-<string name="action_sign_in_short">Sign in</string>
-<string name="error_invalid_email">This email address is invalid</string>
-<string name="error_invalid_password">This password is too short</string>
-<string name="error_incorrect_password">This password is incorrect</string>
-<string name="error_field_required">This field is required</string>
-<string name="permission_rationale">"Contacts permissions are needed for providing email
+    <string name="app_name">CoEATcidence</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-<string name="nav_drawer_meetings">Your CoMeetings</string>
-<string name="nav_drawer_user">Your Profil</string>
-<string name="nav_drawer_settings">Settings</string>
-<string name="nav_drawer_logout">Log out</string>
-<string name="title_activity_new_comeeting">Add new CoMeeting</string>
-<string name="title_activity_your_comeetings">Deine CoMeetings</string>
-<string name="title_activity_fragment_your_meetings">Your CoMeetings</string>
-<string name="navigation_drawer_open">Open navigation drawer</string>
-<string name="navigation_drawer_close">Close navigation drawer</string>
-<string name="nav_header_title">Profil</string>
-<string name="nav_header_subtitle">max.mustermann@tum.de</string>
-<string name="nav_header_desc">Navigation header</string>
-<string name="action_settings">Settings</string>
-<string name="title_activity_main">Your CoMeetings</string>
-<string name="title_activity_event_details">Dein CoMeeting am:</string>
-<string name="your_data">Your Profil</string>
+    <string name="nav_drawer_meetings">Your CoMeetings</string>
+    <string name="nav_drawer_user">Your Profil</string>
+    <string name="nav_drawer_settings">Settings</string>
+    <string name="nav_drawer_logout">Log out</string>
+    <string name="title_activity_new_comeeting">Add new CoMeeting</string>
+    <string name="title_activity_your_comeetings">Deine CoMeetings</string>
+    <string name="title_activity_fragment_your_meetings">Your CoMeetings</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Profil</string>
+    <string name="nav_header_subtitle">max.mustermann@tum.de</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">Your CoMeetings</string>
+    <string name="title_activity_event_details">Dein CoMeeting am:</string>
+    <string name="your_data">Your Profil</string>
 
 
-<!-- TODO: Remove or change this placeholder text -->
-<string name="hello_blank_fragment">Hello blank fragment</string>
-<string name="title_activity_event_details2">Dein Event am:</string>
-<string name="title_home">Info</string>
-<string name="title_dashboard">Chat</string>
-<string name="title_notifications">Contact</string>
-<string name="title_activity_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_event_details2">Dein Event am:</string>
+    <string name="title_home">Info</string>
+    <string name="title_dashboard">Chat</string>
+    <string name="title_notifications">Contact</string>
+    <string name="title_activity_maps">Map</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-<!-- Text for NewEvent-->
-<string name="pick_date">Date</string>
-<string name="pick_start_time">From</string>
-<string name="pick_end_time">To</string>
-<string name="introNewComeeting">When are you hangry?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Text for NewEvent-->
+    <string name="pick_date">Date</string>
+    <string name="pick_start_time">From</string>
+    <string name="pick_end_time">To</string>
+    <string name="introNewComeeting">When are you hangry?</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-<!--settings strings-->
-<string name="settings_name">Write your name</string>
-<string name="settings_phone_number">Write your name</string>
-<string name="settings_share_name">Dein Event am:</string>
-<string name="settings_share_phone_number">Info</string>
-<string name="cancelEvent">CANCEL</string>
-<string name="locationMensa">Main entrance Mensa,\nCampus Garching \nLichtenbergstr. 2</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--settings strings-->
+    <string name="settings_name">Write your name</string>
+    <string name="settings_phone_number">Write your name</string>
+    <string name="settings_share_name">Dein Event am:</string>
+    <string name="settings_share_phone_number">Info</string>
+    <string name="cancelEvent">CANCEL</string>
+    <string name="locationMensa">Main entrance Mensa,\nCampus Garching \nLichtenbergstr. 2</string>
 
-<!--chat strings-->
-<string name="send_message">Type a message...</string>
+    <!--chat strings-->
+    <string name="send_message">Type a message...</string>
+    <string name="title_activity_result_details">ResultDetails</string>
 </resources>

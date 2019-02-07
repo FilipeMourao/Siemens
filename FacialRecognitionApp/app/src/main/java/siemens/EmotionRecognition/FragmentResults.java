@@ -12,46 +12,39 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import siemens.EmotionRecognition.helpfulStructures.ArrayAdapterResult;
-import siemens.EmotionRecognition.helpfulStructures.DataStorage;
 import siemens.EmotionRecognition.helpfulStructures.Result;
+import siemens.EmotionRecognition.helpfulStructures.ResultsDatabase;
 
 import static android.app.Activity.RESULT_OK;
-import static android.media.tv.TvContract.AUTHORITY;
 
 
 public class FragmentResults extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private FloatingActionButton fab;
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ResultsDatabase resultsDatabase;
+    private List<Result> results;
     public static int SELECT_IMAGE_GALLERY = 12445;
     public static int SELECT_IMAGE_CAMERA = 124451;
+    public static String RESULTJSON = "RESULTJSON";
 
 
     @Nullable
@@ -59,8 +52,16 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //Inflate the layout
         View view = inflater.inflate(R.layout.fragment_results, container, false);
-
+        resultsDatabase = new ResultsDatabase(getActivity());
         listView = view.findViewById(R.id.result_list);
+        listView.setOnItemClickListener(this::onItemClick);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentResults.this.onItemLongClick(parent,view,position,id);
+                return false;
+            }
+        });
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
         //Get reference to FloatingActionButton, set correct icon and register OnClickListener
@@ -72,7 +73,34 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // we need to have this thing
+        Result result = results.get(position);
+        Gson gson = new Gson();
+        String resultString = gson.toJson(result);
+        Intent intent = new Intent(getActivity(),ResultDetails.class);
+        intent.putExtra(RESULTJSON,resultString);
+        startActivity(intent);
+    }
+
+    public void onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getActivity());
+        }
+        builder.setTitle("Delete Result")
+                .setMessage("Do you want to delete this result :")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        resultsDatabase.delete(results.get(position).getImageBitMap());
+                        updateList();
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -110,12 +138,6 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
                     .setMessage("Take the picture from:")
                     .setNegativeButton("From camera", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-//                            File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-//                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                            intent.putExtra(MediaStore.EXTRA_OUTPUT,FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",f));
-//                            //                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-//                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                            //pic = f;
                             Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, SELECT_IMAGE_CAMERA);
                         }
@@ -142,7 +164,7 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
             if (requestCode == SELECT_IMAGE_CAMERA) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 Result result = new Result(bitmap);
-                ((DataStorage) getActivity().getApplicationContext()).getResultList().add(result);
+                resultsDatabase.addResult(result);
                 updateList();
 
             } else if (requestCode == SELECT_IMAGE_GALLERY) {
@@ -157,7 +179,7 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Result result = new Result(thumbnail);
-                ((DataStorage) getActivity().getApplicationContext()).getResultList().add(result);
+                resultsDatabase.addResult(result);
                 updateList();
 
             }
@@ -165,9 +187,9 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
         }
     }
     public void updateList(){
-        List<Result> results = ((DataStorage) getActivity().getApplicationContext()).getResultList();
+        results = resultsDatabase.getAllResults();
         ArrayAdapterResult arrayAdapterResult = new ArrayAdapterResult
-                (getActivity(), R.layout.result_list_row, ((DataStorage) getActivity().getApplicationContext()).getResultList());
+                (getActivity(), R.layout.result_list_row, results);
         listView.setAdapter(arrayAdapterResult);
         swipeRefreshLayout.setRefreshing(false);
     }

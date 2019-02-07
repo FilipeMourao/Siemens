@@ -5,28 +5,29 @@ import android.graphics.Bitmap;
 import java.util.UUID;
 
 public class Result {
-    private String  id;
+    private int  id;
     private Bitmap imageBitMap;
     private  String resultGenre;
     private String resultEmotion;
 
     public Result(Bitmap imageBitMap, String resultGenre, String resultEmotion) {
-        this.id = UUID.randomUUID().toString();
         this.imageBitMap = imageBitMap;
         this.resultGenre = resultGenre;
         this.resultEmotion = resultEmotion;
     }
     public Result(Bitmap imageBitMap) {
-        this.id = UUID.randomUUID().toString();
         this.imageBitMap = imageBitMap;
         this.resultGenre = "";
         this.resultEmotion = "";
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Bitmap getImageBitMap() {
         return imageBitMap;
