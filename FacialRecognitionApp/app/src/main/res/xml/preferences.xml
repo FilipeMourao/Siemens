@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<PreferenceCategory-->
+
+        <!--android:title="Name">-->
+
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="shareName"-->
+            <!--android:title="Share Name" />-->
+
+    <!--</PreferenceCategory>-->
+    <!--<PreferenceCategory android:title="Phone Number">-->
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="sharePhoneNumber"-->
+            <!--android:title="Share Phone Number" />-->
+
+
+    <!--</PreferenceCategory>-->
+    <ListPreference
+        android:key="pref_list"
+        android:title="Choose an API"
+        android:summary="%s"
+        android:entries="@array/availableAPIS"
+        android:entryValues="@array/availableAPISValues"
+        android:defaultValue="1" />
+
+</PreferenceScreen>
