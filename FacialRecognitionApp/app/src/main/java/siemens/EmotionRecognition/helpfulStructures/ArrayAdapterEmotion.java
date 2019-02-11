@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
+
 import siemens.EmotionRecognition.R;
 
-public class ArrayAdapterResult extends ArrayAdapter<Result> {
+public class ArrayAdapterEmotion extends ArrayAdapter<Float> {
     private Context context;
-    private List<Result> resultList;
+    private List<Float> emotionValue;
     private int resourceId;
 
-    public ArrayAdapterResult(@NonNull Context context, int resource, @NonNull List<Result> resultList) {
-        super(context, resource, resultList);
+    public ArrayAdapterEmotion(@NonNull Context context, int resource, @NonNull List<Float> emotionValue) {
+        super(context, resource, emotionValue);
         this.context=context;
-        this.resultList = resultList;
+        this.emotionValue = emotionValue;
         this.resourceId = resource;
     }
     @NonNull
@@ -28,13 +30,17 @@ public class ArrayAdapterResult extends ArrayAdapter<Result> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(resourceId, parent, false);
+        String anger;String contempt; String disgust; String engagement;
+        String fear; String joy; String sadness; String surprise; String valence;
+
+//        emotionString.add("anger");emotionString.add("contempt");emotionString.add("disgust");
+//        emotionString.add("engagement");emotionString.add("fear");emotionString.add("joy");
+//        emotionString.add("sadness");emotionString.add("surprise");emotionString.add("valence");
         ImageView imageView = rowView.findViewById(R.id.imageView);
         TextView userInformation = rowView.findViewById(R.id.list_results_user);
         TextView emotionInformation = rowView.findViewById(R.id.list_results_emotion);
-        Result result = resultList.get(position);
-        userInformation.setText(result.getAge());
-        emotionInformation.setText(result.getMostPossibleEmotionName());
-        imageView.setImageBitmap(result.getImageBitMap());
+        float value = emotionValue.get(position);
+        
         return rowView;
     }
 

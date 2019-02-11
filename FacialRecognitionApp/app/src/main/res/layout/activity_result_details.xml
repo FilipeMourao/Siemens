@@ -27,13 +27,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="5dp">
-
             <TextView
-                android:id="@+id/testingtesting"
+                android:id="@+id/pictureID"
                 android:layout_width="180dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/ethinicity"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,7 +55,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="5dp">
-
             <TextView
                 android:id="@+id/emotion_anger"
                 android:layout_width="match_parent"
@@ -49,9 +62,23 @@
                 android:layout_weight="50"
                 android:text="anger"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/emotion_contempt"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                android:text="disgust"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/emotion_disgust"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                android:text="disgust"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/emotion_engagement"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="50"
@@ -67,7 +94,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/emotion_happiness"
+                android:id="@+id/emotion_joy"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="50"
@@ -91,12 +118,12 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/neutral"
+                android:id="@+id/valence"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="50"
                 android:text="neutral"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </LinearLayout>
 
     </LinearLayout>

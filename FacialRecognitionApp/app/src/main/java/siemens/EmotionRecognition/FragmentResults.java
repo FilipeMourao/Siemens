@@ -59,7 +59,7 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentResults.this.onItemLongClick(parent,view,position,id);
-                return false;
+                return true;
             }
         });
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);

@@ -9,9 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ResultsDatabase extends SQLiteOpenHelper {
     private  static final int DATABASE_VERSION = 1;
@@ -19,8 +23,12 @@ public class ResultsDatabase extends SQLiteOpenHelper {
     private  static final String RESULTS = "Results";
     private  static final String KEY_ID = "id";
     private  static final String BITMAP= "bitmap";
+    private  static final String EMOTIONS_NAMES = "emotionsNames";
+    private  static final String EMOTIONS_VALUES = "emotionsValues";
     private  static final String GENRE = "genre";
-    private  static final String EMOTIONS = "emotions";
+    private  static final String ETHINICITY = "ethinicity";
+    private  static final String AGE = "age";
+    private Gson gson = new Gson();
 
 
     public ResultsDatabase(Context context){
@@ -31,8 +39,10 @@ public class ResultsDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_GAS_TABLE = "CREATE TABLE " + RESULTS +
                 " (" + KEY_ID + " INTEGER PRIMARY KEY," + BITMAP+ " TEXT,"
-                + GENRE+ " TEXT," + EMOTIONS  + " TEXT" + ")";
+                + EMOTIONS_NAMES+ " TEXT,"+ EMOTIONS_VALUES + " TEXT,"+ GENRE+ " TEXT,"
+                + ETHINICITY+ " TEXT,"+ AGE+ " TEXT" + ")";
         db.execSQL(CREATE_GAS_TABLE);
+
 
     }
 
@@ -46,16 +56,22 @@ public class ResultsDatabase extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(BITMAP,BitMapToString(result.getImageBitMap()));
-            values.put(GENRE,result.getResultGenre());
-            values.put(EMOTIONS,result.getResultEmotion());
+            values.put(EMOTIONS_NAMES,gson.toJson(result.getEmotionString()));
+            values.put(EMOTIONS_VALUES,gson.toJson(result.getEmotionValues()));
+            values.put(GENRE,result.getGender());
+            values.put(ETHINICITY,result.getEthinicity());
+            values.put(AGE,result.getAge());
             db.insert(RESULTS,null,values);
             db.close();
 
         } else {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(GENRE,result.getResultGenre());
-            values.put(EMOTIONS,result.getResultEmotion());
+            values.put(EMOTIONS_NAMES,gson.toJson(result.getEmotionString()));
+            values.put(EMOTIONS_VALUES,gson.toJson(result.getEmotionValues()));
+            values.put(GENRE,result.getGender());
+            values.put(ETHINICITY,result.getEthinicity());
+            values.put(AGE,result.getAge());
            db.update(RESULTS,values, KEY_ID + "=?", new String[]{String.valueOf( getResult(result.getImageBitMap()).getId())} );
         }
 
@@ -74,7 +90,14 @@ public class ResultsDatabase extends SQLiteOpenHelper {
         else {
             return null;
         }
-        Result result = new Result(StringToBitMap(cursor.getString(1)),cursor.getString(2),cursor.getString(3));
+        List<String> emotionsName =   gson.fromJson(cursor.getString(2), new TypeToken<List<String>>(){}.getType());
+        List<Float> emotionsValue = gson.fromJson(cursor.getString(3), new TypeToken<List<Float>>(){}.getType());
+        Result result = new Result(
+                StringToBitMap(cursor.getString(1)),
+                emotionsName,emotionsValue,
+                cursor.getString(4),cursor.getString(5),
+                cursor.getString(6));
+
         result.setId(Integer.parseInt(cursor.getString(0)));
         return result;
     }
@@ -86,7 +109,13 @@ public class ResultsDatabase extends SQLiteOpenHelper {
         Result result;
         if (cursor.moveToFirst()){
             while (!cursor.isAfterLast()) {
-                result = new Result(StringToBitMap(cursor.getString(1)),cursor.getString(2),cursor.getString(3));
+                List<String> emotionsName =   gson.fromJson(cursor.getString(2), new TypeToken<List<String>>(){}.getType());
+                List<Float> emotionsValue = gson.fromJson(cursor.getString(3), new TypeToken<List<Float>>(){}.getType());
+                result = new Result(
+                        StringToBitMap(cursor.getString(1)),
+                        emotionsName,emotionsValue,
+                        cursor.getString(4),cursor.getString(5),
+                        cursor.getString(6));
                 result.setId(Integer.parseInt(cursor.getString(0)));
                 listOfResult.add(result);
                 cursor.moveToNext();

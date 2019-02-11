@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
-            if (checkPicturesPermission()) fragment = new FragmentCamera();
+//            if (checkPicturesPermission()) fragment = new FragmentCamera();
+            if (checkPicturesPermission()) fragment = new FragmentCamera2();
             else fragment = new FragmentResults();
         }else if (id == R.id.nav_api) {
             item.setChecked(true);
