@@ -14,15 +14,15 @@ import java.util.List;
 
 import siemens.EmotionRecognition.R;
 
-public class ArrayAdapterEmotion extends ArrayAdapter<Float> {
+public class ArrayAdapterEmotion extends ArrayAdapter<String> {
     private Context context;
-    private List<Float> emotionValue;
+    private List<String> emotionList;
     private int resourceId;
 
-    public ArrayAdapterEmotion(@NonNull Context context, int resource, @NonNull List<Float> emotionValue) {
-        super(context, resource, emotionValue);
+    public ArrayAdapterEmotion(@NonNull Context context, int resource, @NonNull List<String> emotionList) {
+        super(context, resource, emotionList);
         this.context=context;
-        this.emotionValue = emotionValue;
+        this.emotionList = emotionList;
         this.resourceId = resource;
     }
     @NonNull
@@ -30,18 +30,12 @@ public class ArrayAdapterEmotion extends ArrayAdapter<Float> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(resourceId, parent, false);
-        String anger;String contempt; String disgust; String engagement;
-        String fear; String joy; String sadness; String surprise; String valence;
-
+        TextView textView = rowView.findViewById(R.id.emotion_list_element);
+        textView.setText(emotionList.get(position));
 //        emotionString.add("anger");emotionString.add("contempt");emotionString.add("disgust");
 //        emotionString.add("engagement");emotionString.add("fear");emotionString.add("joy");
 //        emotionString.add("sadness");emotionString.add("surprise");emotionString.add("valence");
-        ImageView imageView = rowView.findViewById(R.id.imageView);
-        TextView userInformation = rowView.findViewById(R.id.list_results_user);
-        TextView emotionInformation = rowView.findViewById(R.id.list_results_emotion);
-        float value = emotionValue.get(position);
-        
+
         return rowView;
     }
-
 }

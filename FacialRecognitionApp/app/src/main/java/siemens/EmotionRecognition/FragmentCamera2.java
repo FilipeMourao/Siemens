@@ -32,10 +32,13 @@ import com.affectiva.android.affdex.sdk.detector.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.Time;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 import siemens.EmotionRecognition.helpfulStructures.Result;
 import siemens.EmotionRecognition.helpfulStructures.ResultsDatabase;
@@ -83,68 +86,20 @@ public class FragmentCamera2 extends Fragment implements Detector.ImageListener 
             }
         });
         detector = new CameraDetector(getActivity(),currrentCameraType,mSurfaceView,1,Detector.FaceDetectorMode.LARGE_FACES);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         detector.setMaxProcessRate(FRAMES_PER_SECOND);
-//        detector.setFaceListener(this);
-//        detector.setOnCameraEventListener(this);
         detector.setImageListener(this);
         detector.setDetectAllEmotions(true);
         detector.setDetectAllAppearances(true);
         detector.start();
-//        imageView = view.findViewById(R.id.testImage);
-        return view;
+
     }
-//    @Override
-//    public void onCameraSizeSelected(int cameraWidth, int cameraHeight, Frame.ROTATE rotation) {
-//        int cameraPreviewWidth;
-//        int cameraPreviewHeight;
-//
-////cameraWidth and cameraHeight report the unrotated dimensions of the camera frames, so switch the width and height if necessary
-//
-//        if (rotation == Frame.ROTATE.BY_90_CCW || rotation == Frame.ROTATE.BY_90_CW) {
-//            cameraPreviewWidth = cameraHeight;
-//            cameraPreviewHeight = cameraWidth;
-//        } else {
-//            cameraPreviewWidth = cameraWidth;
-//            cameraPreviewHeight = cameraHeight;
-//        }
-//
-////retrieve the width and height of the ViewGroup object containing our SurfaceView (in an actual application, we would want to consider the possibility that the mainLayout object may not have been sized yet)
-//        int layoutWidth = width;
-//        int layoutHeight = height;
-//
-////compute the aspect Ratio of the ViewGroup object and the cameraPreview
-//
-//        float layoutAspectRatio = (float)layoutWidth/layoutHeight;
-//        float cameraPreviewAspectRatio = (float)cameraWidth/cameraHeight;
-//
-//        int newWidth;
-//        int newHeight;
-//
-//        if (cameraPreviewAspectRatio > layoutAspectRatio) {
-//            newWidth = layoutWidth;
-//            newHeight =(int) (layoutWidth / cameraPreviewAspectRatio);
-//        } else {
-//            newWidth = (int) (layoutHeight * cameraPreviewAspectRatio);
-//            newHeight = layoutHeight;
-//        }
-//
-////size the SurfaceView
-//
-//        ViewGroup.LayoutParams params = mSurfaceView.getLayoutParams();
-//        params.height = newHeight;
-//        params.width = newWidth;
-//        mSurfaceView.setLayoutParams(params);
-//    }
-//
-//    @Override
-//    public void onFaceDetectionStarted() {
-//
-//    }
-//
-//    @Override
-//    public void onFaceDetectionStopped() {
-//
-//    }
+
     public void onImageResults(List<Face> faces, Frame image, float timestamp) {
 
         if (faces == null)
@@ -166,9 +121,9 @@ public class FragmentCamera2 extends Fragment implements Detector.ImageListener 
             Face.ETHNICITY ethnicityValue = face.appearance.getEthnicity();
             Result result = new Result(getBitmapFromFrame(image));
             List<String> emotionString = new ArrayList<>();
-            emotionString.add("anger");emotionString.add("contempt");emotionString.add("disgust");
-            emotionString.add("engagement");emotionString.add("fear");emotionString.add("joy");
-            emotionString.add("sadness");emotionString.add("surprise");emotionString.add("valence");
+            emotionString.add("anger");emotionString.add("contempt");emotionString.add("disgust");emotionString.add("engagement");
+            emotionString.add("fear");emotionString.add("joy");emotionString.add("sadness");emotionString.add("surprise");
+            emotionString.add("valence");
             List<Float> emotionValues = new ArrayList<>();
             emotionValues.add(face.emotions.getAnger());emotionValues.add(face.emotions.getContempt());emotionValues.add(face.emotions.getDisgust());
             emotionValues.add(face.emotions.getEngagement());emotionValues.add(face.emotions.getFear());emotionValues.add(face.emotions.getJoy());
@@ -177,6 +132,7 @@ public class FragmentCamera2 extends Fragment implements Detector.ImageListener 
             result.setAge(ageValue.name());
             result.setGender(genderValue.name());
             result.setEthinicity(ethnicityValue.name());
+            result.setAPI_Type(1);// affectivia is the API 1 in the list
             resultList.add(result);
             emotionText.setText(result.getMostPossibleEmotionName());
             if (resultList.size()>FRAMES_PER_SECOND*2) {
@@ -186,16 +142,6 @@ public class FragmentCamera2 extends Fragment implements Detector.ImageListener 
                 resultsDatabase.addResult(result1);
                 resultList = new ArrayList<>();
             }
-
-//            //Some Expressions
-//            float smile = face.expressions.getSmile();
-//            float brow_furrow = face.expressions.getBrowFurrow();
-//            float brow_raise = face.expressions.getBrowRaise();
-//
-//            //Face feature points coordinates
-//            PointF[] points = face.getFacePoints();
-
-
     }
 }
     public static Bitmap getBitmapFromFrame(@NonNull  Frame frame) {

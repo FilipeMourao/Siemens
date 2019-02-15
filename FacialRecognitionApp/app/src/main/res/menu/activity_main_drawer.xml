@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_reults"
             android:checkable="true"
-            android:icon="@drawable/ic_emotion"
+            android:icon="@drawable/ic_emotion_happy"
             android:title="Results" />
         <item
             android:id="@+id/nav_live"
