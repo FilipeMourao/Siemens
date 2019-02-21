@@ -3,6 +3,7 @@ package siemens.EmotionRecognition;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -34,18 +36,21 @@ import android.widget.ListView;
 
 
 import com.affectiva.android.affdex.sdk.Frame;
-import com.affectiva.android.affdex.sdk.decoder.FrameDecoder;
 import com.affectiva.android.affdex.sdk.detector.Detector;
 import com.affectiva.android.affdex.sdk.detector.Face;
 import com.affectiva.android.affdex.sdk.detector.PhotoDetector;
 import com.google.gson.Gson;
+import com.microsoft.projectoxford.face.*;
+import com.microsoft.projectoxford.face.contract.*;
+import com.microsoft.projectoxford.face.rest.ClientException;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import siemens.EmotionRecognition.helpfulStructures.ArrayAdapterResult;
 import siemens.EmotionRecognition.helpfulStructures.Result;
@@ -64,11 +69,18 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
     public static int SELECT_IMAGE_GALLERY = 12445;
     public static int SELECT_IMAGE_CAMERA = 124451;
     public static String RESULTJSON = "RESULTJSON";
+
+    private  FaceServiceClient faceServiceClient;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //Inflate the layout
         View view = inflater.inflate(R.layout.fragment_results, container, false);
+
+        final String apiEndpoint = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0";
+        final String subscriptionKey = "30a35bf0a63b40c482b5b83ab371e28c";
+        faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
+
         resultsDatabase = new ResultsDatabase(getActivity());
         listView = view.findViewById(R.id.result_list);
         listView.setOnItemClickListener(this::onItemClick);
@@ -90,7 +102,8 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
         detector.setImageListener(this);
         detector.setDetectAllEmotions(true);
         detector.setDetectAllAppearances(true);
-        updateList();
+        //updateList();
+        updateListDifferentAPIS();
         return view;
     }
 
@@ -122,27 +135,38 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         resultsDatabase.delete(results.get(position).getId());
-                        updateList();
+                      //  updateList();
+                        updateListDifferentAPIS();
                     }
                 })
                 .show();
     }
 
     @Override
-    public void onRefresh() {updateList();  }
+    public void onRefresh() {
+       // updateList();
+        updateListDifferentAPIS();
+    }
 
     public boolean checkPicturesPermission() {
         if ((ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) ||
+                != PackageManager.PERMISSION_GRANTED )||
                 (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED
+                        != PackageManager.PERMISSION_GRANTED)||
+                (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)||
+                (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.INTERNET)
+                        != PackageManager.PERMISSION_GRANTED)
                 )
-                ) {
+        {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE,Manifest.permission.INTERNET}, 0);
             return false;
 
         } else {
@@ -181,7 +205,6 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
                     .show();
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,7 +213,8 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 Result result = new Result(bitmap);
                 resultsDatabase.addResult(result);
-                updateList();
+               // updateList();
+                updateListDifferentAPIS();
 
             } else if (requestCode == SELECT_IMAGE_GALLERY) {
                 Uri selectedImage = data.getData();
@@ -206,10 +230,9 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
 
                 Result result = new Result(getResizedBitmap(rotateBitmap(thumbnail,-90.0f),1000));
                 resultsDatabase.addResult(result);
-                updateList();
-
+//                updateList();
+                updateListDifferentAPIS();
             }
-
         }
     }
     public void updateList(){
@@ -228,13 +251,98 @@ public class FragmentResults extends Fragment implements AdapterView.OnItemClick
         listView.setAdapter(arrayAdapterResult);
         swipeRefreshLayout.setRefreshing(false);
     }
+    public void updateListDifferentAPIS(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int apiType =  Integer.valueOf(sp.getString("pref_list","1"));
+        results = resultsDatabase.getAllResults();
+        for (Result result : results){
+            if (result.getAPI_Type() == 0){
+                updateImageFromDifferentAPI(result,apiType);
+                resultsDatabase.delete(result.getId());
+            }
+        }
+        results = resultsDatabase.getAllResults();
+        ArrayAdapterResult arrayAdapterResult = new ArrayAdapterResult
+                (getActivity(), R.layout.result_list_row, results);
+        listView.setAdapter(arrayAdapterResult);
+        swipeRefreshLayout.setRefreshing(false);
+    }
     public void updateImageFromDifferentAPI(Result result,int apiType){
-        detector.start();
+
         switch (apiType){
             case 1:
                 //affectiva api
+                detector.start();
                 Frame frame = new Frame.BitmapFrame(result.getImageBitMap(),Frame.COLOR_FORMAT.RGBA);
                 detector.process(frame);
+                break;
+            case 2:
+                // microssoft api
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                result.getImageBitMap().compress(Bitmap.CompressFormat.JPEG,30,outputStream);
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+                //
+                AsyncTask<InputStream,String,com.microsoft.projectoxford.face.contract.Face[]> processAsync =
+                        new AsyncTask<InputStream, String, com.microsoft.projectoxford.face.contract.Face[]>() {
+                            @Override
+                            protected com.microsoft.projectoxford.face.contract.Face[] doInBackground(InputStream... inputStreams) {
+                                com.microsoft.projectoxford.face.contract.Face[] result = null;
+                                try {
+                                    result = faceServiceClient.detect(
+                                            inputStreams[0],
+                                            true,         // returnFaceId
+                                            false,        // returnFaceLandmarks
+                                            new FaceServiceClient.FaceAttributeType[] {
+                                        FaceServiceClient.FaceAttributeType.Age,
+                                        FaceServiceClient.FaceAttributeType.Gender,
+                                            FaceServiceClient.FaceAttributeType.Emotion}
+                                    );
+                                } catch (ClientException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                return result;
+                            }
+
+                            @Override
+                            protected void onPostExecute(com.microsoft.projectoxford.face.contract.Face[] recognizeResult) {
+                                Result newResult = new Result(result.getImageBitMap());
+                                if (recognizeResult == null || recognizeResult.length == 0) {
+                                    resultsDatabase.addResult(newResult);
+                                } else {
+                                    com.microsoft.projectoxford.face.contract.Face face = recognizeResult[0];
+                                    List<Float> emotionValues = new ArrayList<>();
+                                    List<String> emotionNames = new ArrayList<>();
+                                    emotionValues.add((float)face.faceAttributes.emotion.anger);
+                                    emotionNames.add("anger");
+                                    emotionValues.add((float)face.faceAttributes.emotion.contempt);
+                                    emotionNames.add("contempt");
+                                    emotionValues.add((float)face.faceAttributes.emotion.disgust);
+                                    emotionNames.add("disgust");
+                                    emotionValues.add((float)face.faceAttributes.emotion.fear);
+                                    emotionNames.add("fear");
+                                    emotionValues.add((float)face.faceAttributes.emotion.happiness);
+                                    emotionNames.add("hapiness");
+                                    emotionValues.add((float)face.faceAttributes.emotion.neutral);
+                                    emotionNames.add("neutral");
+                                    emotionValues.add((float)face.faceAttributes.emotion.sadness);
+                                    emotionNames.add("sadness");
+                                    emotionValues.add((float)face.faceAttributes.emotion.surprise);
+                                    emotionNames.add("surprise");
+                                    newResult.setAPI_Type(2);// microssoft api
+                                    newResult.setGender(face.faceAttributes.gender);
+                                    newResult.setAge(Double.toString(face.faceAttributes.age));
+                                    newResult.setEmotionValues(emotionValues);
+                                    newResult.setEmotionString(emotionNames);
+                                    resultsDatabase.addResult(newResult);
+                                    updateListDifferentAPIS();
+
+                                }
+                            }
+                        };
+                processAsync.execute(inputStream);
                 break;
             default:
                 //no api;

@@ -32,7 +32,15 @@ public class ArrayAdapterResult extends ArrayAdapter<Result> {
         TextView userInformation = rowView.findViewById(R.id.list_results_user);
         TextView emotionInformation = rowView.findViewById(R.id.list_results_emotion);
         Result result = resultList.get(position);
-        userInformation.setText(result.getAge());
+        String ageString = result.getAge();
+        switch (result.getAPI_Type()){
+            case 2:
+                ageString = "Age: " + result.getAge();
+                break;
+            default:
+                break;
+        }
+        userInformation.setText(ageString);
         emotionInformation.setText(result.getMostPossibleEmotionName());
         imageView.setImageBitmap(result.getImageBitMap());
         return rowView;

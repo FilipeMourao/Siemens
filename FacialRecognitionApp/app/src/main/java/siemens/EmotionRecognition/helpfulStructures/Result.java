@@ -140,6 +140,10 @@ public class Result {
             case 1:
                 apiType = "API: Affectivia";
                 break;
+            case 2:
+                apiType = "API: Microssoft";
+                ageString = "Age: " + getAge();
+                break;
                 default:
                     apiType = "API: not provided";
                     break;
@@ -159,6 +163,7 @@ public class Result {
         String sadness  = "\uD83D\uDE22";
         String surprise  = "\uD83D\uDE2F";
         String valence  = "\uD83D\uDE0E";
+        String neutral  = "\uD83D\uDE10";
         switch (emotion){
             case "anger":
                 return anger;
@@ -172,12 +177,16 @@ public class Result {
                 return fear;
             case "joy":
                 return joy;
+            case "hapiness":
+                return joy;
             case "sadness":
                 return sadness;
             case "surprise":
                 return surprise;
             case "valence":
                 return valence;
+            case "neutral":
+                return neutral;
                 default:
                     return "\uDE21";
         }

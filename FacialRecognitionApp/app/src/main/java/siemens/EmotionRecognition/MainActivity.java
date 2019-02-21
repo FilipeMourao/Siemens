@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements   NavigationView.OnNavigationItemSelectedListener {
@@ -81,18 +80,22 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
-//            if (checkPicturesPermission()) fragment = new FragmentCamera();
+//            if (checkPicturesPermission()) fragment = new FragmentCameraDefault();
             if (checkPicturesPermission()){
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
                 int apiType =  Integer.valueOf(sp.getString("pref_list","1"));
                 switch (apiType){
                     case 1:
                         //affectivia api
-                        fragment = new FragmentCamera2();
+                        fragment = new FragmentCameraAffectivia();
+                        break;
+                    case 2:
+                        //microssoft api
+                        fragment = new FragmentCameraMicrossoft();
                         break;
                     default:
                         // no api
-                        fragment = new FragmentCamera();
+                        fragment = new FragmentCameraDefault();
                 }
             }
             else fragment = new FragmentResults();
@@ -122,12 +125,18 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
                 != PackageManager.PERMISSION_GRANTED )||
                 (ContextCompat.checkSelfPermission(MainActivity.this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED
+                        != PackageManager.PERMISSION_GRANTED)||
+                (ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)||
+                (ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.INTERNET)
+                        != PackageManager.PERMISSION_GRANTED)
                 )
-                ) {
-            // No explanation needed; request the permission
+        {
             ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission
+                            .WRITE_EXTERNAL_STORAGE,Manifest.permission.INTERNET}, 0);
             return false;
 
         } else {
