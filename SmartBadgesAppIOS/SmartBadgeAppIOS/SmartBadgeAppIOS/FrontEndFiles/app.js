@@ -1,5 +1,5 @@
-var app = {
 
+var app = {
 
     connected : false,
     colors : [
@@ -12,7 +12,7 @@ var app = {
         "#FF00FF"
 
     ],
-
+     contacts : [],
 
     init : function(){
 
@@ -60,7 +60,9 @@ var app = {
 
         $('.page.intro').addClass('current');
         grow = true;
-        updateParticles(data["icon"]);
+        setTimeout(function(){
+                   updateParticles(data["icon"]);
+                   }, 100);
 
     },
 
@@ -137,9 +139,9 @@ var app = {
         
 
 
-//        $('.save-contacts').on('click', function(){
-//            app.saveContacts();
-//        });
+        $('.save-contacts').on('click', function(){
+            app.saveContacts();
+        });
 //
 //        $('.save-preferences').on('click', function(){
 //            app.savePreferences();
@@ -174,31 +176,57 @@ var app = {
         });
 
 
-        $('.app-config-row .count').on('click', function(){
+                $('.app-config-row .count').on('click', function(){
 
-            var currentNum = parseInt($(this).attr('data-count'));
+                    var currentNum = parseInt($(this).attr('data-count'));
 
-            if(currentNum < 4){
-                currentNum++;
-            }else{
-                currentNum = 0;
-            }
-            $(this).attr('data-count', currentNum);
-        });
+                    if(currentNum < 4){
+                        currentNum++;
+                    }else{
+                        currentNum = 0;
+                    }
+                    $(this).attr('data-count', currentNum);
+                });
 
-        $('.app-config-row .color').on('click', function(){
+                $('.app-config-row .color').on('click', function(){
 
-            var currentColorNum = parseInt($(this).attr('data-color'));
+                    var currentColorNum = parseInt($(this).attr('data-color'));
 
-            if(currentColorNum < app.colors.length){
-                currentColorNum++;
-            }else{
-                currentColorNum = 0;
-            }
+                    if(currentColorNum < app.colors.length){
+                        currentColorNum++;
+                    }else{
+                        currentColorNum = 0;
+                    }
 
-            $(this).attr('data-color', currentColorNum);
-            $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
-        });
+                    $(this).attr('data-color', currentColorNum);
+                    $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+                });
+//        $(document).on('click','.app-config-row .count',function (){
+//
+//                       var currentNum = parseInt($(this).attr('data-count'));
+//
+//                       if(currentNum < 4){
+//                       currentNum++;
+//                       }else{
+//                       currentNum = 0;
+//                       }
+//                       $(this).attr('data-count', currentNum);
+//                       });
+//        $(document).on('click','.app-config-row .color',function (){
+//
+//                       var currentColorNum = parseInt($(this).attr('data-color'));
+//
+//                       if(currentColorNum < app.colors.length){
+//                       currentColorNum++;
+//                       }else{
+//                       currentColorNum = 0;
+//                       }
+//
+//                       $(this).attr('data-color', currentColorNum);
+//                       $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+//
+//                       });
+
 
         // menu listeners
 
@@ -226,19 +254,17 @@ var app = {
 //            }, 500);
 
         });
-//                $('.calendar-trigger').on('click', function(){
-//
-//                    $('.content').addClass('dark');
-//                    app.closeMenu();
-//                    $('.page.current').removeClass('current');
-//                    $('.page.calendar').addClass('current');
-//                    grow = true;
-//                    updateParticles(data["calendar"]);
-////                    window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
-//
-//
-//
-//                });
+        $('.contacts-trigger').on('click', function(){
+                                  $('.content').addClass('dark');
+                                  app.closeMenu();
+                                  $('.page.current').removeClass('current');
+                                  $('.page.contacts').addClass('current');
+                                  $('.contacts ul li').remove();
+                                  var markup ='<li class="list-header"><div class="name">App name</div><div class="color">color</div><div class="count">brightness</div></li>';
+                                  $('.contacts ul').append(markup);
+                                  window.webkit.messageHandlers.JSInterface.postMessage("showContacts()");
+                                  });
+        
 // ADD CODE HERE
       $('.calendar-trigger').on('click', function(){
             $('.content').addClass('dark');
@@ -257,14 +283,6 @@ var app = {
         });
 
 //
-//        $('.contacts-trigger').on('click', function(){
-//
-//            $('.content').addClass('dark');
-//            app.closeMenu();
-//            $('.page.current').removeClass('current');
-//            $('.page.contacts').addClass('current');
-//
-//        });
 //
 //
 //
@@ -331,6 +349,61 @@ var app = {
                // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
                });
     },
+    ListContacts : function(contactList){
+        contacts = JSON.parse(contactList);
+        $.each(contacts, function(index, value) {
+               var colorPosition = 0;
+               if(value.color != null) colorPosition = app.colors.indexOf(String(value.color));
+               var markup =
+               '<li> ' +
+               '<div class="app-config-row">' +
+               '<div class="name">'+
+               '<p>' + value.name+
+               '</p>'+
+               '</div>'+
+               '<div class="color" data-color="'+ colorPosition+'">'+
+               '<div class="app-color-preview">'+
+               '</div>'+
+               '</div>'+
+               '<div class="count" data-count="'+ value.colorBrihgtness/25 +'" style="width:32px;height:32px;">'+
+               '<span></span><span></span><span></span><span></span>'+
+               '</div>'+
+               '</div>'+
+               '</li>';
+               $('.contacts ul').append(markup);
+               });
+        
+        $(' .app-config-row .color').each(function(i){
+                                          var currentColorNum = parseInt($(this).attr('data-color'));
+                                          $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+                                          })
+        ;
+        $('.app-config-row .count').on('click', function(){
+                                       
+                                       var currentNum = parseInt($(this).attr('data-count'));
+                                       
+                                       if(currentNum < 4){
+                                       currentNum++;
+                                       }else{
+                                       currentNum = 0;
+                                       }
+                                       $(this).attr('data-count', currentNum);
+                                       });
+        
+        $('.app-config-row .color').on('click', function(){
+                                       
+                                       var currentColorNum = parseInt($(this).attr('data-color'));
+                                       
+                                       if(currentColorNum < app.colors.length){
+                                       currentColorNum++;
+                                       }else{
+                                       currentColorNum = 0;
+                                       }
+                                       
+                                       $(this).attr('data-color', currentColorNum);
+                                       $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+                                       });
+    },
     
 
 //    savePreferences : function(){
@@ -345,17 +418,27 @@ var app = {
 //
 //    },
 
-//    saveContacts : function(){
-//
-//        grow = true;
-//        updateParticles(data["check"]);
-//        $('.page.current').removeClass('current');
-//        $('.content').removeClass('dark');
-//        setTimeout(function(){
-//            app.initHomeScreen();
-//        }, 2000);
-//
-//    },
+    saveContacts : function(){
+        
+        grow = true;
+        updateParticles(data["check"]);
+        $('.page.current').removeClass('current');
+        $('.content').removeClass('dark');
+        setTimeout(function(){
+                   app.initHomeScreen();
+                   }, 2000);
+        $('.contacts ul .app-config-row .count').each(function(index, value){
+                                                      var currentBrightness = parseInt($(this).attr('data-count'))*25;
+                                                      contacts[index].colorBrihgtness = currentBrightness;
+                                                      
+                                                      });
+        $('.contacts ul .app-config-row .color ').each(function(index, value){
+                                                       var currentColorNum = parseInt($(this).attr('data-color'));
+                                                       contacts[index].color = app.colors[currentColorNum];
+                                                       });
+           window.webkit.messageHandlers.JSInterface.postMessage("saveContacts()" + JSON.stringify(contacts) );
+        
+    },
     saveCalendar : function(){
 
         grow = true;

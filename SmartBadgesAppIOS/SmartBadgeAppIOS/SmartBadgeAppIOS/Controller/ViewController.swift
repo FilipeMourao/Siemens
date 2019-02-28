@@ -12,6 +12,8 @@ import EventKit
 import UserNotifications
 import CallKit
 import PushKit
+import ContactsUI
+import CoreData
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     public var ipAdress = "";
     var webView: WKWebView?;
@@ -19,14 +21,13 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     var defaults = UserDefaults.standard;
     let eventStore = EKEventStore();
     let callObserver = CXCallObserver();
+    var contactList:[Contact] = [];
+    var phoneContacts:[ContactEntity] = [];
     var provider = CXProvider(configuration: CXProviderConfiguration(localizedName: "My App"));
-    override func viewDidLoad() {
+   
+    let persistenceManager:PersistenceManager = PersistenceManager();
+       override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-//        if let path = Bundle.main.path(forResource: "newIndex", ofType: "html"){
-//            let url = URL(string: path)
-//            myWebView.loadFileURL(url!, allowingReadAccessTo: url!.deletingPathExtension())
-//        }else{
             let configuration = WKWebViewConfiguration()
             let controller = WKUserContentController()
             controller.add(self, name: "JSInterface")
@@ -38,12 +39,12 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             webView!.load(request)
 //            callObserver.setDelegate(self, queue: nil) // nil queue means main thread
 //
-        provider.setDelegate(self, queue: nil)
-//// test user calling
+//        // test user calling
+//        provider.setDelegate(self, queue: nil)
 //        let update = CXCallUpdate()
 //        update.remoteHandle = CXHandle(type: .generic, value: "Pete Za")
 //        provider.reportNewIncomingCall(with: UUID(), update: update, completion: { error in })
-
+//
         
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -56,18 +57,99 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             saveConfigurations(appNames: appNames, colorStrings: colorStrings);
             
          }
+        if ("\(message.body)" == "showContacts()") {showUserContacts()}
+        if (("\(message.body)").range(of: "saveContacts()") != nil) {
+            var contactsCompleted = "\(message.body)";
+            let test = contactsCompleted.replacingOccurrences(of: "saveContacts()", with: "");
+           // print(test);
+            let jsonData2: Data = test.data(using: String.Encoding.utf8)!
+            let jsonDecoder = JSONDecoder();
+            contactList = try! jsonDecoder.decode([Contact].self, from: jsonData2);
+            saveContacts(contacts: contactList);
+        }
+    }
+    func showUserContacts(){
+        getDatabaseContacts();
+        var partialContactList:[Contact] = [];
+        let contactStore = CNContactStore()
+        let keysToFetch = [
+            CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+            CNContactPhoneNumbersKey] as [Any]
+        
+        var allContainers: [CNContainer] = []
+        do {
+            allContainers = try contactStore.containers(matching: nil)
+        } catch {
+            print( "Error fetching containers") // you can use print()
+        }
+        
+        var results: [CNContact] = []
+        
+        for container in allContainers {
+            let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
+            
+            do {
+                let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
+                results.append(contentsOf: containerResults)
+            } catch {
+                print( "Error fetching containers") // you can use print()            }
+            }
+            var contact:Contact;
+            for cnContact in results {
+                contact = Contact(name: cnContact.givenName, number: (cnContact.phoneNumbers[0].value ).value(forKey: "digits") as! String );
+                partialContactList.append(contact);
+            }
+            
+        }
+        var contact1:Contact;
+        for contact in partialContactList {
+            if(!self.contactList.filter({$0.number == contact.number}).isEmpty){
+                contact1 = self.contactList.filter({$0.number == contact.number})[0];
+                contact.colorBrihgtness = contact1.colorBrihgtness;
+                contact.color = contact1.color;
+            }
+        }
+        self.contactList =  partialContactList.sorted(by: { $0.name < $1.name });
+        let jsonEncoder  = JSONEncoder();
+        let jsonData = try! jsonEncoder.encode(self.contactList);
+        let json =  String(data: jsonData, encoding: .utf8)!;
+        let javaScriptString = "app.ListContacts('\(json)');"
+        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
         
     }
+    func saveContacts(contacts:[Contact]) {
+        for contact in contacts {
+            if(!phoneContacts.filter({$0.number == contact.number}).isEmpty){
+                let phoneContact = phoneContacts.filter({$0.number == contact.number}).first!
+                phoneContact.name = contact.name
+                phoneContact.color = contact.color
+                phoneContact.colorBrightness = Int16(contact.colorBrihgtness)
+                
+            } else {
+                let phoneContact = ContactEntity(context: persistenceManager.context)
+                phoneContact.name = contact.name
+                phoneContact.number = contact.number
+                phoneContact.color = contact.color
+                phoneContact.colorBrightness = Int16(contact.colorBrihgtness)
+            }
+            persistenceManager.save();
+        }
+    }
+    func getDatabaseContacts()  {
+        phoneContacts  = persistenceManager.fetch(ContactEntity.self)
+//       guard let phoneContactsList = try! persistenceManager.context.fetch(PhoneContact.fetchRequest()) as? [PhoneContact] else { return }
+       // phoneContacts = phoneContactsList
+        self.contactList = [];
+        for phoneContact in phoneContacts {
+            contactList.append(Contact(name: phoneContact.name,
+                                       number: phoneContact.number,
+                                       color: phoneContact.color,
+                                       colorBrihgtness: Int(phoneContact.colorBrightness)))
+        }
+        
+    }
+
     func showUserEvents(){
-//        eventStore.requestAccess(to: EKEntityType.event, completion: {
-//            (granted, error) in
-//            if granted && error == nil {
-//                print("Permisson granted!");
-//
-//            } else {
-//                print("No permisson!");
-//            }
-//        })
         self.events = getUserEvents();
         let jsonEncoder  = JSONEncoder();
         let jsonData = try! jsonEncoder.encode(self.events);
@@ -208,22 +290,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         func takeCardNumber(textField: UITextField) {
         textField.keyboardType = .numberPad;
     }
-    func jsonEncoding(object:[Event]) -> String {
-        do {
-            let jsonEncoder  = JSONEncoder();
-            let jsonData = try jsonEncoder.encode(object);
-            let json =  String(data: jsonData, encoding: .utf8)!;
-            return json;
-        } catch {
-            return "Error";
-        }
-    }
-    func jsonDencoding(json:String) -> ColorCustomized {
-            let jsonData2: Data = json.data(using: String.Encoding.utf8)!
-            let jsonDecoder = JSONDecoder();
-            let test2 = try! jsonDecoder.decode(ColorCustomized.self, from: jsonData2);
-            return test2;
-    }
     
     func saveConfigurations(appNames: [String],colorStrings: [String] ) {
         for i in 0...appNames.count - 1 {
@@ -240,7 +306,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             if addChars == 1 {
                 notificantionsNames = notificantionsNames  + String(char);
             }
-            
             if addChars == 3 {
                 notificantionsColors = notificantionsColors  + String(char);
             }
@@ -259,74 +324,75 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         return Array(stringArray[1...stringArray.count - 2]);
 
     }
+    func jsonEncoding(object:[Event]) -> String {
+        do {
+            let jsonEncoder  = JSONEncoder();
+            let jsonData = try jsonEncoder.encode(object);
+            let json =  String(data: jsonData, encoding: .utf8)!;
+            return json;
+        } catch {
+            return "Error";
+        }
+    }
+    func jsonDencoding(json:String) -> ColorCustomized {
+        let jsonData2: Data = json.data(using: String.Encoding.utf8)!
+        let jsonDecoder = JSONDecoder();
+        let test2 = try! jsonDecoder.decode(ColorCustomized.self, from: jsonData2);
+        return test2;
+    }
 
 }
+
+
 extension ViewController: CXCallObserverDelegate,CXProviderDelegate,PKPushRegistryDelegate{
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        
+    }
+    
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         print("passed from pushRegistery")
     }
     
-    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        if let color = UserDefaults.standard.string(forKey: "calls") {
-            let configureLed = ConfigureLed(ipAdress: ipAdress,
-                                            colorSetting: ColorSetting(
-                                                color: ColorCustomized(hexColor:color
-                                            )));
-            if call.hasEnded == true {
-                print("Disconnected")
-            }
-            if call.isOutgoing == true && call.hasConnected == false {
-                print("Dialing")
-            }
-            if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-                configureLed.colorSetting.brightness = 75;
-                configureLed.configureColors();
-                print("Incoming")
-            }
-
-            if call.hasConnected == true && call.hasEnded == false {
-                configureLed.colorSetting.brightness = 0;
-                configureLed.configureColors();
-                print("Connected")
-            }
-        }
-    }
-
     func providerDidReset(_ provider: CXProvider) {
     }
 
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        if let color = UserDefaults.standard.string(forKey: "calls") {
             let configureLed = ConfigureLed(ipAdress: ipAdress,
                                             colorSetting: ColorSetting(
-                                                color: ColorCustomized(hexColor:color
+                                                color: ColorCustomized(hexColor:"#123456"
                                             )));
             configureLed.colorSetting.brightness = 0;
             configureLed.configureColors();
-        }
         action.fulfill()
     }
 
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        if let color = UserDefaults.standard.string(forKey: "calls") {
             let configureLed = ConfigureLed(ipAdress: ipAdress,
                                             colorSetting: ColorSetting(
-                                                color: ColorCustomized(hexColor:color
+                                                color: ColorCustomized(hexColor:"#123456"
                                             )));
             configureLed.colorSetting.brightness = 0;
             configureLed.configureColors();
-        }
+        
         action.fulfill()
     }
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         // report new incoming call
         if let uuidString = payload.dictionaryPayload["UUID"] as? String,
             let identifier = payload.dictionaryPayload["identifier"] as? String,
-            let uuid = UUID(uuidString: uuidString)
-        {
+            let uuid = UUID(uuidString: uuidString) {
             let update = CXCallUpdate()
             update.remoteHandle = CXHandle(type: .generic, value: identifier)
             provider.reportNewIncomingCall(with: uuid, update: update, completion: { error in })
+//            //Change this to income number
+//            let phoneNumber:String = "test";
+//            if(!phoneContacts.filter({$0.number == phoneNumber}).isEmpty){
+//                let phoneContact = phoneContacts.filter({$0.number == phoneNumber}).first!
+//                let configureLed = ConfigureLed(ipAdress: ipAdress,
+//                                                colorSetting: ColorSetting(color: ColorCustomized(hexColor: phoneContact.color)));
+//                configureLed.colorSetting.brightness = Int(phoneContact.colorBrightness);
+//                configureLed.configureColors();
+//           }
             if let color = UserDefaults.standard.string(forKey: "calls") {
                 let configureLed = ConfigureLed(ipAdress: ipAdress,
                                                 colorSetting: ColorSetting(
@@ -334,7 +400,9 @@ extension ViewController: CXCallObserverDelegate,CXProviderDelegate,PKPushRegist
                                                 )));
                 configureLed.colorSetting.brightness = 75;
                 configureLed.configureColors();
+                
             }
+            
         }
     }
 }

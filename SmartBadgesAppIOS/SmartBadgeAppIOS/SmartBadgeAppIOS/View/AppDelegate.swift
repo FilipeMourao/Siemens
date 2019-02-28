@@ -9,6 +9,8 @@
 import UIKit
 import UserNotifications
 import EventKit
+import ContactsUI
+import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -22,7 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         EKEventStore().requestAccess(to: EKEntityType.event, completion: {
             (granted, error) in})
-        
+        let entityType = CNEntityType.contacts;
+        let authStatus = CNContactStore.authorizationStatus(for: entityType);
+        if authStatus == CNAuthorizationStatus.notDetermined{
+            let contactStore = CNContactStore.init()
+            contactStore.requestAccess(for: entityType, completionHandler: {(success,nil) in})
+        }
+
         return true
     }
 

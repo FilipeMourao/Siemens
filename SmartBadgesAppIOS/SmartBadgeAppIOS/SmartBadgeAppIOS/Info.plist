@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCalendarUsageDescription</key>
 	<string>$(PRODUCT_NAME) calendar use</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Syncing your contacts</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Syncing with  your meetings</string>
 	<key>UILaunchStoryboardName</key>
