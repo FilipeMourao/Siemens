@@ -1,0 +1,177 @@
+package com.example.power.blingmeapp;
+
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+public class ConfigureLed {
+	public UUID serviceUUID = convertFromInteger(0x1200);
+	public UUID UUID_RED = convertFromInteger(0x1201);
+	public UUID UUID_GREEN = convertFromInteger(0x1202);
+	public  UUID UUID_BLUE = convertFromInteger(0x1203);
+	public UUID UUID_BRIGHTNESS = convertFromInteger(0x1204);
+	public static String  deviceName = "badge";
+	ColorSetting colorStetting;
+	BluetoothDevice btDevice = null;
+	BluetoothGatt mGatt;
+
+	public ConfigureLed(ColorSetting colorStetting) {
+		this.colorStetting = colorStetting;
+		this.btDevice = JavaScriptInterface.BLUETOOTH_BADGE;
+
+	}
+	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+	public boolean configureColors(Context context) throws IOException {
+		String redString, blueString, greenString, brightnessString;
+		brightnessString = Integer.toHexString(colorStetting.getBrightness());
+		redString = Integer.toHexString(colorStetting.getColor().getR());
+		greenString = Integer.toHexString(colorStetting.getColor().getG());
+		blueString = Integer.toHexString(colorStetting.getColor().getB());
+		BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+
+			@Override
+			public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+				Log.i("onConnectionStateChange", "Status: " + status);
+				switch (newState) {
+					case BluetoothProfile.STATE_CONNECTED:
+						gatt.discoverServices();
+						break;
+					case BluetoothProfile.STATE_DISCONNECTED:
+						Log.e("gattCallback", "STATE_DISCONNECTED");
+						Log.i("gattCallback", "reconnecting...");
+						break;
+					default:
+						Log.e("gattCallback", "STATE_OTHER");
+						break;
+				}
+
+			}
+
+			public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+				List<BluetoothGattService> services = gatt.getServices();
+				Log.i("onServicesDiscovered", services.toString());
+				Iterator<BluetoothGattService> serviceIterator = services.iterator();
+				while(serviceIterator.hasNext()){
+					BluetoothGattService bleService = serviceIterator.next();
+					if(bleService.getUuid().equals(serviceUUID) ){
+
+					}
+				}
+				changeColor();
+
+			}
+			public void changeColor(){
+				String redString = Integer.toHexString(colorStetting.getColor().getR());
+				BluetoothGattCharacteristic characteristicRed =
+						mGatt.getService(serviceUUID)
+								.getCharacteristic(UUID_RED);
+				characteristicRed.setValue(hexStringToByteArray(redString));
+				mGatt.writeCharacteristic(characteristicRed);
+;
+
+			}
+			public void onCharacteristicWrite (BluetoothGatt gatt,
+											   BluetoothGattCharacteristic characteristic,
+											   int status){
+				if (characteristic.getUuid().equals(UUID_RED)){
+					String greenString = Integer.toHexString(colorStetting.getColor().getG());
+					BluetoothGattCharacteristic characteristicGreen =
+							mGatt.getService(serviceUUID)
+									.getCharacteristic(UUID_GREEN);
+					characteristicGreen.setValue(hexStringToByteArray(greenString));
+					gatt.writeCharacteristic(characteristicGreen);
+				}
+				if (characteristic.getUuid().equals(UUID_GREEN)){
+					String blueString = Integer.toHexString(colorStetting.getColor().getB());
+					BluetoothGattCharacteristic characteristicBlue =
+							gatt.getService(serviceUUID)
+									.getCharacteristic(UUID_BLUE);
+					characteristicBlue.setValue(hexStringToByteArray(blueString));
+					 gatt.writeCharacteristic(characteristicBlue);
+
+				}
+				if (characteristic.getUuid().equals(UUID_BLUE)){
+				    int brightness = 255*colorStetting.getBrightness()/100;
+					String brightnessString = Integer.toHexString(brightness);
+					BluetoothGattCharacteristic characteristicBrightness =
+							gatt.getService(serviceUUID)
+									.getCharacteristic(UUID_BRIGHTNESS);
+					characteristicBrightness.setValue(hexStringToByteArray(brightnessString));
+					gatt.writeCharacteristic(characteristicBrightness);
+				}
+
+				if (characteristic.getUuid().equals(UUID_BRIGHTNESS)){
+				}
+
+			}
+
+		};
+		mGatt = btDevice.connectGatt(context,true,gattCallback);
+//		BluetoothGattCharacteristic characteristicRed =
+//				mGatt.getService(serviceUUID)
+//						.getCharacteristic(UUID_RED);
+//		BluetoothGattCharacteristic characteristicGreen=
+//				mGatt.getService(serviceUUID)
+//						.getCharacteristic(UUID_GREEN);
+//		BluetoothGattCharacteristic characteristicBlue =
+//				mGatt.getService(serviceUUID)
+//						.getCharacteristic(UUID_BLUE);
+//		BluetoothGattCharacteristic characteristicBrightness =
+//				mGatt.getService(serviceUUID)
+//						.getCharacteristic(UUID_BRIGHTNESS);
+//		characteristicRed.setValue(hexStringToByteArray(redString));
+//		characteristicGreen.setValue(hexStringToByteArray(greenString));
+//		characteristicBlue.setValue(hexStringToByteArray(blueString));
+//		characteristicBrightness.setValue(hexStringToByteArray(brightnessString));
+//		boolean status1 = mGatt.writeCharacteristic(characteristicRed);
+//		boolean status2 = mGatt.writeCharacteristic(characteristicGreen);
+//		boolean status3 = mGatt.writeCharacteristic(characteristicBlue);
+//		boolean status4 = mGatt.writeCharacteristic(characteristicBrightness);
+		return false;
+	}
+
+	public ColorSetting getColorStetting() {
+		return colorStetting;
+	}
+
+	public void setColorStetting(ColorSetting colorStetting) {
+		this.colorStetting = colorStetting;
+	}
+	public UUID convertFromInteger(int i) {
+		final long MSB = 0x0000000000001000L;
+		final long LSB = 0x800000805f9b34fbL;
+		long value = i & 0xFFFFFFFF;
+		return new UUID(MSB | (value << 32), LSB);
+	}
+	public static byte[] hexStringToByteArray(String s) {
+		int len = s.length();
+		if (len == 1){
+			len=2;
+			s="0"+s;
+		} else if (len > 2){
+			s = "FF";
+			len = 2;
+		}
+		byte[] data = new byte[len / 2];
+		for (int i = 0; i < len; i += 2) {
+			data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+					+ Character.digit(s.charAt(i+1), 16));
+		}
+		return data;
+	}
+	
+}

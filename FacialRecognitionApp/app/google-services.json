@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "631516719476",
+    "firebase_url": "https://coeatcidence.firebaseio.com",
+    "project_id": "emotionRecognition",
+    "storage_bucket": "coeatcidence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631516719476:android:6901cdf09f9fa0c0",
+        "android_client_info": {
+          "package_name": "siemens.EmotionRecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631516719476-0i99ci9fp54ok7vt11k68fqm12p48c4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "siemens.EmotionRecognition",
+            "certificate_hash": "7ab750224a99c61146920d1b8f650c4085d3a81c"
+          }
+        },
+        {
+          "client_id": "631516719476-mrr84cq0qcpfgai9j8q5fobkg8qrm3t0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "siemens.EmotionRecognition",
+            "certificate_hash": "58f303bd8ec479b6436e4f515acdd1e72e8ddc17"
+          }
+        },
+        {
+          "client_id": "631516719476-ihhrqa4bvo91bpdgoapiackkq88l8so1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "siemens.EmotionRecognition",
+            "certificate_hash": "8c9628df66b2f8bed76f4396c3223325efb7df0d"
+          }
+        },
+        {
+          "client_id": "631516719476-6up98huhfmi3sd18op96c49vkpv0qlm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk1YgJBtVuefBvcSb7fANP_Y8nfVxuW0w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631516719476-6up98huhfmi3sd18op96c49vkpv0qlm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

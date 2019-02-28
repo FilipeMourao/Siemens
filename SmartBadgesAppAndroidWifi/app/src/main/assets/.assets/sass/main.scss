@@ -1,0 +1,37 @@
+@import "common/fonts";
+@import "common/variables";
+
+@import "mq/mediaqueries";
+
+
+.workout-day {
+  background-color: #efefef;
+}
+.workout-time {
+  background-color: #E4E4E4;
+}
+
+table.workout-calendar {
+  float: left;
+}
+
+.reserved-slot-booking {
+  background-color: orange;
+  color: #fff;
+}
+
+.queue-slot-booking {
+  background-color: hotpink;
+  color: #fff;
+}
+
+.workout-calendar--admin {
+  display: block;
+  width: 100%;
+
+  &.current {
+    background-color: red;
+  }
+}
+
+
