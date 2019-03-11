@@ -108,8 +108,6 @@ var app = {
 
         // connect to the device
         $('.connect-btn').on('click', function(){
-           // if(window.JSInterface.connectToDevice()) app.connectDevice();
-           //app.connectDevice();
            window.webkit.messageHandlers.JSInterface.postMessage("connectDevice()");
         });
 

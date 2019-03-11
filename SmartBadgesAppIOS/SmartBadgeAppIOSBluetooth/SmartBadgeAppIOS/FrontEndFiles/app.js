@@ -72,7 +72,8 @@ var app = {
         $('.page.current').removeClass('current');
         $('.page.connection').addClass('current');
         grow = true;
-        updateParticles(data["wifi"]);
+//        updateParticles(data["wifi"]);
+                updateParticles(data["bluetooth"]);
 
     },
 

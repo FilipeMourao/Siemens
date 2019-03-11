@@ -15,7 +15,10 @@ struct BLEParameters {
     static let greenCharacteristicUUID = CBUUID(string: "00001202-0000-1000-8000-00805F9B34FB")
     static let blueCharacteristicUUID = CBUUID(string: "00001203-0000-1000-8000-00805F9B34FB")
     static let brightnessCharacteristicUUID = CBUUID(string: "00001204-0000-1000-8000-00805F9B34FB")
+    static let test = CBUUID(string: "00000000-0000-1000-8000-00805F9B34F2")
 }
+// all the code is based in the content of the following video
+// https://www.youtube.com/watch?v=FHD-MelqHW4
 class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
     var centralManager: CBCentralManager!;
     private var badgeDevice : CBPeripheral?;
@@ -40,18 +43,17 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
     }
     func discoverSmartBadge(){
         centralManager.scanForPeripherals(withServices: [BLEParameters.ledServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey:false])
-            //    centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey:false])
     }
     func centralManager(_ central: CBCentralManager,
                         didDiscover peripheral: CBPeripheral,
                         advertisementData: [String : Any],
                         rssi RSSI: NSNumber){
-        if badgeDevice == nil {
+         if badgeDevice == nil {
             badgeDevice = peripheral;
             centralManager.stopScan();
             NotificationCenter.default.post(name: RCNotifications.DeviceFound, object: nil)
             connectToBadge();
-        }
+         } 
     }
     func connectToBadge() {
         guard let badge = badgeDevice else {
@@ -95,35 +97,60 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
     }
     func writeColorToLed(colorSetting : ColorSetting){
         colorSettingUsed = colorSetting;
-        //check if this sending is going work
         let redByteArray =  intToByteArray(number: colorSettingUsed.color.r);
-        let redData = NSData(bytes: redByteArray, length: MemoryLayout<Int>.size) as Data;
-        badgeDevice!.writeValue(redData, for: redCharactetistic, type: CBCharacteristicWriteType.withoutResponse)
+        let redData = NSData(bytes: redByteArray, length: MemoryLayout<UInt8>.size) as Data;
+        badgeDevice!.writeValue(redData, for: redCharactetistic, type: CBCharacteristicWriteType.withResponse)
     }
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         switch characteristic.uuid {
         case BLEParameters.redCharacteristicUUID:
             let greenByteArray =  intToByteArray(number: colorSettingUsed.color.g);
-            let greenData = NSData(bytes: greenByteArray, length: MemoryLayout<Int>.size) as Data;
-            badgeDevice!.writeValue(greenData, for: greenCharactetistic, type: CBCharacteristicWriteType.withoutResponse)
+            let greenData = NSData(bytes: greenByteArray, length: MemoryLayout<UInt8>.size) as Data;
+            badgeDevice!.writeValue(greenData, for: greenCharactetistic, type: CBCharacteristicWriteType.withResponse)
             break;
         case BLEParameters.greenCharacteristicUUID:
             let blueByteArray =  intToByteArray(number: colorSettingUsed.color.b);
-            let blueData = NSData(bytes: blueByteArray, length: MemoryLayout<Int>.size) as Data;
-            badgeDevice!.writeValue(blueData, for: blueCharactetistic, type: CBCharacteristicWriteType.withoutResponse)
+            let blueData = NSData(bytes: blueByteArray, length: MemoryLayout<UInt8>.size) as Data;
+            badgeDevice!.writeValue(blueData, for: blueCharactetistic, type: CBCharacteristicWriteType.withResponse)
             break;
         case BLEParameters.blueCharacteristicUUID:
             let correctBrightness  = colorSettingUsed.brightness*255/100;
             let brightnessByteArray =  intToByteArray(number: correctBrightness);
-            let brightnessData = NSData(bytes: brightnessByteArray, length: MemoryLayout<Int>.size) as Data;
-            badgeDevice!.writeValue(brightnessData, for: brightnessCharactetistic, type: CBCharacteristicWriteType.withoutResponse)
+            let brightnessData = NSData(bytes: brightnessByteArray, length: MemoryLayout<UInt8>.size) as Data;
+            badgeDevice!.writeValue(brightnessData, for: brightnessCharactetistic, type: CBCharacteristicWriteType.withResponse)
             break;
         case BLEParameters.brightnessCharacteristicUUID:
             //send a message that the values were added
+            
+            // if it is the initial case create the flow of colors
+            if(colorSettingUsed.brightness == 96) {
+                if(colorSettingUsed.color.r == 255){
+                    colorSettingUsed.color.r = 0;
+                    colorSettingUsed.color.g = 255;
+                    writeColorToLed(colorSetting: colorSettingUsed);
+                    break;
+                }
+                if(colorSettingUsed.color.g == 255){
+                    colorSettingUsed.color.g = 0;
+                    colorSettingUsed.color.b = 255;
+                    writeColorToLed(colorSetting: colorSettingUsed);
+                    break;
+                }
+                if(colorSettingUsed.color.b == 255){
+                    colorSettingUsed.color.b = 0;
+                    writeColorToLed(colorSetting: colorSettingUsed);
+                    break;
+                }
+                
+            }
             break;
         default:
             break;
         }
+    }
+    func disconnect() {
+        centralManager.cancelPeripheralConnection(badgeDevice!);
+        badgeDevice = nil;
     }
     func intToByteArray(number:Int) -> [UInt8] {
         let string = NSString(format:"%2X", number) as String;

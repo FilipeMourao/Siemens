@@ -7,6 +7,7 @@
 //
 
 import Foundation
+// contact class
 class Contact: NSObject, NSCoding,Codable {
     var name:String;
     var number:String;

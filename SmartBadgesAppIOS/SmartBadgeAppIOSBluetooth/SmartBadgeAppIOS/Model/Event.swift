@@ -7,6 +7,7 @@
 //
 
 import Foundation
+// event class
 class Event: Codable {
     var title:String;
     var location:String;

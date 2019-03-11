@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 class ConfigureLed {
+    //class used to send the values to the led
     var colorSetting:ColorSetting;
     var bluetoothDevice:BluetoothDevice
     init(bluetoothDevice:BluetoothDevice, colorSetting:ColorSetting) {
@@ -19,13 +20,10 @@ class ConfigureLed {
         bluetoothDevice.writeColorToLed(colorSetting: colorSetting);
     }
     static func initializeTheDevice(bluetoothDevice:BluetoothDevice){
-        bluetoothDevice.writeColorToLed(colorSetting: ColorSetting(color: ColorCustomized(r: 255, g: 0, b: 0)));
-        usleep(333);
-        bluetoothDevice.writeColorToLed(colorSetting: ColorSetting(color: ColorCustomized(r: 0, g: 255, b: 0)));
-        usleep(333);
-        bluetoothDevice.writeColorToLed(colorSetting: ColorSetting(color: ColorCustomized(r: 0, g: 0, b: 255)));
-        usleep(333);
-        bluetoothDevice.writeColorToLed(colorSetting: ColorSetting(color: ColorCustomized(r: 0, g: 0, b: 0)));
+        // cant create a delay of the led occurence, so for a specific value of brightness (96) the occurence will considered the initials
+        let colorSetting = ColorSetting(color: ColorCustomized(r: 255, g: 0, b: 0));
+        colorSetting.brightness = 96;
+        bluetoothDevice.writeColorToLed(colorSetting: colorSetting);
     }
     func jsonEncoding(data:ColorSetting) -> String {
         do {

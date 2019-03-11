@@ -7,6 +7,7 @@
 //
 
 import Foundation
+// notification class
 class CustomizedNotification: Codable {
     var appName:String;
     var colorString:String;
