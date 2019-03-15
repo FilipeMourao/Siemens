@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         JavaScriptInterface jsInterface = new JavaScriptInterface(this);
         webView.addJavascriptInterface(jsInterface, "JSInterface");
         webView.loadUrl(myUrl);
+        createNotificationChannel();
     }
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because

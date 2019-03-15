@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "965762775260",
+    "firebase_url": "https://gasdetectorappfirebase.firebaseio.com",
+    "project_id": "gasdetectorappfirebase",
+    "storage_bucket": "gasdetectorappfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965762775260:android:2fac5b5f50565f76",
+        "android_client_info": {
+          "package_name": "com.example.power.gasdetectorappFirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965762775260-b8nso68l2cmku1vjhp11f3egl1gc1fp6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.power.gasdetectorappFirebase",
+            "certificate_hash": "a74f34c1fa1b9a22b34fb7ecb0afacf82475f457"
+          }
+        },
+        {
+          "client_id": "965762775260-n38iqbk8sph2dlgnii4h21j3f0m156tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_EAi9bQGCUhdYOEg5jZA14n-8fzdPDwQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965762775260-n38iqbk8sph2dlgnii4h21j3f0m156tn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

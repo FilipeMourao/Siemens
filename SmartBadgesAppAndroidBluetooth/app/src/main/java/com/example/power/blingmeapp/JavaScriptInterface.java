@@ -156,7 +156,8 @@ class JavaScriptInterface {
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
-                        || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                        || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED
+                        || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{
                             Manifest.permission.ACCESS_WIFI_STATE,
                             Manifest.permission.CHANGE_WIFI_STATE,
@@ -169,7 +170,8 @@ class JavaScriptInterface {
                             Manifest.permission.RECEIVE_SMS,
                             Manifest.permission.PROCESS_OUTGOING_CALLS,
                             Manifest.permission.BLUETOOTH,
-                            Manifest.permission.BLUETOOTH_ADMIN
+                            Manifest.permission.BLUETOOTH_ADMIN,
+                            Manifest.permission.READ_CALL_LOG
 
                     },
                     1);
@@ -189,15 +191,11 @@ class JavaScriptInterface {
                 return false;
             } else if (mBluetoothAdapter.isEnabled()){
                 if (bluetoothConnected) {
-                    ConfigureLed configureLed = new ConfigureLed(
-                            new ColorSetting(new ColorCustomized(5,0,200)));
-                    try {
+                        // show that the led is on
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                            configureLed.configureColors(activity.getApplicationContext());
+                            ConfigureLed configureLed = new ConfigureLed(null);
+                            configureLed.initializeDevice(activity.getApplicationContext());
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     return true;
                 }
                 getDevice();
@@ -292,20 +290,24 @@ class JavaScriptInterface {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             ColorSetting colorSetting = new ColorSetting(new ColorCustomized(colorString));
             ColorSetting colorSetting2 = new ColorSetting(new ColorCustomized(colorString));
-//            String descriptionEventAlmostBeginning = "Reminder!  " + title + " will start in 2 minutes... " ;
-//            String descriptionEventStarted = "Reminder!  " + title + " is starting...";
             String descriptionEventAlmostBeginning =  title + " will start in 2 minutes... " ;
             String descriptionEventStarted =  title + " is starting...";
             colorSetting2.setBrightness(0);
+            ///////////////////////////////////////////////////////////////////////////////////////ATTENTION TO THIS LINE HERE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // real code
           //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
            // Calendar calendar = Calendar.getInstance();
            // calendar.setTime(dateFormat.parse(calendarString));
+//        createAlarm(calendar, colorSetting2, descriptionEventStarted, activity.getApplicationContext());
+//        if ((calendar.getTimeInMillis() - 2 * 60 * 1000 - System.currentTimeMillis()) > 0 ){
+//            calendar.setTimeInMillis(calendar.getTimeInMillis() - 2 * 60 * 1000);
+//            createAlarm(calendar, colorSetting, descriptionEventAlmostBeginning, activity.getApplicationContext());
+//        }
+        // test mode
         calendar.setTimeInMillis(System.currentTimeMillis() + 3000);
-            createAlarm(calendar, colorSetting2, descriptionEventStarted, activity.getApplicationContext());
-            if ((calendar.getTimeInMillis() - 2 * 60 * 1000 - System.currentTimeMillis()) > 0 ){
-                calendar.setTimeInMillis(calendar.getTimeInMillis() - 2 * 60 * 1000);
-                createAlarm(calendar, colorSetting, descriptionEventAlmostBeginning, activity.getApplicationContext());
-            }
+        createAlarm(calendar, colorSetting, descriptionEventAlmostBeginning , activity.getApplicationContext());
+        calendar.setTimeInMillis(System.currentTimeMillis() + 8000);
+        createAlarm(calendar, colorSetting2, descriptionEventStarted, activity.getApplicationContext());
     }
 
     public void createAlarm(Calendar calendar, ColorSetting colorSetting, String description, Context context) {
@@ -320,8 +322,6 @@ class JavaScriptInterface {
         final int _id = (int) System.currentTimeMillis();
         PendingIntent p1 = PendingIntent.getBroadcast(context, _id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Long correctingTime = time - Math.abs(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY)) * 3600 * 1000;
-        time = System.currentTimeMillis();
-
         AlarmManager a = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         a.set(AlarmManager.RTC,  correctingTime, p1);
         Toast.makeText(context, "Alarm created!", Toast.LENGTH_LONG).show();

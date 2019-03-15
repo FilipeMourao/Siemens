@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Gas Detection</title>
+<meta name="Description" content="" />
+<meta name="Keywords"  content="" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" type="text/css" media="screen,print" href="com/css/main.min.css" />
+</head>
+<body class="init">
+
+<header>
+    <img src="assets/logo_white.svg" class="logo white "/>
+</header>
+
+<canvas id='world'></canvas>
+
+<div class="content-pane intro">
+
+    <div class="wrapper">F
+
+    </div>
+
+</div>
+
+<div class="content-pane connect">
+
+    <div class="wrapper">
+
+        <h3>Bluetooth</h3>
+        <h2>Please connect your detector</h2>
+
+        <div class="bottom">
+            <a href="#" class="connect-device button">Connect device</a>
+        </div>
+    </div>
+
+</div>
+
+<div class="content-pane start">
+
+    <div class="wrapper">
+
+        <h3>Welcome</h3>
+        <h2>Start analyzing</h2>
+
+        <div class="bottom">
+            <a href="#" class="analyze-button button">ANALYZE</a>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="content-pane result">
+
+    <div class="wrapper">
+
+        <h3>Result</h3>
+
+        <h2>Analyzed</h2>
+        <h1 class="result-name">Gas name</h1>
+
+        <div class="bottom">
+            <a href="#" class="details-button button">Watch graphs</a>
+            <a href="#" class="downloadButton back-link">Download</a>
+            <a href="#" class="back-to-start back-link">Back</a>
+            <a href="#" class="uploadButton back-link">Upload</a>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="content-pane details">
+
+    <div class="wrapper">
+
+        <!--<h3>Details</h3>-->
+
+        <div id="canvas-holder" >
+            <canvas id="chart-area" width="300" height="600" ></canvas>
+        </div>
+        <table class="result-table">
+
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+                <th>ID</th>
+            </tr>
+
+            <!--<tr class="result-row">-->
+                <!--<td>Name</td>-->
+                <!--<td>Value</td>-->
+            <!--</tr>-->
+
+            <!--<tr class="result-row">-->
+                <!--<td>Name</td>-->
+                <!--<td>Value</td>-->
+            <!--</tr>-->
+
+            <!--<tr class="result-row">-->
+                <!--<td>Name</td>-->
+                <!--<td>Value</td>-->
+            <!--</tr>-->
+
+            <!--<tr class="result-row">-->
+                <!--<td>Name</td>-->
+                <!--<td>Value</td>-->
+            <!--</tr>-->
+
+        </table>
+        <!--<a href="#" class="back-to-result back-link">Back</a>-->
+
+        <a href="#" class="downloadButton back-link">Download</a>
+        <a href="#" class="back-to-result back-link">Back</a>
+        <a href="#" class="uploadButton back-link">Upload</a>
+
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/plugins/CSSPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/easing/EasePack.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenLite.min.js"></script>
+<script type="text/javascript" src="com/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="com/js/main.js"></script>
+<script type="text/javascript" src="com/js/app.js"></script>
+<script type="text/javascript" src="com/js/backEndFunctions.js"></script>
+
+</body>
+</html>

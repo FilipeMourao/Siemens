@@ -1,0 +1,10 @@
+<!--<resources>-->
+    <!--<string name="app_name">GasDetectorApp</string>-->
+    <!--<string name="title_activity_main">MainActivity</string>-->
+    <!--<string name="title_activity_plotting_graphics">PlottingGraphics</string>-->
+<!--</resources>-->
+<resources>
+    <string name="app_name">GasDetectorAppF</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_plotting_graphics">PlottingGraphics</string>
+</resources>

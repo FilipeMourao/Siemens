@@ -1,9 +1,11 @@
 package com.example.power.blingmeapp;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
@@ -19,55 +21,9 @@ public class HandlingCalls extends BroadcastReceiver {
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
             ContactDatabase db = new ContactDatabase(context);
             db.getReadableDatabase();
-//            TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-//            telephony.listen(new PhoneStateListener(){
-//                @Override
-//                public void onCallStateChanged(int state, String incomingNumber) {
-//                    super.onCallStateChanged(state, incomingNumber);
-//                   // System.out.println("incomingNumber : "+incomingNumber);
-//                    switch (state) {
-//                        case TelephonyManager.CALL_STATE_RINGING:
-//
-//                            break;
-//                        case TelephonyManager.CALL_STATE_OFFHOOK:
-//                            //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
-//
-//                            break;
-//                        case TelephonyManager.CALL_STATE_IDLE:
-//
-//                            break;
-//                    }
-//                }
-//            },PhoneStateListener.LISTEN_CALL_STATE);
-
-//            NotificationDataBase db = new NotificationDataBase(context);
-//            db.getReadableDatabase();
-//            if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_RINGING)){
-//                if (db.getNotification("calls") != null){
-//                    IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
-//                    ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(db.getNotification("calls").getColorString()))) ;
-//                    //ConfigureLed configureLed =  new ConfigureLed(new ColorSetting(new ColorCustomized(db.getNotification("calls").getColorString()))) ;
-//                    configureColorIndividually myTask = new configureColorIndividually();
-//                    myTask.execute(configureLed);
-//                }
-//            }
-//            if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)){
-//                ConfigureLed configureLed =  new ConfigureLed(new ColorSetting(new ColorCustomized(db.getNotification("calls").getColorString()))) ;
-//                configureLed.getColorStetting().setBrightness(0);
-//                configureColorIndividually myTask = new configureColorIndividually();
-//                myTask.execute(configureLed);
-//            }
-//            if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_IDLE)){
-//                ConfigureLed configureLed =  new ConfigureLed(new ColorSetting(new ColorCustomized(db.getNotification("calls").getColorString()))) ;
-//                configureLed.getColorStetting().setBrightness(0);
-//                configureColorIndividually myTask = new configureColorIndividually();
-//                myTask.execute(configureLed);
-//            }
-//
-
                 if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_RINGING)){
                     String incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                     contact = db.getContact(incomingNumber);
+                    if (incomingNumber != null) contact = db.getContact(incomingNumber);
                     if (contact != null){
                         IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
                         ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(contact.getColor())));
@@ -95,4 +51,5 @@ public class HandlingCalls extends BroadcastReceiver {
             e.printStackTrace();
         }
     }
+
 }

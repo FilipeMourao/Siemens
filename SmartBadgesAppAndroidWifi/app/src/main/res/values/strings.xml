@@ -1,6 +1,11 @@
+<!--<resources>-->
+    <!--<string name="app_name">SmartBadgeApp</string>-->
+    <!--<string name="channel_name">SmartBadgeApp</string>-->
+    <!--<string name="channel_description">SmartBadgeAppDescription</string>-->
+<!--</resources>-->
 <resources>
-    <string name="app_name">SmartBadgeApp</string>
-    <string name="channel_name">SmartBadgeApp</string>
+    <string name="app_name">bling:meW</string>
+    <string name="channel_name">bling:me</string>
     <string name="channel_description">SmartBadgeAppDescription</string>
-
 </resources>
+
