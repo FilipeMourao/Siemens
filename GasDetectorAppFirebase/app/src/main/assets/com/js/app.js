@@ -53,7 +53,8 @@ var app = {
             $('.content-pane.result').removeClass('current');
             $('.content-pane.start').removeClass('past').addClass('current');
             app.resetVisual();
-            //adding this code to reconnect to the device
+
+            //if this back button is pressed we have to try to reconnect with the device
              app.connectDevice();
         });
 
@@ -162,7 +163,6 @@ var app = {
     },
 
     showDetails : function(){
-
         $('.content-pane.result').addClass('past').removeClass('current');
         $('.content-pane.details').scrollTop(0);
         $('.content-pane.details').addClass('current');
@@ -170,46 +170,32 @@ var app = {
 
 
     },
-   createChartNew : function(data){
+   createChartNew : function(data){// this function will plot the measurements data
     Chart.defaults.global.animationSteps = Math.round(5000 / 17);
 
            var label_color = '#ffffff';
            var graph_color = '#ffffff';
-
-   //        var _chart_data_structure =  JSON.parse(window.JSInterface.getSensorPoints());
-//           var _chart_data_structure =  JSON.parse(data);
-//           var methanMeasure = _chart_data_structure.pop();
-//           var airQualityMeasure =_chart_data_structure.pop();
-//           var alcoholMeasure = _chart_data_structure.pop();
-//           var label = _chart_data_structure.pop();
-
            var methanMeasure = data[3];
            var airQualityMeasure =data[2];
            var alcoholMeasure = data[1];
            var label = data[0];
 
            var ctx_result = $('.content-pane.details').find('canvas').get(0).getContext('2d');
-        //   ctx_result.height = "200%" ;
-        //    ctx_result.height = 500 ;
             var myChart = new Chart(ctx_result, {
        type: 'line',
          data: {
-           //labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
            labels: label,
            datasets: [{
-               //data: [86,114,106,106,107,111,133,221,783,2478],
                data: alcoholMeasure,
                label: "Alcohol",
                borderColor: "#9A2A13",
                fill: false
              }, {
-               //data: [282,350,411,502,635,809,947,1402,3700,5267],
                data: airQualityMeasure,
                label: "Air quality",
                borderColor: "#139A29",
                fill: false
              }, {
-               //data: [168,170,178,190,203,276,408,547,675,734],
                data: methanMeasure,
                label: "Methan",
                borderColor: "#1E139A",
@@ -219,81 +205,21 @@ var app = {
          },
          options: {
            responsive: true
-   //                title: {
-   //                  display: false,
-   //                  text: 'Sensors measures',
-   //                }
+
          }
        });
-   //        var myChart = new Chart(ctx_result, {
-   //            type: 'bar',
-   //            data: {
-   //                animationSteps: 300,
-   //                labels: _chart_labels,
-   //                datasets: [{
-   //                    label: 'average',
-   //                    data: _chart_data,
-   //                    backgroundColor: _chart_colors
-   //                }],
-   //            },
-   //
-   //
-   //            options: {
-   //                responsive: true,
-   //                legend: {
-   //                    display: false,
-   //                    labels:{
-   //                        fontColor: label_color
-   //                    }
-   //                },
-   //
-   //                scales: {
-   //                    maintainAspectRatio: false,
-   //                    yAxes: [{
-   //                        gridLines:{
-   //                            display: false
-   //                        },
-   //                        ticks: {
-   //                            fontColor: label_color,
-   //                            fontSize: 18,
-   //                            stepSize: 1,
-   //                            beginAtZero: true,
-   //                            display: false
-   //                        }
-   //                    }],
-   //                    xAxes: [{
-   //                        gridLines:{
-   //                            display: false
-   //                        },
-   //                        ticks: {
-   //                            fontColor: label_color,
-   //                            fontSize: 14,
-   //                            stepSize: 1,
-   //                            beginAtZero: true,
-   //                            display: false
-   //                        }
-   //                    }]
-   //                }
-   //            }
-   //
-   //        });
 
    },
-    createChart : function(){
+    createChart : function(){// this function calls an android function to get the data information to be plotted
        window.JSInterface.getSensorPoints();
 
     },
 
- //createTable code
-    createTable : function(){
-
+    createTable : function(){ // this function will add the table with the information of the gases
         // clean table
         $('.result-table .result-row').remove();
-
-        //var functionInformation=  JSON.parse(window.JSInterface.getSensorPointClassification());
         var gasesClassification =  JSON.parse(window.JSInterface.getSensorPointClassification());
         $.each(gasesClassification, function(index, value) {
-//            var stringToWrite = value.toString();
             var stringToWrite = value[0].toString();
             var markup = '<tr class="result-row"><td>'+stringToWrite+'</td><td>'+index+'</td><td>'+value[1].toString()+'</td></tr>';
             $('.result-table').append(markup);
@@ -356,7 +282,6 @@ results[4] = "#FF00FF";
 results[5] = "#a3f346";
 results[6] = "#ff0000";
 results = shuffle(results);
-
 
 function shuffle(a) {
     var j, x, i;

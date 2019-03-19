@@ -1,21 +1,14 @@
 package com.example.power.gasdetectorappFirebase.ServerConnection;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import com.example.power.gasdetectorappFirebase.JavaScriptInterface;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.ClassificationGasMeasure;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorDataBase;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorMeasure;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
 
+// this function is used to save data in the online  database
 public class FirebaseAppConnection {
     Context context;
     private DatabaseReference mDatabase;
@@ -32,8 +25,8 @@ public class FirebaseAppConnection {
     }
     public void saveSensorMeasure(GasSensorMeasure gasSensorMeasure){
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).setValue(gasSensorMeasure);
+        mDatabase = FirebaseDatabase.getInstance().getReference();// get the firebase instance
+        mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).setValue(gasSensorMeasure);// create a child and set the value of the child
     }
     public void saveSensorMeasuresClassification(){
         List<ClassificationGasMeasure> gasSensorMeasures =  gasSensorDataBase.getAllClassifications() ;
@@ -47,17 +40,18 @@ public class FirebaseAppConnection {
         String uniqueKey = classificationGasMeasure.getUniqueID();
         mDatabase.child("Classifications").child(uniqueKey).setValue(classificationGasMeasure);
     }
-    public void deleteGasSensorMeasure(GasSensorMeasure gasSensorMeasure){ // take the user out of the current event;
+    public void deleteGasSensorMeasure(GasSensorMeasure gasSensorMeasure){
         gasSensorDataBase.removeGasSensorMeasure(gasSensorMeasure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).removeValue();
     }
-    public void deleteGasSensorClassification(ClassificationGasMeasure classificationGasMeasure){ // take the user out of the current event;
+    public void deleteGasSensorClassification(ClassificationGasMeasure classificationGasMeasure){
         gasSensorDataBase.removeGasSensorClassification(classificationGasMeasure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Classifications").child(classificationGasMeasure.getUniqueID()).removeValue();
     }
 }
+// This is the way to call for the firebase parameters, but it`s done async so you have to write this function and what to do next of getting the values in the correct class
 //    public void getGasSensorMeasures(){
 //        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
 //        reference.addListenerForSingleValueEvent(new ValueEventListener() {

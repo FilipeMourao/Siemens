@@ -17,19 +17,18 @@ public class HtmlConnection extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_html_test);
-        String myUrl = "file:///android_asset/index.html";
+
+        String myUrl = "file:///android_asset/index.html";// the path of the source file
         WebView webView = (WebView) findViewById(R.id.webView);
-
-        WebView.setWebContentsDebuggingEnabled(true);
+        WebView.setWebContentsDebuggingEnabled(true); // set the possibility to debug using chrome://inspec
         webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        JavaScriptInterface jsInterface = new JavaScriptInterface(this);
-        webView.addJavascriptInterface(jsInterface, "JSInterface");
-        webView.loadUrl(myUrl);
+        webView.getSettings().setJavaScriptEnabled(true);// enable javascript communication between front end and back ends
+        JavaScriptInterface jsInterface = new JavaScriptInterface(this);// add the javascript for the projcet
+        webView.addJavascriptInterface(jsInterface, "JSInterface");// add the javascript interface for the project
+        webView.loadUrl(myUrl);// load the front end in the  project in the webview
 
 
 
-        //setContentView(webView);
 
     }
 }

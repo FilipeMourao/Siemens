@@ -1,41 +1,27 @@
    <!-- JS Hooks -->
+$(document).ready(function(){// this function initializes the javascript objects
 
-$(".downloadButton").click(function() {
+           visual.init();
+           app.init();
+
+       });
+
+$(".downloadButton").click(function() {// this functions will call the corresponding android functions if the respective button is pressed
         window.JSInterface.downloadData();
    });
-$(".uploadButton").click(function() {
+$(".uploadButton").click(function() {// this functions will call the corresponding android functions if the respective button is pressed
         window.JSInterface.updloadData();
    });
 
-    function connectDeviceHook(){
+    function connectDeviceHook(){// this calls a function on android that will connect to the device
 
-    //window.JSInterface.saveMeasureIntoServer();
-  //  window.JSInterface.getSensorPoints();
-        window.JSInterface.testConnection()
-        //     if(window.JSInterface.connectToDevice()) app.deviceConnected();
-   //    app.deviceConnected();
-
+        window.JSInterface.testConnection()// this is how you call an android function from the javascript file
     }
 
-    function startAnalyzingHook(){
-
-//        if( window.JSInterface.analyze()) {
-//                  setTimeout(function(){
-//                  var gas_name = "New measure available!";
-//                  $('.result-name').text(gas_name);
-//                  app.showresult(getRandomColor());
-//
-//              }, 10000);
-//        }
+    function startAnalyzingHook(){// this function calls a function on android to get the next measurement on android
         window.JSInterface.analyze()
-//        var gas_name = "New measure available!";
-//        $('.result-name').text(gas_name);
-
-
-
-
     }
-  function backToConnectScreen(){
+  function backToConnectScreen(){// this fucntion is used to get to the connect screen if the device was lost during the process of reconnecting to it
 
                 $('.content-pane.result').removeClass('current');
                 $('.content-pane.start').removeClass('current');
@@ -70,16 +56,7 @@ $(".uploadButton").click(function() {
     var _chart_colors = [
 
     ];
-
-
-
-    $(document).ready(function(){
-
-        visual.init();
-        app.init();
-
-    });
-function getRandomColor() {
+function getRandomColor() {// this function generate random colors for the animations
   var letters = '0123456789ABCDEF';
   var color = '#';
   for (var i = 0; i < 6; i++) {
