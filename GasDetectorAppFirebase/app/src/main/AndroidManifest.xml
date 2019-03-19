@@ -18,16 +18,6 @@
         android:usesCleartextTraffic="true"
         >
 
-        <activity android:name="com.example.power.gasdetectorappFirebase.ConnectActivity">
-
-
-        </activity>
-        <activity
-            android:name="com.example.power.gasdetectorappFirebase.MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity
-            android:name="com.example.power.gasdetectorappFirebase.PlottingGraphics"
-            android:label="@string/title_activity_plotting_graphics" />
         <activity android:name="com.example.power.gasdetectorappFirebase.HtmlConnection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

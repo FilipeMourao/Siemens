@@ -8,7 +8,9 @@ public class ClassificationGasMeasure {
     int sensor2;
     int sensor3;
     private String classification;
+    public ClassificationGasMeasure(){//Empty constructor for the firbase
 
+    }
     public ClassificationGasMeasure(int sensor1, int sensor2, int sensor3, String classification) {
         this.sensor1 = sensor1;
         this.sensor2 = sensor2;

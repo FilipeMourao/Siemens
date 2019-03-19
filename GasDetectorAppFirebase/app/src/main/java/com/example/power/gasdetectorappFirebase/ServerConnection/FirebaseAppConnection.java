@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.ClassificationGasMeasure;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorDataBase;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorMeasure;
 import com.google.firebase.database.DataSnapshot;
@@ -25,15 +26,27 @@ public class FirebaseAppConnection {
     public void saveSensorMeasures(){
         List<GasSensorMeasure> gasSensorMeasures =  gasSensorDataBase.getAllMeasures() ;
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Measure").removeValue();
+       // mDatabase.child("Measures").removeValue();
         for (GasSensorMeasure gasSensorMeasure : gasSensorMeasures) saveSensorMeasure(gasSensorMeasure);
     }
     public void saveSensorMeasure(GasSensorMeasure gasSensorMeasure){
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Measure").child(gasSensorMeasure.getUniquID()).setValue(gasSensorMeasure);
+        mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).setValue(gasSensorMeasure);
+    }
+    public void saveSensorMeasuresClassification(){
+        List<ClassificationGasMeasure> gasSensorMeasures =  gasSensorDataBase.getAllClassifications() ;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Classifications").removeValue();
+        for (ClassificationGasMeasure  classificationGasMeasure : gasSensorMeasures) saveSensorMeasureClassification(classificationGasMeasure);
+    }
+    public void saveSensorMeasureClassification(ClassificationGasMeasure classificationGasMeasure){
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String uniqueKey = Integer.toString(classificationGasMeasure.getSensor1())+"-"+Integer.toString(classificationGasMeasure.getSensor2())+"-"+Integer.toString(classificationGasMeasure.getSensor3());
+        mDatabase.child("Classifications").child(uniqueKey).setValue(classificationGasMeasure);
     }
     public void getGasSensorMeasures(){
-        gasSensorDataBase.removeAllMeasures();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -46,6 +59,7 @@ public class FirebaseAppConnection {
                         if (gasSensorMeasure != null)
                             gasSensorDataBase.addMeasure(gasSensorMeasure);
                     }
+
                 }
             }
             @Override
@@ -56,6 +70,8 @@ public class FirebaseAppConnection {
     }
     public void deleteGasSensorMeasure(GasSensorMeasure gasSensorMeasure){ // take the user out of the current event;
         gasSensorDataBase.removeGasSensorMeasure(gasSensorMeasure);
-        saveSensorMeasures();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).removeValue();
+        //saveSensorMeasures();
     }
 }

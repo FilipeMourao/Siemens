@@ -13,7 +13,12 @@ public class GasSensorMeasure {
     int sensor3;
     String thermistor;
     private String uniqueID;// the measure ID needs to be a string because the UUID generator generates a unique key bigger than a long
-   // int measureTime;
+
+    // int measureTime;
+    public GasSensorMeasure()// empty constructor for the firebase
+    {
+
+    }
 
     public GasSensorMeasure(int ID1, int ID2, int ID3, int sensor1, int sensor2, int sensor3, String thermistor) {
         this.ID1 = ID1;
@@ -109,7 +114,7 @@ public class GasSensorMeasure {
         return thermistor;
     }
 
-    public String getUniquID(){
+    public String getUniqueID(){
         return uniqueID;
     }
 

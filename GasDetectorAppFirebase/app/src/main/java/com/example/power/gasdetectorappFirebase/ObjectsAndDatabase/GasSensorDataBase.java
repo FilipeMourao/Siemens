@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.ClassificationGasMeasure;
-import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorMeasure;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +63,12 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         values.put(KEY_SENSOR2,gasSensorMeasure.getSensor2());
         values.put(KEY_SENSOR3,gasSensorMeasure.getSensor3());
         values.put(KEY_THERMISTOR, gasSensorMeasure.getThermistor());
-        values.put(KEY_UUID, gasSensorMeasure.getUniquID());
-        GasSensorMeasure newGasSensorMeasure = getGasSensorMeasure(gasSensorMeasure.getId());
+        values.put(KEY_UUID, gasSensorMeasure.getUniqueID());
+        GasSensorMeasure newGasSensorMeasure = getGasSensorMeasureUUID(gasSensorMeasure.getUniqueID());
         if (newGasSensorMeasure == null){// new gas sensor measure
             db.insert(TABLE_GAS_SENSOR,null,values);
         } else { // update currently contact
-            db.update(TABLE_GAS_SENSOR,values, KEY_UUID + "=?", new String[]{newGasSensorMeasure.getUniquID()} );
+            db.update(TABLE_GAS_SENSOR,values, KEY_UUID + "=?", new String[]{newGasSensorMeasure.getUniqueID()} );
         }
         db.close();
     }
@@ -123,7 +120,7 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
     public String getClassification(GasSensorMeasure gasSensorMeasure){
         String classification;
         ClassificationGasMeasure classificationGasMeasure = getClassificationData(gasSensorMeasure.getSensor1(),gasSensorMeasure.getSensor2(),gasSensorMeasure.getSensor3());
-        if (classificationGasMeasure != null){
+        if (classificationGasMeasure != null && !classificationGasMeasure.getClassification().isEmpty()){
             classification = classificationGasMeasure.getClassification();
         } else {
             classification = "[" + gasSensorMeasure.getSensor1() + "," + gasSensorMeasure.getSensor2() + "," + gasSensorMeasure.getSensor3() + "]" ;
@@ -136,6 +133,31 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
                 null,
                 KEY_ID+ "=?",
                 new String[]{Integer.toString(id)} ,
+                null, null, null, null );
+        if ((cursor != null)  && (cursor.getCount() > 0) ){
+            cursor.moveToFirst();
+        }
+        else {
+            return null;
+        }
+        GasSensorMeasure measure = new GasSensorMeasure(
+                Integer.parseInt(cursor.getString(1)),
+                Integer.parseInt(cursor.getString(2)),
+                Integer.parseInt(cursor.getString(3)),
+                Integer.parseInt(cursor.getString(4)),
+                Integer.parseInt(cursor.getString(5)),
+                Integer.parseInt(cursor.getString(6)),
+                cursor.getString(7),
+                cursor.getString(8));
+        measure.setId(Integer.parseInt(cursor.getString(0)));
+        return measure;
+    }
+    public GasSensorMeasure getGasSensorMeasureUUID(String UUID ){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(true, TABLE_GAS_SENSOR,
+                null,
+                KEY_UUID+ "=?",
+                new String[]{UUID} ,
                 null, null, null, null );
         if ((cursor != null)  && (cursor.getCount() > 0) ){
             cursor.moveToFirst();
@@ -180,17 +202,36 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         }
         return listOfMeasures;
     }
+    public List<ClassificationGasMeasure> getAllClassifications(){
+        List<ClassificationGasMeasure> listOfClassifications = new ArrayList<ClassificationGasMeasure>();
+        String selectQuery = "SELECT * FROM " + TABLE_GAS_SENSOR_CLASSIFY;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if (cursor.moveToFirst()){
+            while (!cursor.isAfterLast()) {
+                ClassificationGasMeasure classificationGasMeasure = new ClassificationGasMeasure(
+                        Integer.parseInt(cursor.getString(1)),
+                        Integer.parseInt(cursor.getString(2)),
+                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getString(4));
+                classificationGasMeasure.setId(Integer.parseInt(cursor.getString(0)));
+                listOfClassifications.add(classificationGasMeasure);
+                cursor.moveToNext();
+            }
+
+
+        }
+        return listOfClassifications;
+    }
+
     public void removeGasSensorMeasure(GasSensorMeasure gasSensorMeasure){
         GasSensorMeasure newGasSensorMeasure = getGasSensorMeasure(gasSensorMeasure.getId());
         if (newGasSensorMeasure != null){
             SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE_GAS_SENSOR, KEY_UUID + "=?", new String[]{newGasSensorMeasure.getUniquID()} );
+            db.delete(TABLE_GAS_SENSOR, KEY_UUID + "=?", new String[]{newGasSensorMeasure.getUniqueID()} );
         }
     }
-    public void removeGasSensorMeasureByID(int id){
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE_GAS_SENSOR, KEY_ID + "=?", new String[]{Integer.toString(id)} );
-        }
+
     public void removeAllMeasures(){
         // db.delete(String tableName, String whereClause, String[] whereArgs);
         // If whereClause is null, it will delete all rows.

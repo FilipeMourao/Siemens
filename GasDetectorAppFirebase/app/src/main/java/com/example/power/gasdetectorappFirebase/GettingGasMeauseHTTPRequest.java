@@ -30,8 +30,8 @@ protected  String doInBackground(Void... voids) {
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             //add request header
-            //con.setConnectTimeout(15000);
-            con.setConnectTimeout(100);
+            con.setConnectTimeout(15000);
+            //con.setConnectTimeout(100);
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             int responseCode = con.getResponseCode();
                 System.out.println("\nSending 'GET' request to URL : " + url);

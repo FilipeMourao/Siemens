@@ -20,6 +20,11 @@ import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.Classificatio
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorDataBase;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorMeasure;
 import com.example.power.gasdetectorappFirebase.ServerConnection.FirebaseAppConnection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -42,7 +47,7 @@ public class JavaScriptInterface {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @JavascriptInterface
     public boolean connectToDevice() {
-        callJSMethod("app.deviceConnected();");
+       // callJSMethod("app.deviceConnected();");
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -64,8 +69,7 @@ public class JavaScriptInterface {
                 String networkSSID = "GSens";
                 String networkPass = "!SmellDetect!";
                 if (connect(networkSSID, networkPass)) {
-                    Toast.makeText(activity.getApplicationContext(), "Device Connected!", Toast.LENGTH_LONG).show();
-                    //return true;
+                    //Toast.makeText(activity.getApplicationContext(), "Device Connected!", Toast.LENGTH_LONG).show();
                     callJSMethod("app.deviceConnected();");
 
                 } else
@@ -141,7 +145,7 @@ public class JavaScriptInterface {
         GettingGasMeauseHTTPRequest httpRequest = new GettingGasMeauseHTTPRequest(activity.getApplicationContext());
         httpRequest.execute();
 
-//
+
 //        GasSensorMeasure measure1   = gson.fromJson("{\"ID1\":339,\"ID2\":263,\"ID3\":511,\"sensor1\":658,\"sensor2\":424,\"sensor3\":567,\"thermistor\":910}", GasSensorMeasure.class);
 //        GasSensorMeasure finalMeasure = new GasSensorMeasure(measure1);// add unique ID
 //        db.addMeasure(finalMeasure);
@@ -242,7 +246,7 @@ public class JavaScriptInterface {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        db.removeGasSensorMeasureByID(id);
+                        firebaseAppConnection.deleteGasSensorMeasure(db.getGasSensorMeasure(id));
                         try {
                             getSensorPoints();
                             callJSMethod("app.createTable();");
@@ -301,49 +305,6 @@ public class JavaScriptInterface {
 
         alert.show();
     }
-//    @JavascriptInterface
-//    public String getSensorPoints(){
-//        final Gson gson = new Gson();
-//        final List<GasSensorMeasure> measures = new ArrayList<>();
-//        final int[][] sensorMeasurements = new int[4][measures.size()];
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    // dataSnapshot is the "issue" node with all children with id 0
-//                    for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-//                        GasSensorMeasure gasSensorMeasure = eventSnapshot.getValue(GasSensorMeasure.class);
-//                        if (gasSensorMeasure != null)
-//                            measures.add(gasSensorMeasure);
-//                    }
-//                    for (int i = 0; i < measures.size(); i++) {
-//                        sensorMeasurements[0][i] = i;
-//                        sensorMeasurements[1][i] = measures.get(i).getSensor1();
-//                        sensorMeasurements[2][i] = measures.get(i).getSensor2();
-//                        sensorMeasurements[3][i] = measures.get(i).getSensor3();
-//                    }
-//                    // normalizing the results
-//                    int initialValueSensor1 = sensorMeasurements[1][0];
-//                    int initialValueSensor2 = sensorMeasurements[2][0];
-//                    int initialValueSensor3 = sensorMeasurements[3][0];
-//                    for (int i = 0; i < measures.size(); i++) {
-//                        sensorMeasurements[1][i] = (sensorMeasurements[1][i] - initialValueSensor1);
-//                        sensorMeasurements[2][i] = (sensorMeasurements[2][i] - initialValueSensor2);
-//                        sensorMeasurements[3][i] = (sensorMeasurements[3][i] - initialValueSensor3);
-//                    }
-//                }
-//                callJSMethod("createChartNew("+gson.toJson(sensorMeasurements)+");");
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                callJSMethod("createChartNew("+gson.toJson(sensorMeasurements)+");");
-//
-//            }
-//        });
-//        return gson.toJson(sensorMeasurements);
-//    }
     @JavascriptInterface
     public String getSensorPointClassification() throws ExecutionException, InterruptedException {
         List<String[]> gasesInformation = new ArrayList<>();
@@ -368,6 +329,39 @@ public class JavaScriptInterface {
                 .setPositiveButton("Measures", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (connectToSupperBecca()){
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        // dataSnapshot is the "issue" node with all children with id 0
+                                        for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                                            try{
+                                                GasSensorMeasure gasSensorMeasure = eventSnapshot.getValue(GasSensorMeasure.class);
+                                                if (gasSensorMeasure != null)
+                                                    db.addMeasure(gasSensorMeasure);
+                                            }catch (Exception e){
+                                                e.getMessage();
+                                            }
+                                        }
+                                        try {
+                                            getSensorPoints();
+                                            callJSMethod("app.createTable();");
+                                        } catch (ExecutionException e) {
+                                            e.printStackTrace();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
                 })
                 .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -379,6 +373,39 @@ public class JavaScriptInterface {
                 .setNegativeButton("Classifiers", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (connectToSupperBecca()){
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Classifications");
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        // dataSnapshot is the "issue" node with all children with id 0
+                                        for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                                            try{
+                                                ClassificationGasMeasure classificationGasMeasure= eventSnapshot.getValue(ClassificationGasMeasure.class);
+                                                if (classificationGasMeasure != null)
+                                                    db.addClassification(classificationGasMeasure);
+                                            }catch (Exception e){
+                                                e.getMessage();
+                                            }
+                                        }
+                                        try {
+                                            getSensorPoints();
+                                            callJSMethod("app.createTable();");
+                                        } catch (ExecutionException e) {
+                                            e.printStackTrace();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
                 });
         AlertDialog alert = altdial.create();
@@ -395,8 +422,11 @@ public class JavaScriptInterface {
         AlertDialog.Builder altdial = new AlertDialog.Builder(activity);
         altdial.setMessage( "Do you want to upload gas measures or classifiers ?").setCancelable(false)
                 .setPositiveButton("Measures", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (connectToSupperBecca()) firebaseAppConnection.saveSensorMeasures();
+                        connectToDevice();
                     }
                 })
                 .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -406,8 +436,11 @@ public class JavaScriptInterface {
                     }
                 })
                 .setNegativeButton("Classifiers", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (connectToSupperBecca()) firebaseAppConnection.saveSensorMeasuresClassification();
+                        connectToDevice();
                     }
                 });
         AlertDialog alert = altdial.create();
@@ -427,6 +460,11 @@ public static void callJSMethod(final String script) {
         }
     });
     System.out.println("javscript done..");
+    }
+    public boolean connectToSupperBecca(){
+        String networkSSID = "SuperBecca";
+        String networkPass = "beccabecca";
+        return connect(networkSSID,networkPass);
     }
 }
 
