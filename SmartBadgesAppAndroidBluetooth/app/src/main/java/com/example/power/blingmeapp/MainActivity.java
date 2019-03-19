@@ -23,22 +23,18 @@ public class MainActivity extends AppCompatActivity {
     public static String CHANNEL_ID = "TEST";
     public static  int NOTIFICATION_COUNTER = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        String myUrl = "file:///android_asset/index.html";
-        String myUrl = "file:///android_asset/newIndex.html";
+        String myUrl = "file:///android_asset/newIndex.html";// the path of the source file
         WebView webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                WebView.setWebContentsDebuggingEnabled(true);
-            }
-        }
-        JavaScriptInterface jsInterface = new JavaScriptInterface(this);
-        webView.addJavascriptInterface(jsInterface, "JSInterface");
-        webView.loadUrl(myUrl);
+        WebView.setWebContentsDebuggingEnabled(true); // set the possibility to debug using chrome://inspec
+        webView.getSettings().setJavaScriptEnabled(true);// enable javascript communication between front end and back ends
+        JavaScriptInterface jsInterface = new JavaScriptInterface(this);// add the javascript for the projcet
+        webView.addJavascriptInterface(jsInterface, "JSInterface");// add the javascript interface for the project
+        webView.loadUrl(myUrl);// load the front end in the  project in the webview
         createNotificationChannel();
     }
     private void createNotificationChannel() {

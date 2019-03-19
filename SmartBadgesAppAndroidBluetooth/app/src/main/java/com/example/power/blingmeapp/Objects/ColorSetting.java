@@ -1,5 +1,6 @@
-package com.example.power.blingmeapp;
-
+package com.example.power.blingmeapp.Objects;
+// this class contains other parameters from the json format of the wifi badge, most of the paramaeters are not used anymore
+// but the code was reused from the previous version
 public class ColorSetting {
 	private String state;
 	private int brightness;

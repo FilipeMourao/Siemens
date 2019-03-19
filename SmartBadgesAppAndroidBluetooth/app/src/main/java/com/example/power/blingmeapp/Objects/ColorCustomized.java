@@ -1,7 +1,8 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.graphics.Color;
-
+// this class is contains the color mode and rgb levels, it follows the json format from the wifi badge
+// even if most of the parameters are not used anymore, the code is reused.
 public class ColorCustomized {
 	String mode = "rgb";
 	int r,g,b;
@@ -11,7 +12,7 @@ public class ColorCustomized {
 		this.g = g;
 		this.b = b;
 	}
-	ColorCustomized(String colorString){
+	public ColorCustomized(String colorString){
         int color = Color.parseColor(colorString);
         this.r = Color.red(color);
         this.g = Color.green(color);

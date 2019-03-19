@@ -110,7 +110,7 @@ var app = {
 
         // connect to the device
         $('.connect-btn').on('click', function(){
-            if(window.JSInterface.connectToDevice()) app.connectDevice();
+            window.JSInterface.connectToDevice()
            //app.connectDevice();
         });
 
@@ -141,10 +141,7 @@ var app = {
         $('.save-contacts').on('click', function(){
             app.saveContacts();
         });
-//
-//        $('.save-preferences').on('click', function(){
-//            app.savePreferences();
-//        });
+
 
         $('.app-config-trigger').on('click', function(){
 
@@ -173,33 +170,6 @@ var app = {
             }, 500);
 
         });
-
-
-//        $('.app-config-row .count').on('click', function(){
-//
-//            var currentNum = parseInt($(this).attr('data-count'));
-//
-//            if(currentNum < 4){
-//                currentNum++;
-//            }else{
-//                currentNum = 0;
-//            }
-//            $(this).attr('data-count', currentNum);
-//        });
-//
-//        $('.app-config-row .color').on('click', function(){
-//
-//            var currentColorNum = parseInt($(this).attr('data-color'));
-//
-//            if(currentColorNum < app.colors.length){
-//                currentColorNum++;
-//            }else{
-//                currentColorNum = 0;
-//            }
-//
-//            $(this).attr('data-color', currentColorNum);
-//            $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
-//        });
         $(document).on('click','.app-config-row .count',function (){
 
             var currentNum = parseInt($(this).attr('data-count'));
@@ -291,7 +261,6 @@ var app = {
                                      '</div>'
                         '</li>';
                         $('.calendar ul').append(markup);
-                       // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
                    });
         });
 //
@@ -331,37 +300,6 @@ var app = {
                     $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
         });
         });
-//
-//
-//
-//        $('.health-trigger').on('click', function(){
-//
-//            $('.content').addClass('dark');
-//            app.closeMenu();
-//            $('.page.current').removeClass('current');
-//            $('.page.health').addClass('current');
-//
-//        });
-//
-//
-//
-//        $('.preferences-trigger').on('click', function(){
-//
-//            $('.content').addClass('dark');
-//            app.closeMenu();
-//            $('.page.current').removeClass('current');
-//            $('.page.preferences').addClass('current');
-//
-//        });
-//
-//        $('.help-trigger').on('click', function(){
-//
-//            $('.content').addClass('dark');
-//            app.closeMenu();
-//            $('.page.current').removeClass('current');
-//            $('.page.help').addClass('current');
-//        });
-
         $('.logo').on('click', function(){
 
             $('.page.current').removeClass('current');
@@ -372,18 +310,6 @@ var app = {
         });
 
     },
-
-//    savePreferences : function(){
-//
-//        grow = true;
-//        updateParticles(data["check"]);
-//        $('.page.current').removeClass('current');
-//        $('.content').removeClass('dark');
-//        setTimeout(function(){
-//            app.initHomeScreen();
-//        }, 2000);
-//
-//    },
 
     saveContacts : function(){
 
@@ -454,9 +380,6 @@ var app = {
 }
 
 function resetColor(){
-
-    //_bgcolor = "#26313c";
-
     var obj = {
         color : _bgcolor
     };

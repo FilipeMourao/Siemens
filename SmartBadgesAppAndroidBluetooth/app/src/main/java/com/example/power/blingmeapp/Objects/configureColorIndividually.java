@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 
+// this class sends the color information to the badge, must be an async task
 public class configureColorIndividually extends AsyncTask<ConfigureLed , Void, Void> {
     private Context mContext;
 

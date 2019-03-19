@@ -1,10 +1,10 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.graphics.Color;
 
 import java.util.Random;
 
-public class CustomizedNotification {
+public class CustomizedNotification { // this class is the notification class for other apps like facebook, twitter and youtube
     private String appName;
     private String colorString;
     private int id ;

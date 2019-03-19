@@ -1,8 +1,9 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.support.annotation.NonNull;
 
-public class Contact implements  Comparable<Contact> {
+public class Contact implements  Comparable<Contact> {// this class creates contacts with colors and brightness level from the contact customization view
+
     int id;
    private String name;
     private String number;
