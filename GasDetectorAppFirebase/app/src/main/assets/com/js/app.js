@@ -53,6 +53,8 @@ var app = {
             $('.content-pane.result').removeClass('current');
             $('.content-pane.start').removeClass('past').addClass('current');
             app.resetVisual();
+            //adding this code to reconnect to the device
+             app.connectDevice();
         });
 
         $('.back-to-result').on('click', function(){

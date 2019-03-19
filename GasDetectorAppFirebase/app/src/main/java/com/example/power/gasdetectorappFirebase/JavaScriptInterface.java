@@ -37,6 +37,8 @@ public class JavaScriptInterface {
     static private Activity activity;
     private FirebaseAppConnection firebaseAppConnection;
     private GasSensorDataBase db;
+    private int countingNumberOfOcurrences = 0;
+    private static int numberOfTimesToAccessData = 5;
     public JavaScriptInterface(Activity activity) {
         this.activity = activity;
         this.firebaseAppConnection = new FirebaseAppConnection(activity);
@@ -46,8 +48,7 @@ public class JavaScriptInterface {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @JavascriptInterface
-    public boolean connectToDevice() {
-       // callJSMethod("app.deviceConnected();");
+    public boolean testConnection() {
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -66,19 +67,46 @@ public class JavaScriptInterface {
             if (!wifiManager.isWifiEnabled()) {
                 Toast.makeText(activity.getApplicationContext(), "You need a wifi connection to connet to the device, please enable it!", Toast.LENGTH_LONG).show();
             } else {
-                String networkSSID = "GSens";
-                String networkPass = "!SmellDetect!";
-                if (connect(networkSSID, networkPass)) {
-                    //Toast.makeText(activity.getApplicationContext(), "Device Connected!", Toast.LENGTH_LONG).show();
+                if (connectToDevice()) {
+                    countingNumberOfOcurrences = 0;
                     callJSMethod("app.deviceConnected();");
 
-                } else
+                } else{
                     Toast.makeText(activity.getApplicationContext(), "There was a problem with the device connection, please check the device and try again!", Toast.LENGTH_LONG).show();
+                    callJSMethod("backToConnectScreen();");
+                    countingNumberOfOcurrences = countingNumberOfOcurrences +1;
+                    if (countingNumberOfOcurrences >= numberOfTimesToAccessData){ // if the number of times was achieved open the app without the device
+                        countingNumberOfOcurrences = 0;
+                        AlertDialog.Builder altdial = new AlertDialog.Builder(activity);
+                        altdial.setMessage("No device found, do you want to watch the measurements without the device?").setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        callJSMethod("goDirectToMeasures();");
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+
+                        AlertDialog alert = altdial.create();
+                        try {
+                            alert.show();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+
             }
         }
         return false;
     }
-    public boolean connect(String ssid, String password) {
+    public static boolean connect(String ssid, String password) {
         WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE);
         boolean findWifi = false;
         List<ScanResult> results = mWifiManager.getScanResults();
@@ -91,7 +119,7 @@ public class JavaScriptInterface {
         return findWifi;
     }
 
-    public void connectTo(ScanResult result, String password, String ssid) {
+    public static void connectTo(ScanResult result, String password, String ssid) {
         //Make new configuration
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"" + ssid + "\"";
@@ -144,15 +172,6 @@ public class JavaScriptInterface {
         String response;
         GettingGasMeauseHTTPRequest httpRequest = new GettingGasMeauseHTTPRequest(activity.getApplicationContext());
         httpRequest.execute();
-
-
-//        GasSensorMeasure measure1   = gson.fromJson("{\"ID1\":339,\"ID2\":263,\"ID3\":511,\"sensor1\":658,\"sensor2\":424,\"sensor3\":567,\"thermistor\":910}", GasSensorMeasure.class);
-//        GasSensorMeasure finalMeasure = new GasSensorMeasure(measure1);// add unique ID
-//        db.addMeasure(finalMeasure);
-//        GasSensorMeasure measure2   = gson.fromJson("{\"ID1\":300,\"ID2\":200,\"ID3\":500,\"sensor1\":879,\"sensor2\":500,\"sensor3\":767,\"thermistor\":910}", GasSensorMeasure.class);
-//        GasSensorMeasure finalMeasure2 = new GasSensorMeasure(measure2);// add unique ID
-//        db.addMeasure(finalMeasure2);
-
         return true;
     }
 
@@ -175,25 +194,14 @@ public class JavaScriptInterface {
                 sensorMeasurements[2][i] = measures.get(i).getSensor2();
                 sensorMeasurements[3][i] = measures.get(i).getSensor3();
             }
-//            // normalizing the results
-//            int initialValueSensor1 = sensorMeasurements[1][0];
-//            int initialValueSensor2 = sensorMeasurements[2][0];
-//            int initialValueSensor3 = sensorMeasurements[3][0];
-//            for (int i = 0; i < measures.size(); i++) {
-//                sensorMeasurements[1][i] = (sensorMeasurements[1][i] - initialValueSensor1);
-//                sensorMeasurements[2][i] = (sensorMeasurements[2][i] - initialValueSensor2);
-//                sensorMeasurements[3][i] = (sensorMeasurements[3][i] - initialValueSensor3);
-//            }
         }
         String gsonString = gson.toJson(sensorMeasurements);
         callJSMethod("app.createChartNew("+gsonString+");");
 
-        //return gsonString;
 
     }
     @JavascriptInterface
     public void deleteOrClassifyMeasure(int i) throws ExecutionException, InterruptedException {
-        //Toast.makeText(context,"New measurement available",Toast.LENGTH_LONG).show();
         AlertDialog.Builder altdial = new AlertDialog.Builder(activity);
         final int id = i;
         altdial.setMessage( "You select the measure with ID "+ Integer.toString(i)).setCancelable(false)
@@ -202,7 +210,7 @@ public class JavaScriptInterface {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         try {
-                            deleteMeasure(id);
+                            deleteData(id);
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -231,22 +239,22 @@ public class JavaScriptInterface {
                 });
 
         AlertDialog alert = altdial.create();
-       // alert.setTitle("Delete");
         try {
             alert.show();
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void deleteMeasure(int i) throws ExecutionException, InterruptedException {
+    public void deleteData(int i) throws ExecutionException, InterruptedException {
                 //Toast.makeText(context,"New measurement available",Toast.LENGTH_LONG).show();
         AlertDialog.Builder altdial = new AlertDialog.Builder(activity);
         final int id = i;
-        altdial.setMessage( "Are you sure to delete element with ID "+ Integer.toString(i) +" ?").setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        altdial.setMessage( "What information of element with ID "+ Integer.toString(i) +" do you want to delete ?").setCancelable(false)
+                .setPositiveButton("Measure", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        firebaseAppConnection.deleteGasSensorMeasure(db.getGasSensorMeasure(id));
+                        if (connectToSupperBecca()) firebaseAppConnection.deleteGasSensorMeasure(db.getGasSensorMeasure(id));
+                        else db.removeGasSensorMeasure(db.getGasSensorMeasure(id));
                         try {
                             getSensorPoints();
                             callJSMethod("app.createTable();");
@@ -258,7 +266,24 @@ public class JavaScriptInterface {
 
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Classification", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (connectToSupperBecca()) firebaseAppConnection.deleteGasSensorClassification(db.getClassificationDataByID(id));
+                        else db.removeGasSensorClassification(db.getClassificationDataByID(id));
+                        try {
+                            getSensorPoints();
+                            callJSMethod("app.createTable();");
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -426,7 +451,7 @@ public class JavaScriptInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (connectToSupperBecca()) firebaseAppConnection.saveSensorMeasures();
-                        connectToDevice();
+                       // connectToDevice();
                     }
                 })
                 .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -440,7 +465,7 @@ public class JavaScriptInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (connectToSupperBecca()) firebaseAppConnection.saveSensorMeasuresClassification();
-                        connectToDevice();
+                       // connectToDevice();
                     }
                 });
         AlertDialog alert = altdial.create();
@@ -461,9 +486,14 @@ public static void callJSMethod(final String script) {
     });
     System.out.println("javscript done..");
     }
-    public boolean connectToSupperBecca(){
+    public static boolean connectToSupperBecca(){
         String networkSSID = "SuperBecca";
         String networkPass = "beccabecca";
+        return connect(networkSSID,networkPass);
+    }
+    public static boolean connectToDevice(){
+        String networkSSID = "GSens";
+        String networkPass = "!SmellDetect!";
         return connect(networkSSID,networkPass);
     }
 }

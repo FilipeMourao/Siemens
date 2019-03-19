@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.example.power.gasdetectorappFirebase.JavaScriptInterface;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.ClassificationGasMeasure;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorDataBase;
 import com.example.power.gasdetectorappFirebase.ObjectsAndDatabase.GasSensorMeasure;
@@ -39,39 +40,43 @@ public class FirebaseAppConnection {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Classifications").removeValue();
         for (ClassificationGasMeasure  classificationGasMeasure : gasSensorMeasures) saveSensorMeasureClassification(classificationGasMeasure);
+
     }
     public void saveSensorMeasureClassification(ClassificationGasMeasure classificationGasMeasure){
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        String uniqueKey = Integer.toString(classificationGasMeasure.getSensor1())+"-"+Integer.toString(classificationGasMeasure.getSensor2())+"-"+Integer.toString(classificationGasMeasure.getSensor3());
+        String uniqueKey = classificationGasMeasure.getUniqueID();
         mDatabase.child("Classifications").child(uniqueKey).setValue(classificationGasMeasure);
-    }
-    public void getGasSensorMeasures(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "issue" node with all children with id 0
-                    for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-                        GasSensorMeasure gasSensorMeasure = eventSnapshot.getValue(GasSensorMeasure.class);
-                        if (gasSensorMeasure != null)
-                            gasSensorDataBase.addMeasure(gasSensorMeasure);
-                    }
-
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
     public void deleteGasSensorMeasure(GasSensorMeasure gasSensorMeasure){ // take the user out of the current event;
         gasSensorDataBase.removeGasSensorMeasure(gasSensorMeasure);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Measures").child(gasSensorMeasure.getUniqueID()).removeValue();
-        //saveSensorMeasures();
+    }
+    public void deleteGasSensorClassification(ClassificationGasMeasure classificationGasMeasure){ // take the user out of the current event;
+        gasSensorDataBase.removeGasSensorClassification(classificationGasMeasure);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Classifications").child(classificationGasMeasure.getUniqueID()).removeValue();
     }
 }
+//    public void getGasSensorMeasures(){
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Measures");
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    // dataSnapshot is the "issue" node with all children with id 0
+//                    for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+//                        GasSensorMeasure gasSensorMeasure = eventSnapshot.getValue(GasSensorMeasure.class);
+//                        if (gasSensorMeasure != null)
+//                            gasSensorDataBase.addMeasure(gasSensorMeasure);
+//                    }
+//
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }

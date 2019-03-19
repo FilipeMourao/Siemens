@@ -11,7 +11,7 @@ $(".uploadButton").click(function() {
 
     //window.JSInterface.saveMeasureIntoServer();
   //  window.JSInterface.getSensorPoints();
-        window.JSInterface.connectToDevice()
+        window.JSInterface.testConnection()
         //     if(window.JSInterface.connectToDevice()) app.deviceConnected();
    //    app.deviceConnected();
 
@@ -35,6 +35,26 @@ $(".uploadButton").click(function() {
 
 
     }
+  function backToConnectScreen(){
+
+                $('.content-pane.result').removeClass('current');
+                $('.content-pane.start').removeClass('current');
+                $('.content-pane.details').removeClass('current');
+                $('.content-pane.connect').removeClass('past').addClass('current');
+                app.resetVisual();
+   }
+     function goDirectToMeasures(){
+                   $('.content-pane.result').removeClass('current');
+                   $('.content-pane.start').removeClass('current');
+                   $('.content-pane.details').removeClass('current');
+                     $('.content-pane.connect').removeClass('current');
+                   $('.content-pane.result').removeClass('past').addClass('current');
+                   var gas_name = 'Not able to get the new measure!';
+                   $('.result-name').text(gas_name);
+                   app.showresult(getRandomColor());
+                   app.resetVisual();
+      }
+
 
 
     // just some default values

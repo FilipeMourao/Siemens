@@ -58,4 +58,7 @@ public class ClassificationGasMeasure {
     public void setSensor3(int sensor3) {
         this.sensor3 = sensor3;
     }
+    public String getUniqueID(){
+        return  Integer.toString(getSensor1()) + "-" + Integer.toString(getSensor2()) + "-" + Integer.toString(getSensor3()) ;
+    }
 }

@@ -123,7 +123,8 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         if (classificationGasMeasure != null && !classificationGasMeasure.getClassification().isEmpty()){
             classification = classificationGasMeasure.getClassification();
         } else {
-            classification = "[" + gasSensorMeasure.getSensor1() + "," + gasSensorMeasure.getSensor2() + "," + gasSensorMeasure.getSensor3() + "]" ;
+           classification = "[" + gasSensorMeasure.getSensor1() + "," + gasSensorMeasure.getSensor2() + "," + gasSensorMeasure.getSensor3() + "]" ;
+
         }
         return classification;
     }
@@ -152,6 +153,11 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         measure.setId(Integer.parseInt(cursor.getString(0)));
         return measure;
     }
+    public ClassificationGasMeasure getClassificationDataByID(int id){
+        GasSensorMeasure gasSensorMeasure = getGasSensorMeasure(id);
+        return getClassificationData(gasSensorMeasure.getSensor1(),gasSensorMeasure.getSensor2(),gasSensorMeasure.getSensor3());
+    }
+
     public GasSensorMeasure getGasSensorMeasureUUID(String UUID ){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(true, TABLE_GAS_SENSOR,
@@ -229,6 +235,21 @@ public class GasSensorDataBase extends SQLiteOpenHelper {
         if (newGasSensorMeasure != null){
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_GAS_SENSOR, KEY_UUID + "=?", new String[]{newGasSensorMeasure.getUniqueID()} );
+        }
+    }
+    public void removeGasSensorClassification(ClassificationGasMeasure classificationGasMeasure){
+        ClassificationGasMeasure newClassificationMeasure =getClassificationData(classificationGasMeasure.getSensor1(),classificationGasMeasure.getSensor2(),classificationGasMeasure.getSensor3());
+        if (newClassificationMeasure != null){
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(
+                    TABLE_GAS_SENSOR_CLASSIFY,
+                    KEY_SENSOR1 + "=?" + " AND " + KEY_SENSOR2 + "=?"  +" AND " + KEY_SENSOR3+ "=?",
+                    new String[]{
+                            Integer.toString(newClassificationMeasure.getSensor1())
+                            ,Integer.toString(newClassificationMeasure.getSensor2())
+                            ,Integer.toString(newClassificationMeasure.getSensor3())}
+
+            );
         }
     }
 
