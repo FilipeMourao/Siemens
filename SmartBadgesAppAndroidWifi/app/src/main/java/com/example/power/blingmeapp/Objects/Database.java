@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
+    //Database with 3 tables that are going to store the user customization information
     private  static final int DATABASE_VERSION = 1;
     private  static final String DATABASE_NAME = "ColoredContactManager";
     private  static final String TABLE_CONTACTS = "contacts";
@@ -40,7 +41,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) { // create the 3 tables in the database
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS  +
                 " (" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_PHONE + " TEXT," + KEY_COLOR + " TEXT," + KEY_BRIGHTNESS + " TEXT" + ")";
@@ -68,6 +69,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + NOTIFICATIONS);
         onCreate(db);
     }
+    // functions for the contact table
     public void  addContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -144,6 +146,7 @@ public class Database extends SQLiteOpenHelper {
         //       db.delete(DatabaseHelper.TAB_USERS_GROUP, null, null);
     }
     //---------------------------------------------------------------------------------------------//
+    // functions for the event table
     public void  addEvent(Event event){
         Date date = event.getCalendar().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
@@ -221,6 +224,7 @@ public class Database extends SQLiteOpenHelper {
         //       db.delete(DatabaseHelper.TAB_USERS_GROUP, null, null);
     }
     //---------------------------------------------------------------------------------------------//
+    // functions for the notifications table
     public void  addNotification(CustomizedNotification notification){
         if (getNotification(notification.getAppName()) == null){
             SQLiteDatabase db = this.getWritableDatabase();

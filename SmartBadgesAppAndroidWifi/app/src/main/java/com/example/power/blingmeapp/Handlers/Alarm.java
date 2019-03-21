@@ -33,7 +33,6 @@ import com.example.power.blingmeapp.Objects.*;
 public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        //ColorSetting colorsetting = getPendingIntent().getStringArrayListExtra("Color Configuration");
         Bundle extras = intent.getExtras();
         Gson gson = new Gson();
         IpAdress ipAdress = ((IpAdress) context.getApplicationContext());
@@ -41,15 +40,13 @@ public class Alarm extends BroadcastReceiver {
         ColorSetting colorsetting = gson.fromJson(extras.getString("Color Configuration"), ColorSetting.class);
         ConfigureLed configureLed = new ConfigureLed(ipAdress.getIPADRESS(), colorsetting);
         configureColorIndividually myTask = new configureColorIndividually();
-        myTask.execute(configureLed);
+        myTask.execute(configureLed);// execute the asynctask to change the badge color
         if (!description.isEmpty()) {
-//            //Create toast
-//            Toast.makeText(context,description,Toast.LENGTH_LONG*2).show();
             // Create notification
             Intent intent2 = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, 0);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context,MainActivity.CHANNEL_ID)
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context,MainActivity.CHANNEL_ID)// create notificication that will be showed
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher))
                     .setContentTitle("Reminder!")
@@ -60,10 +57,10 @@ public class Alarm extends BroadcastReceiver {
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
             // notificationId is a unique int for each notification that you must define
-            notificationManager.notify(MainActivity.NOTIFICATION_COUNTER, mBuilder.build());
-            MainActivity.increaseNotificationCounting();
+            notificationManager.notify(MainActivity.NOTIFICATION_COUNTER, mBuilder.build());// add notification in the notification queue
+            MainActivity.increaseNotificationCounting();// increase the counting of the notification queue
         }
-        Vibrator v = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
+        Vibrator v = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);// set vibration to 1 second
         v.vibrate(1000);
     }
 

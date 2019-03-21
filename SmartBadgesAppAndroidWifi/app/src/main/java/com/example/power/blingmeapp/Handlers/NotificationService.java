@@ -38,40 +38,10 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         //https://github.com/kpbird/NotificationListenerService-Example/
         String pack = sbn.getPackageName();
-       // if (pack.toLowerCase().contains("whatsapp")) handlingWhatsappNotification();
         if (pack.toLowerCase().contains("whatsapp")) handlingWhatsappNotification();
         if (pack.toLowerCase().contains("facebook")) handlingFacebookNotification();
         if (pack.toLowerCase().contains("instagram")) handlingInstagramNotification();
         if (pack.toLowerCase().contains("twitter")) handlingTwitterNotification();
-//        String ticker ="";
-//        if(sbn.getNotification().tickerText !=null) {
-//            ticker = sbn.getNotification().tickerText.toString();
-//        }
-//        Bundle extras = sbn.getNotification().extras;
-//        String title = extras.getString("android.title");
-//        String text = extras.getCharSequence("android.text").toString();
-//        int id1 = extras.getInt(Notification.EXTRA_SMALL_ICON);
-//        Bitmap id = sbn.getNotification().largeIcon;
-//
-//        Log.i("Package",pack);
-//        Log.i("Ticker",ticker);
-//        Log.i("Title",title);
-//        Log.i("Text",text);
-//
-//        Intent msgrcv = new Intent("Msg");
-//        msgrcv.putExtra("package", pack);
-//        msgrcv.putExtra("ticker", ticker);
-//        msgrcv.putExtra("title", title);
-//        msgrcv.putExtra("text", text);
-//        if(id != null) {
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            id.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            byte[] byteArray = stream.toByteArray();
-//            msgrcv.putExtra("icon",byteArray);
-//        }
-//        LocalBroadcastManager.getInstance(context).sendBroadcast(msgrcv);
-
-
     }
 
     @Override
@@ -80,7 +50,7 @@ public class NotificationService extends NotificationListenerService {
         Log.i("Msg","Notification Removed");
 
     }
-    public void handlingFacebookNotification(){
+    public void handlingFacebookNotification(){ // create a notidication if a facebook notification appears
         db.getReadableDatabase();
         if (db.getNotification("facebook") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -99,7 +69,7 @@ public class NotificationService extends NotificationListenerService {
             myTask.execute(configureLed);
         }
     }
-    public void handlingTwitterNotification(){
+    public void handlingTwitterNotification(){// create a notidication if a twitter notification appears
         db.getReadableDatabase();
         if (db.getNotification("twitter") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -119,7 +89,7 @@ public class NotificationService extends NotificationListenerService {
             myTask.execute(configureLed);
         }
     }
-    public void handlingWhatsappNotification(){
+    public void handlingWhatsappNotification(){// create a notidication if a whatsapp notification appears
         db.getReadableDatabase();
         if (db.getNotification("whatsapp") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -139,7 +109,7 @@ public class NotificationService extends NotificationListenerService {
             myTask.execute(configureLed);
         }
     }
-    public void handlingInstagramNotification(){
+    public void handlingInstagramNotification(){// create a notidication if an instagram notification appears
         db.getReadableDatabase();
         if (db.getNotification("instagram") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());

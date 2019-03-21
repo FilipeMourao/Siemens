@@ -1,7 +1,7 @@
 package com.example.power.blingmeapp.Objects;
 
 import java.util.Calendar;
-
+// this class is the event which will be created from the callendar evenrts in the user phone
 public class Event implements Comparable<Event> {
     int id;
     Calendar calendar;

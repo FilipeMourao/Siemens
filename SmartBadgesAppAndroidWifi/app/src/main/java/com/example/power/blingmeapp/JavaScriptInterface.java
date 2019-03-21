@@ -99,7 +99,7 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public void connectToDevice() {
-        if (
+        if (// ask permission needed for the app
                 ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -130,9 +130,9 @@ public class JavaScriptInterface {
 
         } else {
             WifiManager wifiManager = (WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE);
-            if (!wifiManager.isWifiEnabled()) {
+            if (!wifiManager.isWifiEnabled()) {// if the wifi is not enabled, ask to enable the wifi
                 Toast.makeText(activity.getApplicationContext(), "You need a wifi connection to connet to the device, please enable it!", Toast.LENGTH_LONG).show();
-            } else {
+            } else {// if the wifi is enabled and the permissons are given ask for the badge number
                 if (((IpAdress) activity.getApplication()).getIPADRESS().isEmpty()) {
                     Toast.makeText(activity.getApplicationContext(), "Please add your card number in the connection", Toast.LENGTH_LONG).show();
                     this.getIpAdress();
@@ -142,7 +142,7 @@ public class JavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void saveConfiguration(String[] appNames, String[] colorString) {
+    public void saveConfiguration(String[] appNames, String[] colorString) {// this fucntion save the configurations of the apps notifications chosen by the user to the user database
 
         db.getWritableDatabase();
         CustomizedNotification notification;
@@ -154,7 +154,7 @@ public class JavaScriptInterface {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @JavascriptInterface
-    public String getAllPhoneContacts() {
+    public String getAllPhoneContacts() {// send all the phone contacts to the front end
         String contactValue;
         int hasPhone;
         Gson gson = new Gson();
@@ -168,12 +168,13 @@ public class JavaScriptInterface {
             if (cursor != null) {
                 String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 contactValue = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                hasPhone = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-                if (hasPhone > 0) {
+                hasPhone = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));// check if the contact has a phone number
+                if (hasPhone > 0) {// if the contact has a phone number get the contact information
                     Cursor cp = activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-                    if (cp != null && cp.moveToFirst()) {
+                    if (cp != null && cp.moveToFirst()) {// get the contact information and add the contact in the list
                         String number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        // taake out the non numeric chars and left zeros
                         number = number.replaceAll("[\\s\\-\\(\\)\\+]", "");
                         char c  = number.charAt(0);
                         while (c == '0') {
@@ -187,7 +188,7 @@ public class JavaScriptInterface {
             }
         }
         Contact contact1;
-        for (Contact contact : contactsInAgenda) {
+        for (Contact contact : contactsInAgenda) {// update the contact colors with the alrrady saved colors before sending it to the frontend
             contact1 = db.getContact(contact.getNumber());
             if (contact1 != null) {
                 contact.setColor(contact1.getColor());
@@ -195,15 +196,15 @@ public class JavaScriptInterface {
             }
 
         }
-        Collections.sort(contactsInAgenda);
+        Collections.sort(contactsInAgenda);// convert to gson string
         return gson.toJson(contactsInAgenda);
     }
 
     @JavascriptInterface
-    public void saveContactsColors(String contactColors) {
+    public void saveContactsColors(String contactColors) {// save the contact colors chosen by the user in the database
         String contactValue;
         Gson gson = new Gson();
-        List<Contact> contacts =  gson.fromJson(contactColors, new TypeToken<List<Contact>>() {
+        List<Contact> contacts =  gson.fromJson(contactColors, new TypeToken<List<Contact>>() {// convert the gson string in the list of objects
         }.getType());
         Database db = new Database(activity);
         db.getWritableDatabase();
@@ -214,14 +215,14 @@ public class JavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void createAlarmForMeetings() throws ParseException {
+    public void createAlarmForMeetings() throws ParseException {// function is called from the frontend
         db.getReadableDatabase();
         List<Event> events = db.getAllEvents();
         for(Event event: events){
             createAlarmForMeeting(event.getTitle(),event.getCalendar(),event.getColor());
         }
     }
-    public void createAlarmForMeeting(String title, Calendar calendar, String colorString) throws ParseException {
+    public void createAlarmForMeeting(String title, Calendar calendar, String colorString) throws ParseException {// create an event given the time when the event is begining, the name and the color
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         ColorSetting colorSetting = new ColorSetting(new ColorCustomized(colorString));
         ColorSetting colorSetting2 = new ColorSetting(new ColorCustomized(colorString));
@@ -245,7 +246,7 @@ public class JavaScriptInterface {
         createAlarm(calendar, colorSetting2, descriptionEventStarted, activity.getApplicationContext());
     }
     public void createAlarm(Calendar calendar, ColorSetting colorSetting, String description, Context context) {
-        // conference in germany?
+        // convert the information in an alarm manager form and create the alarm
         Long time = calendar.getTimeInMillis();
         Date date2 = new Date();
         Date date = calendar.getTime();
@@ -262,7 +263,7 @@ public class JavaScriptInterface {
         Toast.makeText(context, "Alarm created!", Toast.LENGTH_LONG).show();
     }
     @JavascriptInterface
-    public String getEventList() throws ParseException {
+    public String getEventList() throws ParseException {// get the events from callendar and send to the frontend
         List<Event> events = new ArrayList<Event>();
         int titleId;
         String titleValue;
@@ -281,9 +282,7 @@ public class JavaScriptInterface {
                     Long correctingTime = startTimeValue - Math.abs(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY)) * 3600 * 1000;
                     titleId = cursor.getColumnIndex(CalendarContract.Events.TITLE);
                     titleValue = cursor.getString(titleId);
-                    long time = correctingTime - System.currentTimeMillis();
-//                    if(correctingTime > System.currentTimeMillis() && titleValue.contains("Siemens")){
-                    if (correctingTime > System.currentTimeMillis()) {
+                    if (correctingTime > System.currentTimeMillis()) {// just take the future events
                         locationId = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
                         locationValue = cursor.getString(locationId);
                         Calendar calendar = Calendar.getInstance();
@@ -298,7 +297,7 @@ public class JavaScriptInterface {
                                     for (int j = 0; j < 7; j++){
                                         color += locationValue.charAt(i + 1 + j);
                                     }
-                                    try {
+                                    try { // check if the color is on the right rgb hex format, if it is add the event in the database
                                         new ColorCustomized(color);
                                         event.setColor(color);
                                         events.add(event);
@@ -325,13 +324,13 @@ public class JavaScriptInterface {
         return gson.toJson(events);
     }
     @JavascriptInterface
-    public  void IpAdressError(){
+    public  void IpAdressError(){// function send by the frontend when the ipadress cannot be found anymore
         Toast.makeText(activity.getApplicationContext(), "Could not connect with the badge, please add the right card number", Toast.LENGTH_LONG).show();
         ((IpAdress) activity.getApplication()).setIPADRESS("");
         getIpAdress();
     }
     @JavascriptInterface
-    public  void reconnectIpAdress(){
+    public  void reconnectIpAdress(){// function send by the frontend when the user want to get a new ipadress
         Toast.makeText(activity.getApplicationContext(), "Please add the new card number", Toast.LENGTH_LONG).show();
         ((IpAdress) activity.getApplication()).setIPADRESS("");
         getIpAdress();

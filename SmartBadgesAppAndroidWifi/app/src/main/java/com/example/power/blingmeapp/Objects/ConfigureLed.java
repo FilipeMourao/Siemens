@@ -19,17 +19,14 @@ public class ConfigureLed {
 		this.ipAdress = ipAdress;
 		this.colorStetting = colorStetting;
 	}
-	public ConfigureLed(ColorSetting colorStetting) {
-//		this.ipAdress = "192.168.1.117";
-		this.ipAdress = "192.168.1.116";
-		this.colorStetting = colorStetting;
-	}
 
 	public void configureColors(String ipAdress, ColorSetting colorStetting )  {
-		try {
+		try {// convert the object created by ColorSetting and ColorCustomized
+			// and send this information to the wifi badge via post
 			Gson gson = new Gson();
 			boolean testingConnectionFlag = false;
-			if (colorStetting.getBrightness() < 0){
+			if (colorStetting.getBrightness() < 0){// if the brightness is negative means that we are trying
+				// to connect with the badge for the first time so the flag is setted as true
 				colorStetting.setBrightness(0);
 				testingConnectionFlag = true;
 			}
@@ -58,17 +55,16 @@ public class ConfigureLed {
 			if(responseCode == 200){
 				if (testingConnectionFlag ){ // trying to connect with the badgee
 					JavaScriptInterface.callJSMethod("app.connectDevice();");
+					// calls a function to update the frontend view when the app is connected
 				}
-//				return true;
-			} else {
+			} else {// if the connection didn`t return 200 something wrong happen so send an error call to the front end
 				JavaScriptInterface.callJSMethod("app.IpErrorConnection();");
 			}
 
-		}catch (Exception e){
+		}catch (Exception e){// if some exception appears send an error call to the front end
 			JavaScriptInterface.callJSMethod("app.IpErrorConnection();");
 			e.getMessage();
 		}
-//		return false;
 	}
 
 	public String getIpAdress() {

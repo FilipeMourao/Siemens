@@ -26,7 +26,6 @@ public class ConfigureLed { // this are the uuid from the badge service and char
 	public UUID UUID_GREEN = convertFromInteger(0x1202);
 	public  UUID UUID_BLUE = convertFromInteger(0x1203);
 	public UUID UUID_BRIGHTNESS = convertFromInteger(0x1204);
-	//public static String  deviceName = "badge"; // the name which is used to find the right bluetooth device
 	ColorSetting colorStetting;
 	BluetoothDevice btDevice = null;
 	BluetoothGatt mGatt;

@@ -15,13 +15,13 @@ public class HandlingSMS extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         Database db = new Database(context);
-        db.getReadableDatabase();
+        db.getReadableDatabase(); // get a readable database
         Object[] pdus = (Object[]) bundle.get("pdus");
-        final SmsMessage[] messages = new SmsMessage[pdus.length];
+        final SmsMessage[] messages = new SmsMessage[pdus.length];// get the message content
         for (int i = 0; i < pdus.length; i++) {
             messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
         }
-        String incomingNumber = messages[0].getOriginatingAddress();
+        String incomingNumber = messages[0].getOriginatingAddress();// get the incoming number
         if (incomingNumber != null){
             incomingNumber  = incomingNumber .replaceAll("[\\s\\-\\(\\)\\+]", "");
             char c  = incomingNumber .charAt(0);

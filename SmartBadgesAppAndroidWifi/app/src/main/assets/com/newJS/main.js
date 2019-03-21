@@ -97,19 +97,6 @@ function initConfiDetail(color, count){
             $('#horiz').html(movePos);
             $('#vert').html(Math.round(movePosVert / 10));
 
-            /*
-
-            if(movePosVert >= 0 && movePosVert < 50) {
-                $('#drag, .button').css('color','white');
-                $('.button').css('background','rgba(255,255,255,0.15)');
-            }
-            else if(movePosVert > 50 && movePosVert <= 100) {
-                $('#drag, .button').css('color','black');
-                $('.button').css('background','rgba(0,0,0,0.15)');
-            }
-
-            */
-
             HSLvalue = 'hsl('+movePos+',85%,'+40+'%)';
         });
 
@@ -165,8 +152,6 @@ function toHSL (hex) {
     }
 
     return hslColor;
-    //var colorInHSL = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-    //$rootScope.$emit('colorChanged', {colorInHSL});
 }
 var _createClass = function () {
     function defineProperties(target, props) {
@@ -636,17 +621,4 @@ then(function (data) {
     var length = Object.keys(data).length - 1;
     var index = 0;
     updateParticles(data[Object.keys(data)[index]]);
-
-    setInterval(function () {
-/*
-        grow = true;
-        if (index < length) {
-            index++;
-        } else {
-            index = 0;
-        }
-*/
-        //updateParticles(data[Object.keys(data)[index]]);
-
-    }, 4000);
 });

@@ -93,11 +93,6 @@ public class JavaScriptInterface {
                 Toast.makeText(activity.getApplicationContext(), "Enable the notification access for our app... ", Toast.LENGTH_LONG).show();
                 activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
             }
-//            if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
-//                activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-//                Toast.makeText(activity.getApplicationContext(), "Enable the notification access for our app... ", 3 * Toast.LENGTH_LONG).show();
-//            }
-
         } else {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); // check if the user phone has a bluetooth adapter
             if (mBluetoothAdapter == null ) { // if the device does not have a bluetooth adapter it is not possible to use the app
@@ -227,7 +222,7 @@ public class JavaScriptInterface {
     }
 
     @JavascriptInterface
-    public String getEventList() throws ParseException {
+    public String getEventList() throws ParseException {// get the events from callendar and send to the frontend
         // get all the events from the user callendar
         List<Event> events = new ArrayList<Event>();
         int titleId;
@@ -247,7 +242,6 @@ public class JavaScriptInterface {
                     Long correctingTime = startTimeValue - Math.abs(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin")).get(Calendar.HOUR_OF_DAY)) * 3600 * 1000;
                     titleId = cursor.getColumnIndex(CalendarContract.Events.TITLE);
                     titleValue = cursor.getString(titleId);
-                    long time = correctingTime - System.currentTimeMillis();
                     if (correctingTime > System.currentTimeMillis()) {// just take the future events
                         locationId = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
                         locationValue = cursor.getString(locationId);
