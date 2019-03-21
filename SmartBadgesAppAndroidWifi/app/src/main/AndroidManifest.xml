@@ -24,7 +24,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".IpAdress"
+        android:name=".Objects.IpAdress"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,10 +38,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Alarm" />
+
+        <receiver android:name=".Handlers.Alarm" />
 
         <receiver
-            android:name=".HandlingSMS"
+            android:name=".Handlers.HandlingSMS"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="1000">
@@ -50,15 +51,15 @@
         </receiver>
 
         <!--<receiver android:name=".HandlingCalls">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.PHONE_STATE" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.PHONE_STATE" />-->
+        <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <receiver
-            android:name=".HandlingCalls"
+            android:name=".Handlers.HandlingCalls"
             android:enabled="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="999999999">
@@ -69,7 +70,7 @@
 
 
         <service
-            android:name=".NotificationService"
+            android:name=".Handlers.NotificationService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.os.AsyncTask;
 
@@ -11,12 +11,7 @@ public class configureColorIndividually extends AsyncTask<ConfigureLed , Void, V
     protected  Void doInBackground(ConfigureLed... configureLeds) {
 
         ConfigureLed configureLed = configureLeds[0];
-        try {
-            configureLed.configureColors(configureLed.getIpAdress(), configureLed.getColorStetting());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        configureLed.configureColors(configureLed.getIpAdress(), configureLed.getColorStetting());
         return null;
     }
 

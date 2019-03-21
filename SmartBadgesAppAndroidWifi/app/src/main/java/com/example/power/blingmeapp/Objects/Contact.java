@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.support.annotation.NonNull;
 

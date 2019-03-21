@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Handlers;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -13,19 +13,22 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.example.power.blingmeapp.Objects.*;
+
 import java.io.ByteArrayOutputStream;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationService extends NotificationListenerService {
     Context context;
-
+    Database db;
     @Override
 
     public void onCreate() {
 
         super.onCreate();
         context = getApplicationContext();
+        db = new Database(context);
 
     }
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -78,7 +81,6 @@ public class NotificationService extends NotificationListenerService {
 
     }
     public void handlingFacebookNotification(){
-        NotificationDataBase db = new NotificationDataBase(context);
         db.getReadableDatabase();
         if (db.getNotification("facebook") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -98,7 +100,6 @@ public class NotificationService extends NotificationListenerService {
         }
     }
     public void handlingTwitterNotification(){
-        NotificationDataBase db = new NotificationDataBase(context);
         db.getReadableDatabase();
         if (db.getNotification("twitter") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -119,7 +120,6 @@ public class NotificationService extends NotificationListenerService {
         }
     }
     public void handlingWhatsappNotification(){
-        NotificationDataBase db = new NotificationDataBase(context);
         db.getReadableDatabase();
         if (db.getNotification("whatsapp") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
@@ -140,7 +140,6 @@ public class NotificationService extends NotificationListenerService {
         }
     }
     public void handlingInstagramNotification(){
-        NotificationDataBase db = new NotificationDataBase(context);
         db.getReadableDatabase();
         if (db.getNotification("instagram") != null){
             IpAdress ipAdress= ((IpAdress)context.getApplicationContext());

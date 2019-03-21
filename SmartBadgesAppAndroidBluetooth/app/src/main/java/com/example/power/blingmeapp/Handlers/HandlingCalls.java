@@ -32,7 +32,7 @@ public class HandlingCalls extends BroadcastReceiver {
                             c  = incomingNumber .charAt(0);
                         }
                         contact = db.getContact(incomingNumber);// check if there is a contact with a color with this number in the database
-                    }
+                }
                     if (contact != null){// if there is a contact, change the badge color
                         ConfigureLed configureLed =  new ConfigureLed(new ColorSetting(new ColorCustomized(contact.getColor())));
                         configureLed.getColorStetting().setBrightness(contact.getColorBrihgtness());

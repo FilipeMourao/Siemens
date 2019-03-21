@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 public class ColorSetting {
 	String state;

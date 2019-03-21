@@ -19,9 +19,20 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.text.InputType;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.power.blingmeapp.Handlers.Alarm;
+import com.example.power.blingmeapp.Objects.ColorCustomized;
+import com.example.power.blingmeapp.Objects.ColorSetting;
+import com.example.power.blingmeapp.Objects.ConfigureLed;
+import com.example.power.blingmeapp.Objects.Contact;
+import com.example.power.blingmeapp.Objects.CustomizedNotification;
+import com.example.power.blingmeapp.Objects.Database;
+import com.example.power.blingmeapp.Objects.Event;
+import com.example.power.blingmeapp.Objects.IpAdress;
+import com.example.power.blingmeapp.Objects.configureColorIndividually;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,20 +43,19 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.WIFI_SERVICE;
 
-class JavaScriptInterface {
-    private Activity activity;
-
+public class JavaScriptInterface {
+    private static Activity activity;
+    private Database db;
     public JavaScriptInterface(Activity activity) {
         this.activity = activity;
+        this.db = new Database(activity.getApplicationContext());
     }
 
-    @JavascriptInterface
-    public void getIpAdress() {
+    public static void getIpAdress() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(" Card Number");
@@ -64,6 +74,13 @@ class JavaScriptInterface {
                 if (input.getText().toString().length() == 3) {
                     String ipAdress = "192.168.1." + input.getText().toString();
                     ((IpAdress) activity.getApplication()).setIPADRESS(ipAdress);
+                    Toast.makeText(activity.getApplicationContext(), "Verifying connection with the badge...", 3*Toast.LENGTH_LONG).show();
+                    ConfigureLed configureLed =  new ConfigureLed(ipAdress,new ColorSetting(new ColorCustomized(0,0,0)));
+                    configureLed.getColorStetting().setBrightness(-50);
+                    configureColorIndividually myTask = new configureColorIndividually();
+                    myTask.execute(configureLed);
+
+
                 }
             }
         });
@@ -81,12 +98,7 @@ class JavaScriptInterface {
     }
 
     @JavascriptInterface
-    public boolean connectToDevice() {
-        if (((IpAdress) activity.getApplication()).getIPADRESS().isEmpty()) {
-            Toast.makeText(activity.getApplicationContext(), "Please add your card number in the connection", Toast.LENGTH_LONG).show();
-            this.getIpAdress();
-            return false;
-        }
+    public void connectToDevice() {
         if (
                 ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
                         || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED
@@ -115,25 +127,23 @@ class JavaScriptInterface {
                 Toast.makeText(activity.getApplicationContext(), "Enable the notification access for our app... ", Toast.LENGTH_LONG).show();
                 activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
             }
-            if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
-                activity.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                Toast.makeText(activity.getApplicationContext(), "Enable the notification access for our app... ", 3 * Toast.LENGTH_LONG).show();
-            }
 
         } else {
             WifiManager wifiManager = (WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 Toast.makeText(activity.getApplicationContext(), "You need a wifi connection to connet to the device, please enable it!", Toast.LENGTH_LONG).show();
             } else {
-                return true;
+                if (((IpAdress) activity.getApplication()).getIPADRESS().isEmpty()) {
+                    Toast.makeText(activity.getApplicationContext(), "Please add your card number in the connection", Toast.LENGTH_LONG).show();
+                    this.getIpAdress();
+                }
             }
         }
-        return false;
     }
 
     @JavascriptInterface
     public void saveConfiguration(String[] appNames, String[] colorString) {
-        NotificationDataBase db = new NotificationDataBase(activity.getApplicationContext());
+
         db.getWritableDatabase();
         CustomizedNotification notification;
         for (int i = 0; i < appNames.length; i++) {
@@ -148,7 +158,7 @@ class JavaScriptInterface {
         String contactValue;
         int hasPhone;
         Gson gson = new Gson();
-        ContactDatabase db = new ContactDatabase(activity.getApplicationContext());
+        Database db = new Database(activity.getApplicationContext());
         List<Contact> contactsInDatabase = db.getAllContacts();
         List<Contact> contactsInAgenda = new ArrayList<>();
         Cursor cursor = activity.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
@@ -164,7 +174,12 @@ class JavaScriptInterface {
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                     if (cp != null && cp.moveToFirst()) {
                         String number = cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        number = number.replaceAll("[\\s\\-\\(\\)]", "");
+                        number = number.replaceAll("[\\s\\-\\(\\)\\+]", "");
+                        char c  = number.charAt(0);
+                        while (c == '0') {
+                            number = number.substring(1);
+                            c = number.charAt(0);
+                        }
                         contactsInAgenda.add(new Contact(i, cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)), number));
                         cp.close();
                     }
@@ -190,7 +205,7 @@ class JavaScriptInterface {
         Gson gson = new Gson();
         List<Contact> contacts =  gson.fromJson(contactColors, new TypeToken<List<Contact>>() {
         }.getType());
-        ContactDatabase db = new ContactDatabase(activity);
+        Database db = new Database(activity);
         db.getWritableDatabase();
         for (Contact contact : contacts){
             db.addContact(contact);
@@ -200,7 +215,6 @@ class JavaScriptInterface {
 
     @JavascriptInterface
     public void createAlarmForMeetings() throws ParseException {
-        EventDatabase db = new EventDatabase(activity);
         db.getReadableDatabase();
         List<Event> events = db.getAllEvents();
         for(Event event: events){
@@ -303,12 +317,33 @@ class JavaScriptInterface {
         }
         Collections.sort(events);
         Gson gson = new Gson();
-        EventDatabase db = new EventDatabase(activity);
         db.getWritableDatabase();
-        db.removeAll();
+        db.removeeEventAll();
         for(Event eventCreated: events){
             db.addEvent(eventCreated);
         }
         return gson.toJson(events);
     }
+    @JavascriptInterface
+    public  void IpAdressError(){
+        Toast.makeText(activity.getApplicationContext(), "Could not connect with the badge, please add the right card number", Toast.LENGTH_LONG).show();
+        ((IpAdress) activity.getApplication()).setIPADRESS("");
+        getIpAdress();
+    }
+    @JavascriptInterface
+    public  void reconnectIpAdress(){
+        Toast.makeText(activity.getApplicationContext(), "Please add the new card number", Toast.LENGTH_LONG).show();
+        ((IpAdress) activity.getApplication()).setIPADRESS("");
+        getIpAdress();
+    }
+    public static void callJSMethod(final String script) { // this method is used to call javascript functions from android we should write the script that must be run
+        final WebView webView = (WebView) activity.findViewById(R.id.webView);
+        webView.post(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            public void run() {
+                webView.evaluateJavascript(script, null);
+            }
+        });
+    }
+
 }

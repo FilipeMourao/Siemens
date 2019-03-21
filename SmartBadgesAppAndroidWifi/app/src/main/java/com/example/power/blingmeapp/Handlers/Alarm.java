@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Handlers;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,6 +16,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
+import com.example.power.blingmeapp.MainActivity;
+import com.example.power.blingmeapp.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.List;
 
 import static android.provider.Settings.Global.getString;
 import static android.support.v4.content.ContextCompat.getSystemService;
-
+import com.example.power.blingmeapp.Objects.*;
 /**
  * Created by shiva on 8/4/17.
  */

@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Handlers;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -9,12 +9,12 @@ import android.telephony.SmsMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.example.power.blingmeapp.Objects.*;
 public class HandlingSMS extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        ContactDatabase db = new ContactDatabase(context);
+        Database db = new Database(context);
         db.getReadableDatabase();
         Object[] pdus = (Object[]) bundle.get("pdus");
         final SmsMessage[] messages = new SmsMessage[pdus.length];
@@ -22,8 +22,15 @@ public class HandlingSMS extends BroadcastReceiver {
             messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
         }
         String incomingNumber = messages[0].getOriginatingAddress();
-
-        Contact contact = db.getContact(incomingNumber);
+        if (incomingNumber != null){
+            incomingNumber  = incomingNumber .replaceAll("[\\s\\-\\(\\)\\+]", "");
+            char c  = incomingNumber .charAt(0);
+            while (c == '0'){
+                incomingNumber  = incomingNumber .substring(1);
+                c  = incomingNumber .charAt(0);
+            }
+        }
+        Contact contact = db.getContact(incomingNumber);// check if there is a contact with a color with this number in the database
         if (contact != null){
             IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
             ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(contact.getColor())));
@@ -41,26 +48,6 @@ public class HandlingSMS extends BroadcastReceiver {
             configureLed.getColorStetting().setBrightness(0);
             myTask.execute(configureLed);
         }
-//        NotificationDataBase db = new NotificationDataBase(context);
-//        db.getReadableDatabase();
-//        Bundle extras = intent.getExtras();
-//        if (db.getNotification("messages") != null){
-//            IpAdress ipAdress= ((IpAdress)context.getApplicationContext());
-//            ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(db.getNotification("messages").getColorString()))) ;
-//        //    ConfigureLed configureLed =  new ConfigureLed(new ColorSetting(new ColorCustomized(db.getNotification("messages").getColorString()))) ;
-//            configureColorIndividually myTask = new configureColorIndividually();
-//            myTask.execute(configureLed);
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-//            myTask.cancel(true);
-//            myTask = new configureColorIndividually();
-//            configureLed.getColorStetting().setBrightness(0);
-//             myTask.execute(configureLed);
-//        }
     }
 }
 

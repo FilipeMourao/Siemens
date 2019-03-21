@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Handlers;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -11,7 +11,7 @@ import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.example.power.blingmeapp.Objects.*;
 public class HandlingCalls extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,11 +19,19 @@ public class HandlingCalls extends BroadcastReceiver {
             Contact contact = null;
             Bundle extras = intent.getExtras();
             String state = extras.getString(TelephonyManager.EXTRA_STATE);
-            ContactDatabase db = new ContactDatabase(context);
+            Database db = new Database(context);
             db.getReadableDatabase();
                 if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_RINGING)){
                     String incomingNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    if (incomingNumber != null) contact = db.getContact(incomingNumber);
+                    if (incomingNumber != null){
+                        incomingNumber  = incomingNumber .replaceAll("[\\s\\-\\(\\)\\+]", "");
+                        char c  = incomingNumber .charAt(0);
+                        while (c == '0'){
+                            incomingNumber  = incomingNumber .substring(1);
+                            c  = incomingNumber .charAt(0);
+                        }
+                        contact = db.getContact(incomingNumber);// check if there is a contact with a color with this number in the database
+                    }
                     if (contact != null){
                         IpAdress ipAdress = ((IpAdress)context.getApplicationContext());
                         ConfigureLed configureLed =  new ConfigureLed(ipAdress.getIPADRESS(),new ColorSetting(new ColorCustomized(contact.getColor())));

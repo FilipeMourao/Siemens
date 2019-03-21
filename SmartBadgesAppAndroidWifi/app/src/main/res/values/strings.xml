@@ -5,7 +5,7 @@
 <!--</resources>-->
 <resources>
     <string name="app_name">bling:meW</string>
-    <string name="channel_name">bling:me</string>
-    <string name="channel_description">SmartBadgeAppDescription</string>
+    <string name="channel_name">bling:meW</string>
+    <string name="channel_description">SmartBadgeAppDescriptionW</string>
 </resources>
 

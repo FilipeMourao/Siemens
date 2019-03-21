@@ -1,4 +1,4 @@
-package com.example.power.blingmeapp;
+package com.example.power.blingmeapp.Objects;
 
 import android.graphics.Color;
 
@@ -11,7 +11,7 @@ public class ColorCustomized {
 		this.g = g;
 		this.b = b;
 	}
-	ColorCustomized(String colorString){
+	public ColorCustomized(String colorString){
         int color = Color.parseColor(colorString);
         this.r = Color.red(color);
         this.g = Color.green(color);

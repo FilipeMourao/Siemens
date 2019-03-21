@@ -97,6 +97,17 @@ var app = {
             }, 4000);
         }, 4000);
     },
+    IpErrorConnection: function(){
+
+            app.closeMenu();
+            app.connected = false;
+            $('.page.current').removeClass('current');
+            $('.header').addClass('hide');
+            $('.footer').removeClass('connected');
+            app.initConnectionScreen();
+            window.JSInterface.reconnectIpAdress();
+
+        },
 
     initListeners : function(){
 
@@ -110,7 +121,7 @@ var app = {
 
         // connect to the device
         $('.connect-btn').on('click', function(){
-            if(window.JSInterface.connectToDevice()) app.connectDevice();
+            window.JSInterface.connectToDevice();
            //app.connectDevice();
         });
 
@@ -232,16 +243,16 @@ var app = {
         $('.connection-trigger').on('click', function(){
 
             app.closeMenu();
-
             if(app.connected){
                 app.connected = false;
                 $('.page.current').removeClass('current');
                 $('.header').addClass('hide');
                 $('.footer').removeClass('connected');
                 app.initConnectionScreen();
-                window.JSInterface.getIpAdress();
+                window.JSInterface.reconnectIpAdress();
             }
         });
+                //window.JSInterface.getIpAdress();
 
         $('.notifications-trigger').on('click', function(){
 
