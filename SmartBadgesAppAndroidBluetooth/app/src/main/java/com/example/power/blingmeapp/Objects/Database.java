@@ -79,10 +79,8 @@ public class Database extends SQLiteOpenHelper {
         values.put(KEY_BRIGHTNESS,contact.getColorBrihgtness());
         if (getContact(contact.getNumber()) == null){
             db.insert(TABLE_CONTACTS,null,values);
-            db.close();
         } else {
             db.update(TABLE_CONTACTS,values, KEY_ID + "=?", new String[]{String.valueOf( getContact(contact.getNumber()).getId())} );
-            db.close();
         }
 
 
@@ -102,11 +100,9 @@ public class Database extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
         else {
-            db.close();
             return null;
         }
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3),Integer.parseInt(cursor.getString(4)));
-        db.close();
         return contact;
     }
     public int  updateContact(Contact contact){
@@ -121,7 +117,6 @@ public class Database extends SQLiteOpenHelper {
     public  void deleteContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
        db.delete(TABLE_CONTACTS,KEY_ID + "=?", new String[]{String.valueOf(contact.getId())} );
-       db.close();
     }
     public List<Contact> getAllContacts(){
         List<Contact> listOfContacts = new ArrayList<Contact>();
@@ -139,7 +134,6 @@ public class Database extends SQLiteOpenHelper {
 
         }
 
-        db.close();
         return listOfContacts;
     }
    //-------------------------------------------------------//
@@ -151,7 +145,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(APP_NAME,notification.getAppName().toLowerCase());
             values.put(COLOR,notification.getColorString());
             db.insert(NOTIFICATIONS,null,values);
-            db.close();
 
         } else {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -159,7 +152,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(APP_NAME,notification.getAppName());
             values.put(COLOR,notification.getColorString());
             db.update(NOTIFICATIONS,values, KEY_ID + "=?", new String[]{String.valueOf( getNotification(notification.getAppName()).getId())} );
-            db.close();
         }
 
     }
@@ -178,7 +170,6 @@ public class Database extends SQLiteOpenHelper {
         }
         CustomizedNotification notification = new CustomizedNotification(cursor.getString(1), cursor.getString(2));
         notification.setId(Integer.parseInt(cursor.getString(0)));
-        db.close();
         return notification;
     }
     public List<CustomizedNotification> getAllNotifications(){
@@ -195,7 +186,6 @@ public class Database extends SQLiteOpenHelper {
                 cursor.moveToNext();
             }
         }
-        db.close();
         return listOfNotifications;
     }
     //-------------------------------------------------------------------------------------------//
@@ -211,7 +201,6 @@ public class Database extends SQLiteOpenHelper {
         values.put(KEY_CALENDAR, dateString);
         values.put(KEY_COLOR, event.getColor());
         db.insert(TABLE_EVENTS,null,values);
-        db.close();
     }
     public Event getEvent(String title ) throws ParseException {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -265,7 +254,6 @@ public class Database extends SQLiteOpenHelper {
 
 
         }
-        db.close();
         return listOfEvents;
     }
     public void removeAllEvents(){
@@ -274,7 +262,6 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, null, null);
         //       db.delete(DatabaseHelper.TAB_USERS_GROUP, null, null);
-        db.close();
     }
 
 
