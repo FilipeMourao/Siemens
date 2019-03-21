@@ -51,8 +51,10 @@ public class JavaScriptInterface {
     List<BluetoothDevice> bluetoothDevices = new ArrayList<>();
     List<String> bluetoothDevicesNames = new ArrayList<>();
     public BluetoothDevice btDevice = null;
+    public Database db;
     public JavaScriptInterface(Activity activity) {
         this.activity = activity;
+        this.db = new Database(activity.getApplicationContext());
     }
 
     @JavascriptInterface
@@ -113,7 +115,6 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public void saveConfiguration(String[] appNames, String[] colorString) {// this fucntion save the configurations of the apps notifications chosen by the user to the user database
-        Database db = new Database(activity.getApplicationContext());
         db.getWritableDatabase();
         CustomizedNotification notification;
         for (int i = 0; i < appNames.length; i++) {
@@ -127,7 +128,6 @@ public class JavaScriptInterface {
     public String getAllPhoneContacts() {// send all the phone contacts to the front end
         int hasPhone;
         Gson gson = new Gson();
-        Database db = new Database(activity.getApplicationContext());
         List<Contact> contactsInAgenda = new ArrayList<>();
         Cursor cursor = activity.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         int i = 0;
@@ -172,7 +172,6 @@ public class JavaScriptInterface {
         Gson gson = new Gson();
         List<Contact> contacts =  gson.fromJson(contactColors, new TypeToken<List<Contact>>() {// convert the gson string in the list of objects
         }.getType());
-        Database db = new Database(activity);
         db.getWritableDatabase();
         for (Contact contact : contacts){
             db.addContact(contact);
@@ -182,7 +181,6 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public void createAlarmForMeetings() throws ParseException {// function is called from the frontend
-        Database db = new Database(activity);
         db.getReadableDatabase();
         List<Event> events = db.getAllEvents();
         for(Event event: events){
@@ -285,8 +283,6 @@ public class JavaScriptInterface {
         //save the events in the database and send it to the front end
         Collections.sort(events);
         Gson gson = new Gson();
-        Database db = new Database(activity);
-        db.getWritableDatabase();
         db.removeAllEvents();
         for(Event eventCreated: events){
             db.addEvent(eventCreated);

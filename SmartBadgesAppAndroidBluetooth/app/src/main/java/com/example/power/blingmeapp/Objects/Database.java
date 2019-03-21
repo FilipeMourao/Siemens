@@ -46,11 +46,11 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_CONTACTS_TABLE);
 
-        String CREATE_GAS_TABLE = "CREATE TABLE " + NOTIFICATIONS +
+        String CREATE_NOTIFICATIONS_TABLE = "CREATE TABLE " + NOTIFICATIONS +
                 " (" + KEY_ID + " INTEGER PRIMARY KEY," + APP_NAME + " TEXT,"
                 + COLOR  + " TEXT" + ")";
 
-        db.execSQL(CREATE_GAS_TABLE);
+        db.execSQL(CREATE_NOTIFICATIONS_TABLE);
 
         String CREATE_EVENT_TABLE = "CREATE TABLE " + TABLE_EVENTS  +
                 " (" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"
@@ -67,6 +67,8 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         onCreate(db);
     }
+
+
     public void  addContact(Contact contact){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -98,9 +100,11 @@ public class Database extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
         else {
+            db.close();
             return null;
         }
         Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3),Integer.parseInt(cursor.getString(4)));
+        db.close();
         return contact;
     }
     public int  updateContact(Contact contact){
@@ -133,6 +137,7 @@ public class Database extends SQLiteOpenHelper {
 
         }
 
+        db.close();
         return listOfContacts;
     }
    //-------------------------------------------------------//
@@ -151,6 +156,7 @@ public class Database extends SQLiteOpenHelper {
             values.put(APP_NAME,notification.getAppName());
             values.put(COLOR,notification.getColorString());
             db.update(NOTIFICATIONS,values, KEY_ID + "=?", new String[]{String.valueOf( getNotification(notification.getAppName()).getId())} );
+            db.close();
         }
 
     }
@@ -169,6 +175,7 @@ public class Database extends SQLiteOpenHelper {
         }
         CustomizedNotification notification = new CustomizedNotification(cursor.getString(1), cursor.getString(2));
         notification.setId(Integer.parseInt(cursor.getString(0)));
+        db.close();
         return notification;
     }
     public List<CustomizedNotification> getAllNotifications(){
@@ -185,6 +192,7 @@ public class Database extends SQLiteOpenHelper {
                 cursor.moveToNext();
             }
         }
+        db.close();
         return listOfNotifications;
     }
     //-------------------------------------------------------------------------------------------//
@@ -235,7 +243,7 @@ public class Database extends SQLiteOpenHelper {
     public List<Event> getAllEvents() throws ParseException {
         List<Event> listOfEvents = new ArrayList<Event>();
         String selectQuery = "SELECT * FROM " + TABLE_EVENTS;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");;
         Cursor cursor = db.rawQuery(selectQuery,null);
         if (cursor.moveToFirst()){
@@ -253,7 +261,7 @@ public class Database extends SQLiteOpenHelper {
 
 
         }
-
+        db.close();
         return listOfEvents;
     }
     public void removeAllEvents(){
@@ -262,6 +270,7 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, null, null);
         //       db.delete(DatabaseHelper.TAB_USERS_GROUP, null, null);
+        db.close();
     }
 
 
