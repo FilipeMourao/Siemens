@@ -1,4 +1,9 @@
-
+var connectTheDevice = "org.siemens.blingmebluetooth.connectTheDevice"
+var showUserEvents = "org.siemens.blingmebluetooth.showUserEvent"
+var createNotifications = "org.siemens.blingmebluetooth.createNotifications"
+var showUserContacts = "org.siemens.blingmebluetooth.showUserContacts"
+var saveContacts = "org.siemens.blingmebluetooth.saveContacts"
+var saveConfiguration = "org.siemens.blingmebluetooth.saveConfiguration"
 var app = {
 
     connected : false,
@@ -75,7 +80,14 @@ var app = {
         updateParticles(data["wifi"]);
 
     },
-
+bluetoothBageLostConnection: function (){
+    app.closeMenu();
+    app.connected = false;
+    $('.page.current').removeClass('current');
+    $('header').addClass('hide');
+    $('.footer').removeClass('connected');
+    app.initConnectionScreen();
+},
     connectDevice: function(){
 
         grow = true;
@@ -108,7 +120,7 @@ var app = {
 
         // connect to the device
         $('.connect-btn').on('click', function(){
-           window.webkit.messageHandlers.JSInterface.postMessage("connectDevice()");
+           window.webkit.messageHandlers.JSInterface.postMessage(connectTheDevice);
         });
 
 
@@ -127,8 +139,7 @@ var app = {
                    var currentColorNum = parseInt($(this).attr('data-color'));
                    colorArray.push(app.colors[currentColorNum]);
                 });
-            window.webkit.messageHandlers.JSInterface.postMessage("saveConfiguration([" + appNameArray+"],["+ colorArray +"])");
-            //window.JSInterface.saveConfiguration(appNameArray,colorArray);
+            window.webkit.messageHandlers.JSInterface.postMessage(saveConfiguration+"[" + appNameArray+"],["+ colorArray +"]");
             app.saveNotifications();
         });
         $('.save-calendar').on('click', function(){
@@ -239,7 +250,7 @@ var app = {
                 $('.header').addClass('hide');
                 $('.footer').removeClass('connected');
                 app.initConnectionScreen();
-                window.webkit.messageHandlers.JSInterface.postMessage("connectDevice()");
+                window.webkit.messageHandlers.JSInterface.postMessage(connectTheDevice);
             }
         });
 
@@ -260,7 +271,7 @@ var app = {
                                   $('.contacts ul li').remove();
                                   var markup ='<li class="list-header"><div class="name">App name</div><div class="color">color</div><div class="count">brightness</div></li>';
                                   $('.contacts ul').append(markup);
-                                  window.webkit.messageHandlers.JSInterface.postMessage("showContacts()");
+                                  window.webkit.messageHandlers.JSInterface.postMessage(showUserContacts);
                                   });
         
 // ADD CODE HERE
@@ -277,7 +288,7 @@ var app = {
             var markup =
             '<li class="list-header"><div class="name">Name</div><div class="color">Meeting Colors</div></li>';
             $('.calendar ul').append(markup);
-            window.webkit.messageHandlers.JSInterface.postMessage("showEvents()");
+            window.webkit.messageHandlers.JSInterface.postMessage(showUserEvents);
         });
 
 //
@@ -434,7 +445,7 @@ var app = {
                                                        var currentColorNum = parseInt($(this).attr('data-color'));
                                                        contacts[index].color = app.colors[currentColorNum];
                                                        });
-           window.webkit.messageHandlers.JSInterface.postMessage("saveContacts()" + JSON.stringify(contacts) );
+           window.webkit.messageHandlers.JSInterface.postMessage(saveContacts + JSON.stringify(contacts) );
         
     },
     saveCalendar : function(){
@@ -446,7 +457,7 @@ var app = {
         setTimeout(function(){
             app.initHomeScreen();
         }, 2000);
-         window.webkit.messageHandlers.JSInterface.postMessage("createAlarms()");
+         window.webkit.messageHandlers.JSInterface.postMessage(createNotifications);
 
     },
     saveNotifications : function(){

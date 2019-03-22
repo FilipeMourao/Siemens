@@ -14,6 +14,23 @@ import CallKit
 import PushKit
 import ContactsUI
 import CoreData
+struct RCNotifications {
+    static let SearchingDevice = Notification.Name("org.siemens.blingmebluetooth.searchingDevice")
+    static let DeviceNotFound = Notification.Name("org.siemens.blingmebluetooth.deviceNotFound")
+    static let DeviceFound = Notification.Name("org.siemens.blingmebluetooth.deviceFound")
+    static let LostConnection = Notification.Name("org.siemens.blingmebluetooth.LostConnection")
+    static let connected = Notification.Name("org.siemens.blingmebluetooth.connected")
+}
+//struct BackEndFrontEndEndpoint
+struct BackEndFrontEndEndpoint {// unique names for the connections between frontend and backend
+    static let connectTheDevice = "org.siemens.blingmebluetooth.connectTheDevice"
+    static let showUserEvents = "org.siemens.blingmebluetooth.showUserEvent"
+    static let createNotifications = "org.siemens.blingmebluetooth.createNotifications"
+    static let showUserContacts = "org.siemens.blingmebluetooth.showUserContacts"
+    static let saveContacts = "org.siemens.blingmebluetooth.saveContacts"
+    static let saveConfiguration = "org.siemens.blingmebluetooth.saveConfiguration"
+}
+
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
     public var ipAdress = "";
     var webView: WKWebView?;
@@ -38,6 +55,17 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             let request = URLRequest(url: url!)
             self.view = webView
             webView!.load(request)
+        // this notifications are sended in the bluetooth class and handle in the view controller
+        NotificationCenter.default.addObserver(self, selector: #selector(showSearchingDeviceMessage(_:)),
+                                               name: RCNotifications.SearchingDevice, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showFoundDeviceMessage(_:)),
+                                               name: RCNotifications.DeviceFound, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showNotFoundDeviceMessage(_:)),
+                                               name: RCNotifications.DeviceNotFound, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLostConnectionMessage(_:)),
+                                               name: RCNotifications.LostConnection, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceConnected(_:)),
+                                               name: RCNotifications.connected, object: nil)
 //        test user calling
 //        callObserver.setDelegate(self, queue: nil) // nil queue means main thread
 //        provider.setDelegate(self, queue: nil)
@@ -50,23 +78,13 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // handling the different calls of the front end, depending of the content received a different function is called
         print("Message from beyond: \(message.body)")
-        if ("\(message.body)" == "connectDevice()") {createPopUp()}
-        if ("\(message.body)" == "showEvents()") {showUserEvents()}
-        if ("\(message.body)" == "createAlarms()") {createNotifications()}
-        if (("\(message.body)").range(of: "saveConfiguration") != nil) {
-            let (appNames,colorStrings) = getNotificationsNamesAndColors(functionString:"\(message.body)");
-            saveConfigurations(appNames: appNames, colorStrings: colorStrings);
-            
-         }
-        if ("\(message.body)" == "showContacts()") {showUserContacts()}
-        if (("\(message.body)").range(of: "saveContacts()") != nil) {
-            var contactsCompleted = "\(message.body)";
-            let test = contactsCompleted.replacingOccurrences(of: "saveContacts()", with: "");
-            let jsonData2: Data = test.data(using: String.Encoding.utf8)!
-            let jsonDecoder = JSONDecoder();
-            contactList = try! jsonDecoder.decode([Contact].self, from: jsonData2);
-            saveContacts(contacts: contactList);
-        }
+        let endPoint = "\(message.body)"
+        if (endPoint == BackEndFrontEndEndpoint.connectTheDevice) {createPopUp()}
+        if (endPoint == BackEndFrontEndEndpoint.showUserEvents) {showUserEvents()}
+        if (endPoint == BackEndFrontEndEndpoint.createNotifications) {createNotifications()}
+        if (endPoint == BackEndFrontEndEndpoint.showUserContacts) {showUserContacts()}
+        if (endPoint.range(of: BackEndFrontEndEndpoint.saveConfiguration) != nil) {saveConfigurations(endPoint: endPoint);}
+        if (endPoint.range(of: BackEndFrontEndEndpoint.saveContacts) != nil) {saveContacts(endPoint: endPoint);}
     }
     func showUserContacts(){
         // this function gets all the contatcs from the user phone and present in the contact screen,
@@ -121,8 +139,12 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
         
     }
-    func saveContacts(contacts:[Contact]) {
-        for contact in contacts {
+    func saveContacts(endPoint:String) {
+        let contactString = endPoint.replacingOccurrences(of: "saveContacts()", with: "");
+        let jsonData2: Data = contactString.data(using: String.Encoding.utf8)!
+        let jsonDecoder = JSONDecoder();
+        contactList = try! jsonDecoder.decode([Contact].self, from: jsonData2);
+        for contact in contactList {
             if(!phoneContacts.filter({$0.number == contact.number}).isEmpty){
                  // if the contact list does not have the currently analyzed contact add it in the list
                 let phoneContact = phoneContacts.filter({$0.number == contact.number}).first!
@@ -186,8 +208,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
                             print("Error Converting color: \(color)" );
                             break;
                         }
-                            
-                        
                     }
                     
                 }
@@ -196,7 +216,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         }
         return events;
     }
-    
     private func get()->[EKEvent] {
         // get all events in the EK from of the phone
         let calendars = eventStore.calendars(for: .event)
@@ -307,8 +326,15 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             let textField = alertController?.textFields![0];
             if(textField?.text?.count == 3) {
                 self.ipAdress = "192.168.1." + (textField?.text!)!;
-                let javaScriptString = "app.connectDevice();"
-                self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
+                NotificationCenter.default.post(name: RCNotifications.SearchingDevice, object: nil)
+                let configureLed = ConfigureLed(ipAdress: self.ipAdress,
+                                                colorSetting: ColorSetting(
+                                                    color: ColorCustomized(hexColor:"#000000"
+                                                )));
+                configureLed.colorSetting.brightness = -50;
+                configureLed.configureColors();
+//                let javaScriptString = "app.connectDevice();"
+//                self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
                 
             }
           })
@@ -321,7 +347,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         textField.keyboardType = .numberPad;
     }
     
-    func saveConfigurations(appNames: [String],colorStrings: [String] ) {
+    func saveConfigurations(endPoint:String) {
+        let (appNames,colorStrings) = getNotificationsNamesAndColors(functionString: endPoint);
         // save the configurations names and colors in the database
         for i in 0...appNames.count - 1 {
             UserDefaults.standard.set( colorStrings[i], forKey: appNames[i].lowercased());
@@ -368,6 +395,64 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         let jsonDecoder = JSONDecoder();
         let test2 = try! jsonDecoder.decode(ColorCustomized.self, from: jsonData2);
         return test2;
+    }
+     public func callJSFunction(javascriptString:String){
+        DispatchQueue.main.async {
+            self.webView?.evaluateJavaScript(javascriptString, completionHandler: nil);
+        }
+    }
+    // functions for the notifications alert
+    @objc func showSearchingDeviceMessage(_ notification:Notification){
+        let message = "Searching for device..."
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true)
+        
+        // duration in seconds
+        let duration: Double = 1
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.8*duration) {
+            alert.dismiss(animated: true)
+        }
+        
+    }
+    @objc func showFoundDeviceMessage(_ notification:Notification){
+        let message = "Device was found!"
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        // duration in seconds
+        let duration: Double = 1
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.8*duration) {
+            alert.dismiss(animated: true)
+        }
+    }
+    @objc func showNotFoundDeviceMessage(_ notification:Notification){
+        let message = "Device was not found!"
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        // duration in seconds
+        let duration: Double = 1
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+            self.present(alert, animated: true)
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0*duration) {
+            alert.dismiss(animated: true)
+        }
+        callJSFunction(javascriptString: "app.bluetoothBageLostConnection();")
+    }
+    @objc func showLostConnectionMessage(_ notification:Notification){
+        let message = "Lost connection with device..."
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        // duration in seconds
+        let duration: Double = 1
+        self.present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5*duration) {
+            alert.dismiss(animated: true)
+        }
+        callJSFunction(javascriptString: "app.bluetoothBageLostConnection();")
+        
+    }
+    @objc func deviceConnected(_ notification:Notification){
+        let javascriptString = "app.connectDevice();"
+        callJSFunction(javascriptString: javascriptString)
     }
 
 }

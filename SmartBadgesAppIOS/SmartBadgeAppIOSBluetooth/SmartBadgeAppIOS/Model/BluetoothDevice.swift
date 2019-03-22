@@ -15,7 +15,6 @@ struct BLEParameters {
     static let greenCharacteristicUUID = CBUUID(string: "00001202-0000-1000-8000-00805F9B34FB")
     static let blueCharacteristicUUID = CBUUID(string: "00001203-0000-1000-8000-00805F9B34FB")
     static let brightnessCharacteristicUUID = CBUUID(string: "00001204-0000-1000-8000-00805F9B34FB")
-    static let test = CBUUID(string: "00000000-0000-1000-8000-00805F9B34F2")
 }
 // all the code is based in the content of the following video
 // https://www.youtube.com/watch?v=FHD-MelqHW4
@@ -43,7 +42,15 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
     }
     func discoverSmartBadge(){
         centralManager.scanForPeripherals(withServices: [BLEParameters.ledServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey:false])
+        let timeOfScaning:Double = 3;
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + timeOfScaning ) {
+            if (self.centralManager.isScanning){
+                self.centralManager.stopScan();
+                 NotificationCenter.default.post(name: RCNotifications.DeviceNotFound, object: nil)
+            }
+        }
     }
+
     func centralManager(_ central: CBCentralManager,
                         didDiscover peripheral: CBPeripheral,
                         advertisementData: [String : Any],
@@ -61,9 +68,12 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
         }
         centralManager.connect(badge, options: nil);
     }
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        NotificationCenter.default.post(name: RCNotifications.DeviceNotFound, object: nil)
+    }
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         badgeDevice!.delegate = self;
-        NotificationCenter.default.post(name: RCNotifications.ReadyToConnect, object: nil)
+       // NotificationCenter.default.post(name: RCNotifications.ReadyToConnect, object: nil)
         //discover services
         badgeDevice!.discoverServices(nil);
     }
@@ -94,6 +104,9 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
         //After the characteristics were discovered, just send the specific colors
         ConfigureLed.initializeTheDevice(bluetoothDevice: self);
         NotificationCenter.default.post(name: RCNotifications.connected, object: nil)
+    }
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+         NotificationCenter.default.post(name: RCNotifications.LostConnection, object: nil)
     }
     func writeColorToLed(colorSetting : ColorSetting){
         colorSettingUsed = colorSetting;
@@ -149,8 +162,10 @@ class BluetoothDevice: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate  {
         }
     }
     func disconnect() {
-        centralManager.cancelPeripheralConnection(badgeDevice!);
-        badgeDevice = nil;
+        if badgeDevice != nil {
+            centralManager.cancelPeripheralConnection(badgeDevice!);
+            badgeDevice = nil;
+        }
     }
     func intToByteArray(number:Int) -> [UInt8] {
         let string = NSString(format:"%2X", number) as String;

@@ -18,12 +18,21 @@ struct RCNotifications {
     static let SearchingDevice = Notification.Name("org.siemens.blingmebluetooth.searchingDevice")
     static let DeviceNotFound = Notification.Name("org.siemens.blingmebluetooth.deviceNotFound")
     static let DeviceFound = Notification.Name("org.siemens.blingmebluetooth.deviceFound")
-    static let ReadyToConnect = Notification.Name("org.siemens.blingmebluetooth.readyToConnect")
-        static let connected = Notification.Name("org.siemens.blingmebluetooth.connected")
+    static let LostConnection = Notification.Name("org.siemens.blingmebluetooth.LostConnection")
+    static let connected = Notification.Name("org.siemens.blingmebluetooth.connected")
+}
+//struct BackEndFrontEndEndpoint 
+struct BackEndFrontEndEndpoint {// unique names for the connections between frontend and backend
+    static let connectTheDevice = "org.siemens.blingmebluetooth.connectTheDevice"
+    static let showUserEvents = "org.siemens.blingmebluetooth.showUserEvent"
+    static let createNotifications = "org.siemens.blingmebluetooth.createNotifications"
+    static let showUserContacts = "org.siemens.blingmebluetooth.showUserContacts"
+    static let saveContacts = "org.siemens.blingmebluetooth.saveContacts"
+    static let saveConfiguration = "org.siemens.blingmebluetooth.saveConfiguration"
 }
 
+
 class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegate {
-    //public var ipAdress = "";
     public var bluetoohDevice:BluetoothDevice!;
     var webView: WKWebView?;
     var events:[Event] = [];
@@ -52,44 +61,31 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(showSearchingDeviceMessage(_:)),
                                                name: RCNotifications.SearchingDevice, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showFoundDeviceMessage(_:)),
-                                               name: RCNotifications.SearchingDevice, object: nil)
+                                               name: RCNotifications.DeviceFound, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showNotFoundDeviceMessage(_:)),
-                                               name: RCNotifications.SearchingDevice, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showReadyToConnectMessage(_:)),
-                                               name: RCNotifications.SearchingDevice, object: nil)
+                                               name: RCNotifications.DeviceNotFound, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLostConnectionMessage(_:)),
+                                               name: RCNotifications.LostConnection, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deviceConnected(_:)),
                                                name: RCNotifications.connected, object: nil)
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     // handling the different calls of the front end, depending of the content received a different function is called
-        print("Message from beyond: \(message.body)")
-        if ("\(message.body)" == "connectDevice()") {
-            if(bluetoohDevice.centralManager == nil) {
-                bluetoohDevice.startUpCentralManager();
-            } else {
-                bluetoohDevice.disconnect();
-                bluetoohDevice.startUpCentralManager();
-            }
+        let endPointReceived = "\(message.body)"
+        // get the correct endPoint
+        if ( endPointReceived == BackEndFrontEndEndpoint.connectTheDevice) {
+            if(bluetoohDevice.centralManager == nil) {bluetoohDevice.startUpCentralManager();}
+            else { bluetoohDevice.disconnect(); bluetoohDevice.startUpCentralManager();}
         }
-        if ("\(message.body)" == "showEvents()") {showUserEvents()}
-        if ("\(message.body)" == "createAlarms()") {createNotifications()}
-        if (("\(message.body)").range(of: "saveConfiguration") != nil) {
-            let (appNames,colorStrings) = getNotificationsNamesAndColors(functionString:"\(message.body)");
-            saveConfigurations(appNames: appNames, colorStrings: colorStrings);
-         }
-        if ("\(message.body)" == "showContacts()") {showUserContacts()}
-        if (("\(message.body)").range(of: "saveContacts()") != nil) {
-            let contactsCompleted = "\(message.body)";
-            let test = contactsCompleted.replacingOccurrences(of: "saveContacts()", with: "");
-            let jsonData2: Data = test.data(using: String.Encoding.utf8)!
-            let jsonDecoder = JSONDecoder();
-            contactList = try! jsonDecoder.decode([Contact].self, from: jsonData2);
-            saveContacts(contacts: contactList);
-        }
+        if (endPointReceived == BackEndFrontEndEndpoint.showUserEvents) {showUserEvents()}
+        if (endPointReceived == BackEndFrontEndEndpoint.createNotifications) {createNotifications()}
+        if (endPointReceived == BackEndFrontEndEndpoint.showUserContacts) {showUserContacts()}
+        if (endPointReceived.range(of: BackEndFrontEndEndpoint.saveConfiguration) != nil) {saveConfigurations(endPoint: endPointReceived)}
+        if (endPointReceived.range(of: BackEndFrontEndEndpoint.saveContacts) != nil) { saveContacts(endPoint: endPointReceived)}
+        print("Message from beyond: \(endPointReceived)")
     }
     func showUserContacts(){
-        // this function gets all the contatcs from the user phone and present in the contact screen,
-        //the contact screen is commented in the ios application since it is not possible to retrieve the incoming number of a call
+        // this function gets all the contatcs from the user phone and present in the contact screen
         getDatabaseContacts();
         var partialContactList:[Contact] = [];
         let contactStore = CNContactStore()
@@ -113,7 +109,7 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
                 let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 results.append(contentsOf: containerResults)
             } catch {
-                print( "Error fetching containers") // you can use print()            }
+                print( "Error fetching containers")
             }
             var contact:Contact;
             for cnContact in results {
@@ -135,13 +131,18 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         let jsonEncoder  = JSONEncoder();
         let jsonData = try! jsonEncoder.encode(self.contactList);
         let json =  String(data: jsonData, encoding: .utf8)!;
-        let javaScriptString = "app.ListContacts('\(json)');"
+        let javascriptString = "app.ListContacts('\(json)');"
         // send the list in an acceptable format to the front end
-        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
-        
+        callJSFunction(javascriptString: javascriptString)
     }
-    func saveContacts(contacts:[Contact]) {
-        for contact in contacts {
+    func saveContacts(endPoint:String) {
+        // get the  array information from the endpoint of saving contacts
+        let contactsCustomization = endPoint.replacingOccurrences(of: BackEndFrontEndEndpoint.saveContacts, with: "");
+        let jsonData2: Data = contactsCustomization.data(using: String.Encoding.utf8)!
+        let jsonDecoder = JSONDecoder();
+        contactList = try! jsonDecoder.decode([Contact].self, from: jsonData2);
+        
+        for contact in contactList {
             if(!phoneContacts.filter({$0.number == contact.number}).isEmpty){
                 // if the contact list does not have the currently analyzed contact add it in the list
                 let phoneContact = phoneContacts.filter({$0.number == contact.number}).first!
@@ -159,16 +160,32 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             }
             persistenceManager.save();
         }
+        // reset the call directory extension
+        let callDirManager =
+            CXCallDirectoryManager.sharedInstance;
+        callDirManager.reloadExtension(withIdentifier:
+        "Siemens.SmartBadgeAppIOSBluetooth.CallDirectoryExtension") { (error:Error?) in
+            if (error == nil)
+            {
+                // Reloaded extension successfully
+            } else {
+                // Extension failed, see error.Code
+                // and error.Description for more
+                // information
+             print("\(error!)")
+            }
+        };
     }
     func getDatabaseContacts()  {
         // get the contacts from the database
         phoneContacts  = persistenceManager.fetch(ContactEntity.self)
         self.contactList = [];
         for phoneContact in phoneContacts {
-            contactList.append(Contact(name: phoneContact.name,
-                                       number: phoneContact.number,
-                                       color: phoneContact.color,
-                                       colorBrihgtness: Int(phoneContact.colorBrightness)))
+            contactList.append(
+                Contact(name: phoneContact.name,
+                        number: phoneContact.number,
+                        color: phoneContact.color,
+                        colorBrihgtness: Int(phoneContact.colorBrightness)))
         }
         
     }
@@ -179,9 +196,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         let jsonEncoder  = JSONEncoder();
         let jsonData = try! jsonEncoder.encode(self.events);
         let json =  String(data: jsonData, encoding: .utf8)!;
-        let javaScriptString = "app.ListEvents('\(json)');"
-        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
-        
+        let javascriptString = "app.ListEvents('\(json)');"
+        callJSFunction(javascriptString: javascriptString)
     }
     func getUserEvents() -> [Event] {
     // get the events with the specific location format
@@ -228,14 +244,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             let cal = Calendar.current
             let start = Date();
             let end = createDate(year: cal.component(.year, from: Date()) + 4)// limit of it is 4 years
-            
-            //print("start: \(start)")
-            //print("  end: \(end)")
-            
             let predicate = eventStore.predicateForEvents(withStart: start, end: end, calendars: [calendar])
-            
             print("predicate: \(predicate)")
-            
             let events = eventStore.events(matching: predicate)
             //return events;
             for event in events {
@@ -253,6 +263,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             content.title = "Reminder!";
             content.subtitle =  event.title + " is starting..."
             content.badge = 1
+            
+            
             ///Code for prototyping showing
             
             time = 8;
@@ -317,31 +329,36 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         return Calendar.current.date(from: components)!
     }
     
-    func saveConfigurations(appNames: [String],colorStrings: [String] ) {
-    // save the configurations names and colors in the database
+//    func saveConfigurations(appNames: [String],colorStrings: [String] ) {
+    func saveConfigurations(endPoint: String ) {
+    // get the 2 arrays information from the endpoint of saving configurations
+    let (appNames,colorStrings) = getNotificationsNamesAndColors(functionString:endPoint);
+    
+        // save the configurations names and colors in the user defaults module
         for i in 0...appNames.count - 1 {
             UserDefaults.standard.set( colorStrings[i], forKey: appNames[i].lowercased());
         }
     }
     func getNotificationsNamesAndColors(functionString:String) -> ([String], [String]) {
-    // get the notifications colors and name from the database
+    // get the notifications colors and name from the string provided by the endpoint
+    // the information is provided via and endpoint via 2 string arrays, the strings are separated and converted in arrays
         var notificantionsNames = "";
        var notificantionsColors = "";
        var addChars = 0;
         for char in functionString {
+            // when the addChars became 2 a [ and a ] were found, so the first array is finished, so we should move to the next one
             if char == "[" || char == "]" {addChars = addChars + 1 ;}
             if addChars == 1 {
                 notificantionsNames = notificantionsNames  + String(char);
             }
-            if addChars == 3 {
+            if addChars == 3 {// when the addChars become 4, another sequence of [] was found so the second array is also finished
                 notificantionsColors = notificantionsColors  + String(char);
             }
             
         }
+        // add the last bracket for the both arrays
         notificantionsNames = notificantionsNames  + "]";
         notificantionsColors = notificantionsColors  + "]";
-    //    print(notificantionsNames);
-    //    print(notificantionsColors);
         return(convertStringToStringArray(string: notificantionsNames),
         convertStringToStringArray(string: notificantionsColors));
     }
@@ -367,6 +384,11 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         let test2 = try! jsonDecoder.decode(ColorCustomized.self, from: jsonData2);
         return test2;
     }
+    
+    public func callJSFunction(javascriptString:String){
+        self.webView?.evaluateJavaScript(javascriptString, completionHandler: nil);
+    }
+    // functions for the notifications alert
     @objc func showSearchingDeviceMessage(_ notification:Notification){
         let message = "Searching for device..."
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -385,43 +407,38 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         // duration in seconds
         let duration: Double = 1
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.6*duration) {
-            self.present(alert, animated: true)
-            }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.4*duration) {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.8*duration) {
             alert.dismiss(animated: true)
         }
     }
     @objc func showNotFoundDeviceMessage(_ notification:Notification){
+        callJSFunction(javascriptString: "app.bluetoothBageLostConnection();")
         let message = "Device was not found!"
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         // duration in seconds
         let duration: Double = 1
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.6*duration) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
             self.present(alert, animated: true)
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.4*duration) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0*duration) {
             alert.dismiss(animated: true)
         }
     }
-    @objc func showReadyToConnectMessage(_ notification:Notification){
-        let message = "Connecting..."
+    @objc func showLostConnectionMessage(_ notification:Notification){
+        callJSFunction(javascriptString: "app.bluetoothBageLostConnection();")
+        let message = "Lost connection with device..."
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         // duration in seconds
         let duration: Double = 1
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.2*duration) {
-            self.present(alert, animated: true)
-        }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0*duration) {
+        self.present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5*duration) {
             alert.dismiss(animated: true)
         }
-        let javaScriptString = "app.connectDevice();"
-        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
     }
     @objc func deviceConnected(_ notification:Notification){
-        let javaScriptString = "app.connectDevice();"
-        self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
+        let javascriptString = "app.connectDevice();"
+        callJSFunction(javascriptString: javascriptString)
     }
 }
 
