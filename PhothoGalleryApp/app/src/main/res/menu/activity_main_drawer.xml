@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:checkableBehavior="single"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector">
+        <item
+            android:id="@+id/nav_photo"
+            android:checkable="true"
+            android:icon="@drawable/ic_insert_photo"
+            android:title="Photos" />
+        <item
+            android:id="@+id/nav_cloud"
+            android:checkable="true"
+            android:icon="@drawable/ic_cloud"
+            android:title="Upload/Download" />
+        <item
+            android:id="@+id/nav_logout"
+            android:checkable="true"
+            android:icon="@drawable/ic_log_out"
+            android:title="Log out" />
+    </group>
+
+
+</menu>

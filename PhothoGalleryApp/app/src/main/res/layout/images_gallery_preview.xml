@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jsibbold.zoomage.ZoomageView
+            android:id="@+id/GalleryPreviewImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            app:zoomage_animateOnReset="true"
+            app:zoomage_autoCenter="true"
+            app:zoomage_autoResetMode="UNDER"
+            app:zoomage_maxScale="8"
+            app:zoomage_minScale="0.6"
+            app:zoomage_restrictBounds="false"
+            app:zoomage_translatable="false"
+            app:zoomage_zoomable="true" />
+
+        <Button
+            android:id="@+id/add_name"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/GalleryPreviewImg"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginBottom="44dp"
+            android:background="@drawable/button_style"
+            android:minWidth="64dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/action_addName"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/GalleryPreviewImg"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/button_style_delete"
+            android:drawableLeft="@drawable/ic_delete"
+            android:minWidth="64dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/action_delete"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</LinearLayout>
+    <!--took from http://androstock.com/tutorials/create-a-photo-gallery-app-in-android-android-studio.html-->
