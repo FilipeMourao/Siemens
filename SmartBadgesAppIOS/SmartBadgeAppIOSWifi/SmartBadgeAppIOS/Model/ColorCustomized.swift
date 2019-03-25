@@ -20,18 +20,18 @@ class ColorCustomized: Codable {
     init(hexColor:String)  {
         
         var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if (cString.hasPrefix("#")) {
+        if (cString.hasPrefix("#")) {// remove the # from the string
             cString.remove(at: cString.startIndex)
         }
         
         
         var rgbValue = UInt32()
-        Scanner(string: cString).scanHexInt32(&rgbValue)
+        Scanner(string: cString).scanHexInt32(&rgbValue)// get the hex value of the string and convert into rgb
         self.r = Int(((rgbValue & 0xFF0000) >> 16));
         self.g = Int(((rgbValue & 0x00FF00) >> 8));
         self.b = Int(((rgbValue & 0x0000FF) ));
     }
-    static func checkIfColorIsValid(hexColor:String) -> Bool {
+    static func checkIfColorIsValid(hexColor:String) -> Bool {// verify if the string is a valid hex color
         let hexArray = "0123456789ABCDEF";
         
         var cString:String = hexColor.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

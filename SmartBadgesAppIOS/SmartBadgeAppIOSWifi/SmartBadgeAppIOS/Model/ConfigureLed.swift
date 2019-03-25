@@ -15,8 +15,14 @@ class ConfigureLed {
         self.colorSetting = colorSetting;
     }
     func configureColors() {
+        var searchingDevice:Bool = false
+        if(self.colorSetting.brightness < 0) {// if the brightness is negative this means we are searching for the device
+            searchingDevice = true;
+            self.colorSetting.brightness = 0;
+        }
         let url = URL(string: "http://" + self.ipAdress + "/api/v1/state")!
         var request = URLRequest(url: url)
+        request.timeoutInterval = 3
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let postString = jsonEncoding(data: self.colorSetting)
@@ -25,20 +31,34 @@ class ConfigureLed {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
               //  print("error=\(error)");
+                if (searchingDevice) {
+                    NotificationCenter.default.post(name: RCNotifications.DeviceNotFound, object: nil)
+                } else {
+                    NotificationCenter.default.post(name: RCNotifications.LostConnection, object: nil)
+                }
                 return
             }
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
-              //  print("response = \(response)");
+                if (searchingDevice) {
+                    NotificationCenter.default.post(name: RCNotifications.DeviceNotFound, object: nil)
+                } else {
+                    NotificationCenter.default.post(name: RCNotifications.LostConnection, object: nil)
+                }
+                
+                return
+            } else {
+                if (searchingDevice) {// device was found! if the http message is 200
+                    NotificationCenter.default.post(name: RCNotifications.connected, object: nil)
+                }
             }
-            
            // let responseString = String(data: data, encoding: .utf8)
            // print("responseString = \(responseString)");
         }
         task.resume();
-      
     }
+
     func jsonEncoding(data:ColorSetting) -> String {
         do {
             let jsonEncoder  = JSONEncoder();

@@ -48,7 +48,38 @@
 		D22E6EB321BE918E00AFEAE9 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EB221BE918E00AFEAE9 /* PersistenceManager.swift */; };
 		D22E6ED121BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ECF21BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift */; };
 		D22E6ED221BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ED021BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift */; };
+		D2FBD43F224526B000FE21FE /* CallDirectoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FBD43E224526B000FE21FE /* CallDirectoryHandler.swift */; };
+		D2FBD443224526B000FE21FE /* CallDirectoryExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D2FBD43C224526B000FE21FE /* CallDirectoryExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D2FBD4482245288700FE21FE /* ContactDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EA321BE68D800AFEAE9 /* ContactDatabase.xcdatamodeld */; };
+		D2FBD44A224529A900FE21FE /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EB221BE918E00AFEAE9 /* PersistenceManager.swift */; };
+		D2FBD44B224529AC00FE21FE /* PhoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ED021BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift */; };
+		D2FBD44C224529AF00FE21FE /* PhoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ECF21BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift */; };
+		D2FBD45422452A0E00FE21FE /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EA121B968DC00AFEAE9 /* Contact.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D2FBD441224526B000FE21FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D22E6E0621A2D4E000AFEAE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2FBD43B224526B000FE21FE;
+			remoteInfo = CallDirectoryExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D2FBD447224526B000FE21FE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D2FBD443224526B000FE21FE /* CallDirectoryExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D21719012227E13E002814D6 /* BluetoothDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevice.swift; sourceTree = "<group>"; };
@@ -95,6 +126,9 @@
 		D22E6ECF21BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneContact+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D22E6ED021BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneContact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D22E6ED721BEC61000AFEAE9 /* HandlingContactsCalls.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HandlingContactsCalls.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2FBD43C224526B000FE21FE /* CallDirectoryExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CallDirectoryExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2FBD43E224526B000FE21FE /* CallDirectoryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDirectoryHandler.swift; sourceTree = "<group>"; };
+		D2FBD440224526B000FE21FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +146,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2FBD439224526B000FE21FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -119,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				D22E6E1021A2D4E000AFEAE9 /* SmartBadgeAppIOS */,
+				D2FBD43D224526B000FE21FE /* CallDirectoryExtension */,
 				D22E6E0F21A2D4E000AFEAE9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -128,6 +170,7 @@
 			children = (
 				D22E6E0E21A2D4E000AFEAE9 /* Smart Badges.app */,
 				D22E6ED721BEC61000AFEAE9 /* HandlingContactsCalls.appex */,
+				D2FBD43C224526B000FE21FE /* CallDirectoryExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -221,6 +264,15 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		D2FBD43D224526B000FE21FE /* CallDirectoryExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D2FBD43E224526B000FE21FE /* CallDirectoryHandler.swift */,
+				D2FBD440224526B000FE21FE /* Info.plist */,
+			);
+			path = CallDirectoryExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -231,10 +283,12 @@
 				D22E6E0A21A2D4E000AFEAE9 /* Sources */,
 				D22E6E0B21A2D4E000AFEAE9 /* Frameworks */,
 				D22E6E0C21A2D4E000AFEAE9 /* Resources */,
+				D2FBD447224526B000FE21FE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D2FBD442224526B000FE21FE /* PBXTargetDependency */,
 			);
 			name = SmartBadgeAppIOSBluetooth;
 			productName = SmartBadgeAppIOS;
@@ -258,6 +312,23 @@
 			productReference = D22E6ED721BEC61000AFEAE9 /* HandlingContactsCalls.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		D2FBD43B224526B000FE21FE /* CallDirectoryExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2FBD444224526B000FE21FE /* Build configuration list for PBXNativeTarget "CallDirectoryExtension" */;
+			buildPhases = (
+				D2FBD438224526B000FE21FE /* Sources */,
+				D2FBD439224526B000FE21FE /* Frameworks */,
+				D2FBD43A224526B000FE21FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CallDirectoryExtension;
+			productName = CallDirectoryExtension;
+			productReference = D2FBD43C224526B000FE21FE /* CallDirectoryExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -272,6 +343,9 @@
 						CreatedOnToolsVersion = 10.1;
 					};
 					D22E6ED621BEC61000AFEAE9 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D2FBD43B224526B000FE21FE = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
@@ -291,6 +365,7 @@
 			targets = (
 				D22E6E0D21A2D4E000AFEAE9 /* SmartBadgeAppIOSBluetooth */,
 				D22E6ED621BEC61000AFEAE9 /* HandlingContactsCalls */,
+				D2FBD43B224526B000FE21FE /* CallDirectoryExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -338,6 +413,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2FBD43A224526B000FE21FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -368,7 +450,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2FBD438224526B000FE21FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2FBD45422452A0E00FE21FE /* Contact.swift in Sources */,
+				D2FBD44C224529AF00FE21FE /* PhoneContact+CoreDataClass.swift in Sources */,
+				D2FBD44A224529A900FE21FE /* PersistenceManager.swift in Sources */,
+				D2FBD44B224529AC00FE21FE /* PhoneContact+CoreDataProperties.swift in Sources */,
+				D2FBD43F224526B000FE21FE /* CallDirectoryHandler.swift in Sources */,
+				D2FBD4482245288700FE21FE /* ContactDatabase.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D2FBD442224526B000FE21FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2FBD43B224526B000FE21FE /* CallDirectoryExtension */;
+			targetProxy = D2FBD441224526B000FE21FE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D22E6E1521A2D4E000AFEAE9 /* Main.storyboard */ = {
@@ -509,6 +612,7 @@
 		D22E6E2121A2D4E100AFEAE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQ2R4JY32W;
@@ -527,6 +631,7 @@
 		D22E6E2221A2D4E100AFEAE9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQ2R4JY32W;
@@ -582,6 +687,46 @@
 			};
 			name = Release;
 		};
+		D2FBD445224526B000FE21FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XQ2R4JY32W;
+				INFOPLIST_FILE = CallDirectoryExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Siemens.SmartBadgeAppIOSBluetooth.CallDirectoryExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D2FBD446224526B000FE21FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XQ2R4JY32W;
+				INFOPLIST_FILE = CallDirectoryExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Siemens.SmartBadgeAppIOSBluetooth.CallDirectoryExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -608,6 +753,15 @@
 			buildConfigurations = (
 				D22E6EE021BEC61000AFEAE9 /* Debug */,
 				D22E6EE121BEC61000AFEAE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2FBD444224526B000FE21FE /* Build configuration list for PBXNativeTarget "CallDirectoryExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2FBD445224526B000FE21FE /* Debug */,
+				D2FBD446224526B000FE21FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

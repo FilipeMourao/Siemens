@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-final class PersistenceManager{
+final class PersistenceManager{// initialize the database 
    init(){}
     static let shared = PersistenceManager()
     lazy var persistentContainer: NSPersistentContainer = {
