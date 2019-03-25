@@ -333,8 +333,6 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
                                                 )));
                 configureLed.colorSetting.brightness = -50;
                 configureLed.configureColors();
-//                let javaScriptString = "app.connectDevice();"
-//                self.webView?.evaluateJavaScript(javaScriptString, completionHandler: nil);
                 
             }
           })
@@ -457,66 +455,4 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
 
 }
 
-// this code was trying to get the incoming call numbers but apple does not allow outside apps to retrieve this information
-extension ViewController: CXCallObserverDelegate,CXProviderDelegate,PKPushRegistryDelegate{
-    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        
-    }
-    
-    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        print("passed from pushRegistery")
-    }
-    
-    func providerDidReset(_ provider: CXProvider) {
-    }
 
-    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-            let configureLed = ConfigureLed(ipAdress: ipAdress,
-                                            colorSetting: ColorSetting(
-                                                color: ColorCustomized(hexColor:"#123456"
-                                            )));
-            configureLed.colorSetting.brightness = 0;
-            configureLed.configureColors();
-        action.fulfill()
-    }
-
-    func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-            let configureLed = ConfigureLed(ipAdress: ipAdress,
-                                            colorSetting: ColorSetting(
-                                                color: ColorCustomized(hexColor:"#123456"
-                                            )));
-            configureLed.colorSetting.brightness = 0;
-            configureLed.configureColors();
-        
-        action.fulfill()
-    }
-    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
-        // report new incoming call
-        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
-            let identifier = payload.dictionaryPayload["identifier"] as? String,
-            let uuid = UUID(uuidString: uuidString) {
-            let update = CXCallUpdate()
-            update.remoteHandle = CXHandle(type: .generic, value: identifier)
-            provider.reportNewIncomingCall(with: uuid, update: update, completion: { error in })
-//            //Change this to income number
-//            let phoneNumber:String = "test";
-//            if(!phoneContacts.filter({$0.number == phoneNumber}).isEmpty){
-//                let phoneContact = phoneContacts.filter({$0.number == phoneNumber}).first!
-//                let configureLed = ConfigureLed(ipAdress: ipAdress,
-//                                                colorSetting: ColorSetting(color: ColorCustomized(hexColor: phoneContact.color)));
-//                configureLed.colorSetting.brightness = Int(phoneContact.colorBrightness);
-//                configureLed.configureColors();
-//           }
-            if let color = UserDefaults.standard.string(forKey: "calls") {
-                let configureLed = ConfigureLed(ipAdress: ipAdress,
-                                                colorSetting: ColorSetting(
-                                                    color: ColorCustomized(hexColor:color
-                                                )));
-                configureLed.colorSetting.brightness = 75;
-                configureLed.configureColors();
-                
-            }
-            
-        }
-    }
-}

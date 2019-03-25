@@ -16,7 +16,7 @@ class ConfigureLed {
     }
     func configureColors() {
         var searchingDevice:Bool = false
-        if(self.colorSetting.brightness < 0) {
+        if(self.colorSetting.brightness < 0) {// if the brightness is negative this means we are searching for the device
             searchingDevice = true;
             self.colorSetting.brightness = 0;
         }
@@ -49,7 +49,7 @@ class ConfigureLed {
                 
                 return
             } else {
-                if (searchingDevice) {// device was found!
+                if (searchingDevice) {// device was found! if the http message is 200
                     NotificationCenter.default.post(name: RCNotifications.connected, object: nil)
                 }
             }

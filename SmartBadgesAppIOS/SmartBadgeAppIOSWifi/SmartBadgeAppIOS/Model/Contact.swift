@@ -24,14 +24,14 @@ class Contact: NSObject, NSCoding,Codable {
         self.color = color;
         self.colorBrihgtness = colorBrihgtness;
     }
-    func encode(with aCoder: NSCoder) {
+    func encode(with aCoder: NSCoder) {// this is need for enconding in a json format
         aCoder.encode(name, forKey: "name")
         aCoder.encode(number, forKey: "number")
         aCoder.encode(color, forKey: "color")
         aCoder.encode(colorBrihgtness, forKey: "colorBrihgtness")
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {// this is need for decoding the json object into a known class 
         guard let name = aDecoder.decodeObject(forKey: "name") as? String,
             let number = aDecoder.decodeObject(forKey: "number") as? String else {
                 return nil
