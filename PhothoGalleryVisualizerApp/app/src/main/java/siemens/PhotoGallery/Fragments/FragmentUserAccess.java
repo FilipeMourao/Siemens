@@ -23,6 +23,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,12 +57,13 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static android.content.ContentValues.TAG;
 
 
-public class FragmentUserAccess extends Fragment  {
+public class FragmentUserAccess extends Fragment  implements SwipeRefreshLayout.OnRefreshListener{
     private FloatingActionButton fab;
     private Database database;
     private ListView listView;
     private List<UserAccount> userAccounts;
     private FirebaseAuth firebaseAuth;
+    private SwipeRefreshLayout swipeRefreshLayout;
     AutoCompleteTextView mEmailView ;
     EditText mPasswordView ;
 
@@ -81,12 +83,13 @@ public class FragmentUserAccess extends Fragment  {
         listView = view.findViewById(R.id.list_view);
         listView.setOnItemClickListener(this::onitemClicked);
         firebaseAuth=FirebaseAuth.getInstance();
-
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
         updateListView();
         return view;
     }
 
-    public boolean checkPicturesPermission() {
+    public boolean checkPicturesPermission() { // check for the needed permissions to execute the application, if any permission is missing ask for the permissions
         if (
                 (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -110,7 +113,7 @@ public class FragmentUserAccess extends Fragment  {
             // Permission has already been granted
         }
     }
-    public void onitemClicked(AdapterView<?> parent, View view, int position, long id){
+    public void onitemClicked(AdapterView<?> parent, View view, int position, long id){ // if the list view item was pressed ask if the user want to delete the element
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -133,7 +136,7 @@ public class FragmentUserAccess extends Fragment  {
                 })
                 .show();
     }
-    public void onButtonPressed(View v) {
+    public void onButtonPressed(View v) { // if the fab button was pressed open the form to add a new account
         if (checkPicturesPermission()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -159,7 +162,7 @@ public class FragmentUserAccess extends Fragment  {
                 public void onClick(View v) {
                     mEmailView = (AutoCompleteTextView) dialogView.findViewById(R.id.email);
                     mPasswordView =  (EditText) dialogView.findViewById(R.id.password);
-                    if (validateForm()){
+                    if (validateForm()){ // if the information is validated, try to authentitcate the user
                         authenticateUser(mEmailView.getText().toString(),mPasswordView.getText().toString());
                         Toast.makeText(getActivity(), "Verifying the account...",
                                 Toast.LENGTH_SHORT).show();
@@ -169,10 +172,11 @@ public class FragmentUserAccess extends Fragment  {
             });
         }
     }
-    public void updateListView(){
+    public void updateListView(){// update the list view
         userAccounts = database.getAllUserAccounts();
         final AccountListRowAdapter adapter = new AccountListRowAdapter(getActivity(),userAccounts);
         listView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -291,7 +295,6 @@ public class FragmentUserAccess extends Fragment  {
      * @param passwordString The corresponding PW
      */
     private void authenticateUser(final String usernameString, String passwordString) {
-
         //Sign in the user with the email and password
         firebaseAuth.signInWithEmailAndPassword(usernameString, passwordString)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -304,7 +307,7 @@ public class FragmentUserAccess extends Fragment  {
                         //Check if login was successful
                         if (task.isSuccessful()) {
                             //Login the user
-                            if (firebaseAuth.getCurrentUser().isEmailVerified()){// add email in the database
+                            if (firebaseAuth.getCurrentUser().isEmailVerified()){// add email in the database if the authentication is correct
                                 UserAccount userAccount = new UserAccount(firebaseAuth.getUid(),usernameString);
                                 database.addUserAccount(userAccount);
                                 FirebaseAppConnection firebaseAppConnection = new FirebaseAppConnection(getActivity());
@@ -321,4 +324,7 @@ public class FragmentUserAccess extends Fragment  {
                     }
                 });
     }
+    @Override
+    public void onRefresh() { updateListView(); }
+
 }

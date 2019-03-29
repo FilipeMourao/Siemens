@@ -48,60 +48,41 @@ public class FragmentPhotosVisualizer extends Fragment implements SwipeRefreshLa
         database = new Database(getActivity());
         //Get reference to FloatingActionButton, set correct icon and register OnClickListener
         imageView = view.findViewById(R.id.GalleryPreviewImg);
-        currentlyPhotoNumber = 0;
+        currentlyPhotoNumber = 0;// stores the photo in the list corresponding to the showed image
         firebaseAppConnection = new FirebaseAppConnection(getActivity());
+        // initialize the buttons
         nextPhoto = view.findViewById(R.id.nextPhotto);
         nextPhoto.setOnClickListener(this::onNextButtonPressed);
         previousPhoto = view.findViewById(R.id.previousPhoto);
         previousPhoto.setOnClickListener(this::onPreviousButtonPressed);
-//        view.setOnTouchListener(
-//                new OnSwipeTouchListener(getActivity()) {
-//                    @Override
-//                    public void onSwipeRight() {
-//                        currentlyPhotoNumber = currentlyPhotoNumber + 1;
-//                        if (currentlyPhotoNumber >= photos.size()) currentlyPhotoNumber = 0;
-//                        if (photos.size() > 0)   imageView.setImageBitmap(photos.get(currentlyPhotoNumber).getImageBitMap());
-//                        initializeTimer();
-//                    }
-//
-//                    @Override
-//                    public void onSwipeLeft() {
-//                        if (photos.size() == 0) currentlyPhotoNumber = 0;
-//                        else {
-//                            currentlyPhotoNumber = currentlyPhotoNumber -1 ;
-//                            if (currentlyPhotoNumber < 0) currentlyPhotoNumber = photos.size() - 1 ;
-//                        }
-//                        if (photos.size() > 0) imageView.setImageBitmap(photos.get(currentlyPhotoNumber).getImageBitMap());
-//                        initializeTimer();
-//                    }
-//                }
-//        );
+        // initialize the timer  that is going to pass the pictures automatically
         t = new Timer();
         initializeTimer();
+        // initialize the refresher
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
         updateView();
         return view;
     }
 
-    public void onNextButtonPressed(View v) {
+    public void onNextButtonPressed(View v) {// when the next buttorn is pressed show the next photo in the list
         currentlyPhotoNumber = currentlyPhotoNumber + 1;
         if (currentlyPhotoNumber >= photos.size()) currentlyPhotoNumber = 0;
-        updateImage();
-        initializeTimer();
+        updateImage();// update photo
+        initializeTimer();// reset timer to pass the photos automatically
     }
 
-    public void onPreviousButtonPressed(View v) {
+    public void onPreviousButtonPressed(View v) {// when the previous buttorn is pressed show the previous photo in the list
         if (photos.size() == 0) currentlyPhotoNumber = 0;
         else {
             currentlyPhotoNumber = currentlyPhotoNumber - 1;
             if (currentlyPhotoNumber < 0) currentlyPhotoNumber = photos.size() - 1;
         }
-        updateImage();
-        initializeTimer();
+        updateImage();// update photo
+        initializeTimer();// reset timer to pass the photos automatically
     }
 
-    public boolean checkPicturesPermission() {
+    public boolean checkPicturesPermission() { // check for the needed permissions to execute the application, if any permission is missing ask for the permissions
         if (
                 (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_FINE_LOCATION)
@@ -128,10 +109,10 @@ public class FragmentPhotosVisualizer extends Fragment implements SwipeRefreshLa
         }
     }
 
-    public void updateView() {
+    public void updateView() { // update the view
         if (checkPicturesPermission()) {
             refreshCounter = refreshCounter + 1;
-            if (refreshCounter == NUMBER_OF_TIMES_TO_DOWNLOAD_DATA) {
+            if (refreshCounter == NUMBER_OF_TIMES_TO_DOWNLOAD_DATA) { // if the number of refresh pass the treshhold, get the pictures from the online database
                 firebaseAppConnection.getAllPhotos();
                 refreshCounter = 0;
             }
@@ -157,11 +138,11 @@ public class FragmentPhotosVisualizer extends Fragment implements SwipeRefreshLa
     @Override
     public void onDestroy() {
         super.onDestroy();
-        t.cancel();
+        t.cancel();// cancel timer
     }
 
     public void initializeTimer() {
-        t.cancel();
+        t.cancel();// reset time to pass the images automatically
         t = new Timer();
 
         t.scheduleAtFixedRate(
@@ -178,8 +159,8 @@ public class FragmentPhotosVisualizer extends Fragment implements SwipeRefreshLa
 
                     }
                 },
-                10 * 1000,      // run first occurrence immediatetly
-                10 * 1000); // run every minute
+                5 * 1000,      // run first occurrence immediatetly
+                5 * 1000); // run every minute
 
     }
 

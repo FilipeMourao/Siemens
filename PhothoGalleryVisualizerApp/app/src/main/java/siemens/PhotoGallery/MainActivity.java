@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         //Get the navigation view and set a listener on it to react if a navigation item was clicked
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getSupportActionBar().hide();// option to not show the menu
 
     }
 
-
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {// handle the back button if pressed
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -63,8 +63,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
 
         }
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
+    // handle the button items that were pressed
     //@Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         return loadFragment(fragment);
 
     }
-
+    //load fragments in the main activity
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getFragmentManager().beginTransaction()

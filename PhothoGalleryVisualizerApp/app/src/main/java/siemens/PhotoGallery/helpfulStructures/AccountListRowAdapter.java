@@ -10,8 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import siemens.PhotoGallery.R;
-
 public class AccountListRowAdapter  extends BaseAdapter {
     private Activity activity;
     private List<UserAccount> userAccounts;
@@ -41,14 +39,18 @@ public class AccountListRowAdapter  extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup container) {
+    public View getView(int position, View convertView, ViewGroup container) { // adaptet to show the accounts in a list format
         if (convertView == null) {
-            convertView = LayoutInflater.from(activity).inflate(android.R.layout.simple_list_item_1, container ,false);
-
+            convertView = LayoutInflater.from(activity).inflate(android.R.layout.simple_list_item_2, container ,false);
         }
 
         ((TextView) convertView.findViewById(android.R.id.text1))
                 .setText(userAccountEmails.get(position));
+        if (userAccounts.get(position).getNumberOfImages() > 0 ){
+            String message = Integer.toString(userAccounts.get(position).getNumberOfImages()) + " images";
+            ((TextView) convertView.findViewById(android.R.id.text2))
+                    .setText(message);
+        }
 
         return convertView;
     }
