@@ -50,6 +50,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRefreshListener  {
+
     private FloatingActionButton fab;
     private PhotoDatabase photosDatabase;
     public static int SELECT_IMAGE_GALLERY = 12445;
@@ -66,6 +67,7 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
         galleryGridView = view.findViewById(R.id.galleryGridView);
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
         Resources resources = view.getResources();
+        // design the layout to show all the images
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = iDisplayWidth / (metrics.densityDpi / 160f);
 
@@ -87,7 +89,7 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
         return view;
     }
 
-    public boolean checkPicturesPermission() {
+    public boolean checkPicturesPermission() { // check for the permissions
         if ((ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED )||
@@ -114,7 +116,7 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
         }
     }
 
-    public void onButtonPressed(View v) {
+    public void onButtonPressed(View v) { // if the plus button was pressed show possibilities to add a picture
         if (checkPicturesPermission()) {
             AlertDialog.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -124,13 +126,13 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
             }
             builder.setTitle("Get a new picture")
                     .setMessage("Take the picture from:")
-                    .setNegativeButton("From camera", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("From camera", new DialogInterface.OnClickListener() {// if the user clicks on camera, open the camera via intent
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, SELECT_IMAGE_CAMERA);
                         }
                     })
-                    .setPositiveButton("From gallery", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("From gallery", new DialogInterface.OnClickListener() {// if the user clicks on galley, open the gallery via intent
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new   Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -145,10 +147,10 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
         }
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {// get the image from the result of the last intent
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_IMAGE_CAMERA) {
+            if (requestCode == SELECT_IMAGE_CAMERA) { // if it was from the camera get the image and convert to bitmap
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 Photo photo= new Photo(bitmap);
                 photosDatabase.addPhoto(photo);
@@ -156,7 +158,7 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
                 // update the view
 
 
-            } else if (requestCode == SELECT_IMAGE_GALLERY) {
+            } else if (requestCode == SELECT_IMAGE_GALLERY) { // if the image was from the gallery, get the image rotate it to the right format and save in the database
                 Uri selectedImage = data.getData();
                 // h=1;
                 //imgui = selectedImage;
@@ -184,18 +186,6 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
             }
         }
     }
-    public static Bitmap convertYuvImageToBitmap(@NonNull final YuvImage yuvImage) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 100, out);
-        byte[] imageBytes = out.toByteArray();
-        try {
-            out.close();
-        } catch (IOException e) {
-            Log.e("LOG_TAG", "Exception while closing output stream", e);
-        }
-        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-    }
-
     public static Bitmap rotateBitmap(@NonNull final Bitmap source, final float angle) {
         Matrix matrix = new Matrix();
 //        matrix.postRotate(angle);

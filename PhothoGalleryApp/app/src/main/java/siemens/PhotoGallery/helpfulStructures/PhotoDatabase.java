@@ -45,7 +45,7 @@ public class PhotoDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + PHOTOS_TABLE);
         onCreate(db);
     }
-    public void addPhoto(Photo photo){
+    public void addPhoto(Photo photo){// add photos in the database
         Photo photoCheck = getPhoto(photo.getUniqueID());
         if (photoCheck == null){
             SQLiteDatabase db = this.getWritableDatabase();
@@ -65,7 +65,7 @@ public class PhotoDatabase extends SQLiteOpenHelper {
         }
 
     }
-public Photo getPhoto(String uniqueID){
+public Photo getPhoto(String uniqueID){// get the photo from the database by the unique number
     SQLiteDatabase db = this.getReadableDatabase();
     Cursor cursor = db.query(PHOTOS_TABLE,
             null,
@@ -87,7 +87,7 @@ public Photo getPhoto(String uniqueID){
     return photo;
 }
 
-    public List<Photo> getAllPhotos(){
+    public List<Photo> getAllPhotos(){// get all photos from the database
         List<Photo> listOfPhotos = new ArrayList<Photo>();
         String selectQuery = "SELECT * FROM " + PHOTOS_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -106,11 +106,11 @@ public Photo getPhoto(String uniqueID){
         }
         return listOfPhotos;
     }
-    public void delete(String uniqueID) {
+    public void delete(String uniqueID) {// delete the photo from the database by the unique number
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ PHOTOS_TABLE +" where "+UNIQUE_KEY+"='"+uniqueID+"'");
     }
-    public void removeAll(){
+    public void removeAll(){// remove all the photos from the database
         // db.delete(String tableName, String whereClause, String[] whereArgs);
         // If whereClause is null, it will delete all rows.
         SQLiteDatabase db = this.getWritableDatabase();

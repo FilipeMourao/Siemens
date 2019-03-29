@@ -26,14 +26,13 @@ public class FirebaseAppConnection {
     private DatabaseReference mDatabase;
     private StorageReference sReference;
     private PhotoDatabase photoDatabase;
-    List<PhotoFirebaseDatabase>  photosFirebaseDatabase = new ArrayList<>();
     private int onlineDatabasePhotos = 0;
     private int localDatabasePhotos = 0;
     public FirebaseAppConnection(Context context) {
         this.context = context;
         this.photoDatabase = new PhotoDatabase(context);
     }
-    public void saveCurrentlyUserPhotos(){
+    public void saveCurrentlyUserPhotos(){ // save the photos from the local database in the online database
         List<Photo> photos = photoDatabase.getAllPhotos();
         for( Photo photo: photos){
             PhotoFirebaseDatabase photoFirebaseDatabase = new PhotoFirebaseDatabase(photo);
@@ -48,22 +47,18 @@ public class FirebaseAppConnection {
         onlineDatabasePhotos = localDatabasePhotos;
         Toast.makeText(context,meessage,Toast.LENGTH_LONG).show();
     }
-    private void saveCurrentlyUserPhotoInformation(PhotoFirebaseDatabase photoFirebaseDatabase){
+    private void saveCurrentlyUserPhotoInformation(PhotoFirebaseDatabase photoFirebaseDatabase){ // save each photo information individually
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(photoFirebaseDatabase.getUniqueID()).setValue(photoFirebaseDatabase);
     }
-    private void saveCurrentlyUserPhotoImage(String uniqueID, Bitmap bitmap){
+    private void saveCurrentlyUserPhotoImage(String uniqueID, Bitmap bitmap){ // save the photo image in the firebase storage
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         sReference = FirebaseStorage.getInstance().getReference().child("photos/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + uniqueID + ".jpg");
         sReference.putBytes(data);
     }
-//    private void saveCurrentlyUser(Photo photo){
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("Photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(photo.getUniqueID()).setValue(photo);
-//    }
-    public void deletePhoto(Photo photo, Boolean deleteFromOnlineDatabase){
+    public void deletePhoto(Photo photo, Boolean deleteFromOnlineDatabase){ //delete photo from the local database and from the online database depending of the boolean parameter
         photoDatabase.delete(photo.getUniqueID());
         if (deleteFromOnlineDatabase){
             onlineDatabasePhotos =  onlineDatabasePhotos - 1;
@@ -73,7 +68,7 @@ public class FirebaseAppConnection {
             sReference.delete();
         }
     }
-    public void deleteAllPhotos(Boolean deleteFromOnlineDatabase){
+    public void deleteAllPhotos(Boolean deleteFromOnlineDatabase){//delete all the photos from the local database and from the online database depending of the boolean parameter
         if (deleteFromOnlineDatabase){
             onlineDatabasePhotos =  0;
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -87,7 +82,7 @@ public class FirebaseAppConnection {
         }
         photoDatabase.removeAll();
     }
-    public void getAllPhotos(){
+    public void getAllPhotos(){//get all the photos from the online database
         String authName = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Photos/"+authName);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,7 +107,7 @@ public class FirebaseAppConnection {
         });
 
     }
-    public void getPhotoImages(PhotoFirebaseDatabase photoFirebaseDatabase){
+    public void getPhotoImages(PhotoFirebaseDatabase photoFirebaseDatabase){// get the photo image from the firebase storage
         sReference =  FirebaseStorage.getInstance().getReference().child("photos/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + photoFirebaseDatabase.getUniqueID() + ".jpg");
         final long ONE_MEGABYTE = 1024 * 1024;
         sReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

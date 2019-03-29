@@ -46,7 +46,7 @@ public class PhotoDetails extends AppCompatActivity {
         photoDatabase = new PhotoDatabase(getApplicationContext());
 
     }
-    void onDeleteButtonPressed(View v){
+    void onDeleteButtonPressed(View v){// if the delete button was pressed ask if the user want to delete the element only in the local database or also in the global database
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(PhotoDetails.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -79,7 +79,7 @@ public class PhotoDetails extends AppCompatActivity {
                 .show();
 
     }
-    void onAddNameButtonPressed(View v){
+    void onAddNameButtonPressed(View v){// if the add name button was pressed ask if the user to add the name to the photo
         AlertDialog.Builder builder = new AlertDialog.Builder(PhotoDetails.this);
 // Set up the input
         final EditText input = new EditText(getApplicationContext());

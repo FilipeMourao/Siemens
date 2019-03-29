@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ public class FragmentCloud extends Fragment {
         return view;
     }
 
-    public boolean checkPicturesPermission() {
+    public boolean checkPicturesPermission() {// check for the permissions
         if ((ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED )||
@@ -93,7 +94,7 @@ public class FragmentCloud extends Fragment {
             // Permission has already been granted
         }
     }
-    public void onUploadButtonPressed(View v){
+    public void onUploadButtonPressed(View v){ // show the alert to confirm uploading the photos to the online database
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -115,7 +116,7 @@ public class FragmentCloud extends Fragment {
                 .show();
     }
 
-    public void onDownloadButtonPressed(View v){
+    public void onDownloadButtonPressed(View v){// show the alert to confirm downloading the photos from the online database
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -137,7 +138,7 @@ public class FragmentCloud extends Fragment {
                 })
                 .show();
     }
-    public void onDeleteAllButtonPressed(View v){
+    public void onDeleteAllButtonPressed(View v){// confirm if the user want to delete the image just locally or gloablly
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -165,7 +166,7 @@ public class FragmentCloud extends Fragment {
                 })
                 .show();
     }
-    public void onButtonPressed(View v) {
+    public void onButtonPressed(View v) { // if the plus button was pressed show possibilities to add a picture
         if (checkPicturesPermission()) {
             AlertDialog.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -175,13 +176,13 @@ public class FragmentCloud extends Fragment {
             }
             builder.setTitle("Get a new picture")
                     .setMessage("Take the picture from:")
-                    .setNegativeButton("From camera", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("From camera", new DialogInterface.OnClickListener() {// if the user clicks on camera, open the camera via intent
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, SELECT_IMAGE_CAMERA);
                         }
                     })
-                    .setPositiveButton("From gallery", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("From gallery", new DialogInterface.OnClickListener() {// if the user clicks on galley, open the gallery via intent
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new   Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -196,50 +197,55 @@ public class FragmentCloud extends Fragment {
         }
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {// get the image from the result of the last intent
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_IMAGE_CAMERA) {
+            if (requestCode == SELECT_IMAGE_CAMERA) { // if it was from the camera get the image and convert to bitmap
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 Photo photo= new Photo(bitmap);
                 photosDatabase.addPhoto(photo);
                 // update the view
 
 
-            } else if (requestCode == SELECT_IMAGE_GALLERY) {
+            } else if (requestCode == SELECT_IMAGE_GALLERY) { // if the image was from the gallery, get the image rotate it to the right format and save in the database
                 Uri selectedImage = data.getData();
                 // h=1;
                 //imgui = selectedImage;
                 String[] filePath = {MediaStore.Images.Media.DATA};
-                Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                try {
+                    Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    String picturePath = c.getString(columnIndex);
+                    c.close();
+                    ExifInterface exif = new ExifInterface(picturePath);
+                    int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    int rotationInDegrees = exifToDegrees(rotation);
+                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
 
-                Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,-90.0f),1000));
-                photosDatabase.addPhoto(photo);
-                //update the view
+                    //Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,-90.0f),1000));
+                    Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,rotationInDegrees),1000));
+                    photosDatabase.addPhoto(photo);
+                    //update the view
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
-    public static Bitmap convertYuvImageToBitmap(@NonNull final YuvImage yuvImage) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 100, out);
-        byte[] imageBytes = out.toByteArray();
-        try {
-            out.close();
-        } catch (IOException e) {
-            Log.e("LOG_TAG", "Exception while closing output stream", e);
-        }
-        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-    }
-
     public static Bitmap rotateBitmap(@NonNull final Bitmap source, final float angle) {
         Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
+//        matrix.postRotate(angle);
+        matrix.preRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        return 0;
     }
     //The follow code sample shows an example of how to retrieve metric values from the Face object
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -256,4 +262,8 @@ public class FragmentCloud extends Fragment {
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
+
+
+
 }

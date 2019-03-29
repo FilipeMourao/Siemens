@@ -19,7 +19,6 @@ import siemens.PhotoGallery.Fragments.FragmentCloud;
 import siemens.PhotoGallery.Fragments.FragmentPhotos;
 
 public class MainActivity extends AppCompatActivity implements   NavigationView.OnNavigationItemSelectedListener {
-    // public class MainActivity extends Fragment implements NavigationView.OnNavigationItemSelectedListener,  AdapterView.OnItemClickListener {
     private Context context;
     private DrawerLayout drawer;
     private TextView username;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {// handle the back button if pressed
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    // handle the button items that were pressed
     //@Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         return loadFragment(fragment);
 
     }
-
+    //load fragments in the main activity
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getFragmentManager().beginTransaction()

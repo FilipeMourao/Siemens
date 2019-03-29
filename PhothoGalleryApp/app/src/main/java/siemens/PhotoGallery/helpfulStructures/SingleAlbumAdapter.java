@@ -11,7 +11,7 @@ import java.util.List;
 
 import siemens.PhotoGallery.R;
 // adapted from http://androstock.com/tutorials/create-a-photo-gallery-app-in-android-android-studio.html
-public class SingleAlbumAdapter extends BaseAdapter {
+public class SingleAlbumAdapter extends BaseAdapter {// adapter to present the images in the album format
     private Activity activity;
     private List<Photo> photos;
     public SingleAlbumAdapter(Activity activity, List<Photo> photos ) {
