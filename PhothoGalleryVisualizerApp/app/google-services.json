@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "201509269867",
+    "firebase_url": "https://phothogalleryapp.firebaseio.com",
+    "project_id": "phothogalleryapp",
+    "storage_bucket": "phothogalleryapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201509269867:android:e52e649fa06bbf4a",
+        "android_client_info": {
+          "package_name": "siemens.PhotoGalleryVisualizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201509269867-pfq2diaviini38gnlhr9uememu3uikqr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "siemens.PhotoGalleryVisualizer",
+            "certificate_hash": "a74f34c1fa1b9a22b34fb7ecb0afacf82475f457"
+          }
+        },
+        {
+          "client_id": "201509269867-jlakm0au7tfb43ijjstv98m4nt3igo31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-HL1IFHOhUofiUZoaA-PPkLeXj6g9pcs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201509269867-jlakm0au7tfb43ijjstv98m4nt3igo31.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

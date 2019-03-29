@@ -2,7 +2,6 @@ package siemens.PhotoGallery;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,19 +9,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 
-import siemens.PhotoGallery.Fragments.FragmentCloud;
-import siemens.PhotoGallery.Fragments.FragmentPhotos;
+
+import siemens.PhotoGallery.Fragments.FragmentUserAccess;
+import siemens.PhotoGallery.Fragments.FragmentPhotosVisualizer;
 
 public class MainActivity extends AppCompatActivity implements   NavigationView.OnNavigationItemSelectedListener {
     // public class MainActivity extends Fragment implements NavigationView.OnNavigationItemSelectedListener,  AdapterView.OnItemClickListener {
     private Context context;
     private DrawerLayout drawer;
     private TextView username;
+    private GestureDetector gestureDetector;
     public MainActivity() {
 
     }
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.activity_menu);
-        loadFragment(new FragmentPhotos());
+        loadFragment(new FragmentPhotosVisualizer());
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Load the fragment in the container
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         //Get the navigation view and set a listener on it to react if a navigation item was clicked
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -55,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //super.onBackPressed();
-            FragmentPhotos fragmentYourMeetings = new FragmentPhotos();
-            getFragmentManager().beginTransaction().replace(R.id.container,fragmentYourMeetings).commit();
+            FragmentPhotosVisualizer fragmentPhotoVisualizer = new FragmentPhotosVisualizer();
+            getFragmentManager().beginTransaction().replace(R.id.container,fragmentPhotoVisualizer).commit();
 
         }
     }
@@ -68,28 +71,20 @@ public class MainActivity extends AppCompatActivity implements   NavigationView.
         int id = item.getItemId();
         Fragment fragment = null;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (id == R.id.nav_photo) {
+        if (id == R.id.nav_photoVisualizer) {
             item.setChecked(true);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
-            fragment = new FragmentPhotos();
-        }else if (id == R.id.nav_cloud) {
+            fragment = new FragmentPhotosVisualizer();
+        }else if (id == R.id.nav_users) {
             item.setChecked(true);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
-            fragment = new FragmentCloud();
-        }else if (id == R.id.nav_logout) {
-            item.setChecked(true);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            }
-            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-            firebaseAuth.signOut();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            fragment = new FragmentUserAccess();
         }
+
         return loadFragment(fragment);
 
     }

@@ -248,7 +248,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
 //        Check if the tum emails have the same identification or if we want to use just tum emails
-        return (email.contains("@")&email.contains(".com"));
+//        return (email.contains("@")&email.contains(".com"));
+        return (email.contains("@"));
     }
 
     private boolean isPasswordValid(String password) {

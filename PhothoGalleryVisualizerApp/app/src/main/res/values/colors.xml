@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--00a4b4-->
+<resources>
+    <color name="colorPrimary">#009899</color>
+    <color name="colorPrimaryDark">#009899</color>
+    <color name="colorAccent">#009899</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#f8f8f8</color>
+    <color name="colorRed">#AC001F</color>
+    <color name="send_button_disabled">#009899</color>
+</resources>

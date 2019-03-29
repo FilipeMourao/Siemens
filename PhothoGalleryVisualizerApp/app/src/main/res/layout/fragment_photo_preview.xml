@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/relative_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<android.support.v4.widget.SwipeRefreshLayout-->
+            <!--android:id="@+id/swiperefresh"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1">-->
+            <!--<com.jsibbold.zoomage.ZoomageView-->
+                <!--android:id="@+id/GalleryPreviewImg"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_marginStart="0dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--app:zoomage_animateOnReset="true"-->
+                <!--app:zoomage_autoCenter="true"-->
+                <!--app:zoomage_autoResetMode="UNDER"-->
+                <!--app:zoomage_maxScale="8"-->
+                <!--app:zoomage_minScale="0.6"-->
+                <!--app:zoomage_restrictBounds="false"-->
+                <!--app:zoomage_translatable="false"-->
+                <!--app:zoomage_zoomable="true"-->
+                <!--/>-->
+        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+    <!--</RelativeLayout>-->
+    <LinearLayout
+
+        android:id="@+id/relative_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/previousPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:padding="16dp"
+            android:drawableLeft="@drawable/ic_arrow_left"
+            android:background="@color/colorWhite"
+            android:textSize="24sp"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <com.jsibbold.zoomage.ZoomageView
+                android:id="@+id/GalleryPreviewImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                app:zoomage_animateOnReset="true"
+                app:zoomage_autoCenter="true"
+                app:zoomage_autoResetMode="UNDER"
+                app:zoomage_maxScale="8"
+                app:zoomage_minScale="0.6"
+                app:zoomage_restrictBounds="false"
+                app:zoomage_translatable="false"
+                app:zoomage_zoomable="true"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <Button
+            android:id="@+id/nextPhotto"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:padding="16dp"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:background="@color/colorWhite"
+            android:textSize="24sp"/>
+    </LinearLayout>
+</LinearLayout>
+    <!--took from http://androstock.com/tutorials/create-a-photo-gallery-app-in-android-android-studio.html-->

@@ -152,6 +152,7 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 Photo photo= new Photo(bitmap);
                 photosDatabase.addPhoto(photo);
+                updateView();
                 // update the view
 
 
