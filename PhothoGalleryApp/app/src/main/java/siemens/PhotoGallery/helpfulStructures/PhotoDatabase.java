@@ -3,6 +3,7 @@ package siemens.PhotoGallery.helpfulStructures;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -93,7 +94,7 @@ public Photo getPhoto(String uniqueID){// get the photo from the database by the
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
         Photo photo;
-        //String cursorToString =   DatabaseUtils.dumpCursorToString(cursor);// check the database tables
+        String cursorToString =   DatabaseUtils.dumpCursorToString(cursor);// check the database tables
         if (cursor.moveToFirst()){
             while (!cursor.isAfterLast()) {
                 photo = new Photo(Integer.parseInt(cursor.getString(0)),

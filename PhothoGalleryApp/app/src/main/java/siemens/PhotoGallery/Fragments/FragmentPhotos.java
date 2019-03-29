@@ -32,10 +32,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -173,12 +175,16 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
                     int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
                     int rotationInDegrees = exifToDegrees(rotation);
                     Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-
+                    long fileSize = getImageLength(picturePath);
                     //Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,-90.0f),1000));
-                    Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,rotationInDegrees),1000));
-                    photosDatabase.addPhoto(photo);
-                    //update the view
-                    updateView();
+                    if (fileSize < 1000000){ // file size less then 1MB
+                        Photo photo= new Photo(getResizedBitmap(rotateBitmap(thumbnail,rotationInDegrees),1000));
+                        photosDatabase.addPhoto(photo);
+                        //update the view
+                        updateView();
+                    }else {
+                        Toast.makeText(getActivity(), "This image is to big to be saved!",Toast.LENGTH_LONG).show();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -244,6 +250,12 @@ public class FragmentPhotos extends Fragment implements  SwipeRefreshLayout.OnRe
     @Override
     public void onRefresh() {
         updateView();
+    }
+
+    public long getImageLength(String absFileName)
+    {
+        File file = new File(absFileName);
+        return file.length();
     }
 }
 

@@ -23,7 +23,6 @@ public class FirebaseAppConnection {
     private DatabaseReference mDatabase;
     private StorageReference sReference;
     private Database database;
-    private int onlineUserDatabasePhotos;
     public FirebaseAppConnection(Context context) {
         this.context = context;
         this.database = new Database(context);
@@ -34,13 +33,13 @@ public class FirebaseAppConnection {
         String authName;
         for (UserAccount userAccount : userAccounts){ // for each account get all the pictures from the databse and the storage
             authName = userAccount.getUserID();
-            onlineUserDatabasePhotos = 0;
             mDatabase = FirebaseDatabase.getInstance().getReference("Photos/"+authName);
             String finalAuthName = authName;
             mDatabase .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
+                        int onlineUserDatabasePhotos = 0;
                         // dataSnapshot is the "issue" node with all children with id 0
                         for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                             PhotoFirebaseDatabase photoFirebaseDatabase = messageSnapshot.getValue(PhotoFirebaseDatabase.class);// get the picture information
