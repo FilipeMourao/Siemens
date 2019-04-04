@@ -369,6 +369,19 @@ var app = {
                $('.calendar ul').append(markup);
                // $('.app-config-row .color').find('.app-color-preview').css('background-color', value.color);
                });
+        $('.app-config-row .color').on('click', function(){
+                                       
+                                       var currentColorNum = parseInt($(this).attr('data-color'));
+                                       
+                                       if(currentColorNum < app.colors.length){
+                                       currentColorNum++;
+                                       }else{
+                                       currentColorNum = 0;
+                                       }
+                                       
+                                       $(this).attr('data-color', currentColorNum);
+                                       $(this).find('.app-color-preview').css('background-color', app.colors[currentColorNum]);
+                                       });
     },
     ListContacts : function(contactList){
         contacts = JSON.parse(contactList);
@@ -469,8 +482,14 @@ var app = {
         setTimeout(function(){
             app.initHomeScreen();
         }, 2000);
-//         window.webkit.messageHandlers.JSInterface.postMessage("createAlarms()");
-         window.webkit.messageHandlers.JSInterface.postMessage(createNotifications);
+        var eventColors = [];
+        $('.calendar ul .app-config-row .color ').each(function(index, value){
+                eventColors.push(rgb2hex($(this).find('.app-color-preview').css( "background-color" )));
+        });
+        
+         //window.webkit.messageHandlers.JSInterface.postMessage(createNotifications);
+        
+        window.webkit.messageHandlers.JSInterface.postMessage(createNotifications+ JSON.stringify(eventColors));
     },
     saveNotifications : function(){
 
@@ -518,4 +537,14 @@ function resetColor(){
         _bgcolor = obj.color;
     }});
 
+}
+// get from https://stackoverflow.com/questions/1740700/how-to-get-hex-color-value-rather-than-rgb-value
+function rgb2hex(rgb) {
+    if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb;
+    
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }

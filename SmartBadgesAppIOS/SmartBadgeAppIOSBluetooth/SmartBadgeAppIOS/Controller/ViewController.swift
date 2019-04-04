@@ -78,7 +78,8 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
             else { bluetoohDevice.disconnect(); bluetoohDevice.startUpCentralManager();}
         }
         if (endPointReceived == BackEndFrontEndEndpoint.showUserEvents) {showUserEvents()}
-        if (endPointReceived == BackEndFrontEndEndpoint.createNotifications) {createNotifications()}
+//        if (endPointReceived == BackEndFrontEndEndpoint.createNotifications) {createNotifications()}
+        if (endPointReceived.range(of: BackEndFrontEndEndpoint.createNotifications) != nil) {createNotifications(eventColors: endPointReceived)}
         if (endPointReceived == BackEndFrontEndEndpoint.showUserContacts) {showUserContacts()}
         if (endPointReceived.range(of: BackEndFrontEndEndpoint.saveConfiguration) != nil) {saveConfigurations(endPoint: endPointReceived)}
         if (endPointReceived.range(of: BackEndFrontEndEndpoint.saveContacts) != nil) { saveContacts(endPoint: endPointReceived)}
@@ -254,69 +255,75 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         }
         return eventsTotal;
     }
-    private func createNotifications(){
+    private func createNotifications(eventColors: String){
     // here the phone notifications are created
+        let eventColorsArray = getEventColors(evenColors: eventColors);
         for event in self.events {
-            let configureLed = ConfigureLed(bluetoothDevice: bluetoohDevice,colorSetting: ColorSetting(color: ColorCustomized(hexColor:event.color )));
-            var time = event.calendar.timeIntervalSinceNow;
-             let content = UNMutableNotificationContent()
-            content.title = "Reminder!";
-            content.subtitle =  event.title + " is starting..."
-            content.badge = 1
-            
-            
-            ///Code for prototyping showing
-            
-            time = 8;
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
-                configureLed.colorSetting.brightness = 0;
-                configureLed.configureColors();
-                print("second time: \( time)");
+//            let configureLed = ConfigureLed(bluetoothDevice: bluetoohDevice,colorSetting: ColorSetting(color: ColorCustomized(hexColor:event.color )));
+//        for i in 0..<self.events.count -1 {
+            if let i = self.events.firstIndex(where: {$0.title == event.title})  {
+                    let configureLed = ConfigureLed(bluetoothDevice: bluetoohDevice,colorSetting: ColorSetting(color: ColorCustomized(hexColor: eventColorsArray[i] )));
+                
+                var time = event.calendar.timeIntervalSinceNow;
+                let content = UNMutableNotificationContent()
+                content.title = "Reminder!";
+                content.subtitle =  event.title + " is starting..."
+                content.badge = 1
+                
+                
+                ///Code for prototyping showing
+                
+                time = 8;
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                    configureLed.colorSetting.brightness = 0;
+                    configureLed.configureColors();
+                    print("second time: \( time)");
+                }
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+                let request = UNNotificationRequest(identifier: "meeting reminder \(self.notificationCounter)", content: content, trigger: trigger)
+                self.notificationCounter = self.notificationCounter + 1;
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                
+                time = 3;
+                let content2 = UNMutableNotificationContent()
+                content2.title = "Reminder!";
+                content2.subtitle =  event.title + " will start in 2 minutes";
+                content2.badge = 2
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                    configureLed.colorSetting.brightness = 75;
+                    print("second time: \( time)");
+                    configureLed.configureColors();
+                }
+                let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+                let request2 = UNNotificationRequest(identifier: "meeting reminder \(self.notificationCounter)", content: content2, trigger: trigger2);
+                self.notificationCounter = self.notificationCounter + 1;
+                UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
+                
+                
+                ///this is the code to the use of the app
+                //            configureLed.colorSetting.brightness = 0;
+                //            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                //                configureLed.configureColors();
+                //            }
+                //            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+                //            let request = UNNotificationRequest(identifier: "meeting reminder 1", content: content, trigger: trigger)
+                //
+                //            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                //            if(time - 2*60 > 0){
+                //                time = time - 2*60;
+                //                let content2 = UNMutableNotificationContent()
+                //                content2.title = "Reminder!";
+                //                content2.subtitle =  event.title + " will start in 2 minutes";
+                //                content2.badge = 1
+                //                configureLed.colorSetting.brightness = 75;
+                //                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
+                //                    configureLed.configureColors();
+                //                }
+                //                let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
+                //                let request2 = UNNotificationRequest(identifier: "meeting reminder 2", content: content2, trigger: trigger2)
+                //                UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
+                //            }
             }
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-            let request = UNNotificationRequest(identifier: "meeting reminder \(self.notificationCounter)", content: content, trigger: trigger)
-            self.notificationCounter = self.notificationCounter + 1;
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            time = 3;
-            let content2 = UNMutableNotificationContent()
-            content2.title = "Reminder!";
-            content2.subtitle =  event.title + " will start in 2 minutes";
-            content2.badge = 2
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
-                configureLed.colorSetting.brightness = 75;
-                print("second time: \( time)");
-                configureLed.configureColors();
-            }
-            let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-            let request2 = UNNotificationRequest(identifier: "meeting reminder \(self.notificationCounter)", content: content2, trigger: trigger2);
-            self.notificationCounter = self.notificationCounter + 1;
-            UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
-            
-            
-            ///this is the code to the use of the app
-//            configureLed.colorSetting.brightness = 0;
-//            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
-//                configureLed.configureColors();
-//            }
-//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-//            let request = UNNotificationRequest(identifier: "meeting reminder 1", content: content, trigger: trigger)
-//
-//            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//            if(time - 2*60 > 0){
-//                time = time - 2*60;
-//                let content2 = UNMutableNotificationContent()
-//                content2.title = "Reminder!";
-//                content2.subtitle =  event.title + " will start in 2 minutes";
-//                content2.badge = 1
-//                configureLed.colorSetting.brightness = 75;
-//                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(NSInteger(time))) {
-//                    configureLed.configureColors();
-//                }
-//                let trigger2 = UNTimeIntervalNotificationTrigger(timeInterval: time, repeats: false)
-//                let request2 = UNNotificationRequest(identifier: "meeting reminder 2", content: content2, trigger: trigger2)
-//                UNUserNotificationCenter.current().add(request2, withCompletionHandler: nil)
-//            }
         }
     }
 
@@ -361,6 +368,25 @@ class ViewController: UIViewController,WKScriptMessageHandler,UITableViewDelegat
         notificantionsColors = notificantionsColors  + "]";
         return(convertStringToStringArray(string: notificantionsNames),
         convertStringToStringArray(string: notificantionsColors));
+    }
+    func getEventColors(evenColors : String) -> [String] {
+        // get the notifications colors and name from the string provided by the endpoint
+        // the information is provided via and endpoint via 2 string arrays, the strings are separated and converted in arrays
+        var eventColor = "";
+        var addChars = 0;
+        for char in evenColors {
+            // when the addChars became 2 a [ and a ] were found, so the first array is finished, so we should move to the next one
+            if char == "[" || char == "]" {addChars = addChars + 1 ;}
+            if addChars == 1 {
+                if (char != "/" && char != "\""){
+                    eventColor = eventColor  + String(char);
+                }
+            }
+            
+        }
+        // add the last bracket for the both arrays
+        eventColor = eventColor  + "]";
+        return convertStringToStringArray(string: eventColor);
     }
     func convertStringToStringArray(string:String) -> [String] {
         let separators = CharacterSet(charactersIn: "[,]");
