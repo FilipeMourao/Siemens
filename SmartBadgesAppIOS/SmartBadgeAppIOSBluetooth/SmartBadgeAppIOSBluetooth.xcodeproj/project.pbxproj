@@ -49,37 +49,12 @@
 		D22E6ED121BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ECF21BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift */; };
 		D22E6ED221BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ED021BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift */; };
 		D2FBD43F224526B000FE21FE /* CallDirectoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FBD43E224526B000FE21FE /* CallDirectoryHandler.swift */; };
-		D2FBD443224526B000FE21FE /* CallDirectoryExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D2FBD43C224526B000FE21FE /* CallDirectoryExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D2FBD4482245288700FE21FE /* ContactDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EA321BE68D800AFEAE9 /* ContactDatabase.xcdatamodeld */; };
 		D2FBD44A224529A900FE21FE /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EB221BE918E00AFEAE9 /* PersistenceManager.swift */; };
 		D2FBD44B224529AC00FE21FE /* PhoneContact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ED021BE9A5B00AFEAE9 /* PhoneContact+CoreDataProperties.swift */; };
 		D2FBD44C224529AF00FE21FE /* PhoneContact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6ECF21BE9A5B00AFEAE9 /* PhoneContact+CoreDataClass.swift */; };
 		D2FBD45422452A0E00FE21FE /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E6EA121B968DC00AFEAE9 /* Contact.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D2FBD441224526B000FE21FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D22E6E0621A2D4E000AFEAE9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D2FBD43B224526B000FE21FE;
-			remoteInfo = CallDirectoryExtension;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		D2FBD447224526B000FE21FE /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				D2FBD443224526B000FE21FE /* CallDirectoryExtension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D21719012227E13E002814D6 /* BluetoothDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevice.swift; sourceTree = "<group>"; };
@@ -283,12 +258,10 @@
 				D22E6E0A21A2D4E000AFEAE9 /* Sources */,
 				D22E6E0B21A2D4E000AFEAE9 /* Frameworks */,
 				D22E6E0C21A2D4E000AFEAE9 /* Resources */,
-				D2FBD447224526B000FE21FE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D2FBD442224526B000FE21FE /* PBXTargetDependency */,
 			);
 			name = SmartBadgeAppIOSBluetooth;
 			productName = SmartBadgeAppIOS;
@@ -465,14 +438,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		D2FBD442224526B000FE21FE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D2FBD43B224526B000FE21FE /* CallDirectoryExtension */;
-			targetProxy = D2FBD441224526B000FE21FE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		D22E6E1521A2D4E000AFEAE9 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -612,7 +577,6 @@
 		D22E6E2121A2D4E100AFEAE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQ2R4JY32W;
@@ -631,7 +595,6 @@
 		D22E6E2221A2D4E100AFEAE9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XQ2R4JY32W;
