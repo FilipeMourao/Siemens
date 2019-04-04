@@ -38,7 +38,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -182,6 +184,15 @@ public class JavaScriptInterface {
             createAlarmForMeeting(event.getTitle(),event.getCalendar(),event.getColor());// for each event, create an alarm
         }
     }
+    @JavascriptInterface
+    public void createAlarmForMeetings(String eventsJson) throws ParseException {// function is called from the frontend with customized calendar colors
+        Gson gson = new Gson();
+        List<Event> events =  gson.fromJson(eventsJson, new TypeToken<List<Event>>() {// convert the gson string in the list of objects
+        }.getType());
+        for(Event event: events){
+            createAlarmForMeeting(event.getTitle(),event.getCalendar(),event.getColor());// for each event, create an alarm
+        }
+    }
     public void createAlarmForMeeting(String title, Calendar calendar, String colorString) throws ParseException { // create an event given the time when the event is begining, the name and the color
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             ColorSetting colorSetting = new ColorSetting(new ColorCustomized(colorString));
@@ -300,12 +311,16 @@ public class JavaScriptInterface {
         public void onReceive(Context context, Intent intent) {
             Message msg = Message.obtain();
             String action = intent.getAction();
+
             if(BluetoothDevice.ACTION_FOUND.equals(action)){
                 //Found, add to a device list
                 BluetoothDevice device = intent
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                bluetoothDevices.add(device);
-                bluetoothDevicesNames.add(device.getName());
+                if (!bluetoothDevices.contains(device)){
+                    bluetoothDevices.add(device);
+                    bluetoothDevicesNames.add(device.getName());
+                }
+
 
             }
         }
@@ -362,5 +377,27 @@ public class JavaScriptInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // get from https://www.geeksforgeeks.org/how-to-remove-duplicates-from-arraylist-in-java/
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    {
+
+        // Create a new ArrayList
+        ArrayList<T> newList = new ArrayList<T>();
+
+        // Traverse through the first list
+        for (T element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
     }
 }

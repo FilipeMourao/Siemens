@@ -342,7 +342,15 @@ var app = {
         setTimeout(function(){
             app.initHomeScreen();
         }, 2000);
-        window.JSInterface.createAlarmForMeetings()
+        var events = JSON.parse(window.JSInterface.getEventList());
+         $('.calendar ul .app-config-row .color ').each(function(index, value){
+                   events[index].color = rgb2hex($(this).find('.app-color-preview').css( "background-color" ));
+
+           });
+
+       // window.JSInterface.createAlarmForMeetings()
+        window.JSInterface.createAlarmForMeetings(JSON.stringify(events));
+
 
     },
     saveNotifications : function(){
@@ -388,4 +396,14 @@ function resetColor(){
         _bgcolor = obj.color;
     }});
 
+}
+// get from https://stackoverflow.com/questions/1740700/how-to-get-hex-color-value-rather-than-rgb-value
+function rgb2hex(rgb) {
+    if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb;
+
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
